@@ -6,15 +6,9 @@ import kotlinx.serialization.Serializable
 sealed class Routes {
 
     @Serializable
-    data object HomeCalculatorScreen : Routes()
+    data object Calculator : Routes()
 
     @Serializable
-    data class HistoryConversionsScreen(val idUser: String) : Routes()
+    data object ConversionHistory : Routes()
 
 }
-
-@Serializable
-data object Home
-
-@Serializable
-data class Profile(val id: String)

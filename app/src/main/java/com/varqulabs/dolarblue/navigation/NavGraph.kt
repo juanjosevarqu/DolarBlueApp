@@ -4,38 +4,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.varqulabs.dolarblue.history_conversions.HistoryConversionsScreen
-import com.varqulabs.dolarblue.home_calculator.HomeCalculatorScreen
+import com.varqulabs.dolarblue.calculator.navigation.calculatorRoute
+import com.varqulabs.dolarblue.history.navigation.historyRoute
+import com.varqulabs.dolarblue.navigation.utils.navigateBack
+import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
 
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-
     NavHost(
         navController = navController,
-        startDestination = Home,
-        modifier = modifier
+        startDestination = Routes.Calculator,
+        modifier = modifier,
     ) {
-        composable<Home> {
-            HomeCalculatorScreen(
-                modifier = Modifier,
-            ) {
-                navController.navigate(Profile("120"))
-            }
-        }
 
-        composable<Profile> { backStackEntry ->
-            val idUser: String = backStackEntry.toRoute<Profile>().id
-            HistoryConversionsScreen(
-                idUser = idUser,
-            ) {
-                navController.navigate(Home)
-            }
-        }
+        calculatorRoute(
+            navigateToHistory = {
+                navController.navigateToSingleTop(Routes.ConversionHistory)
+            },
+        )
+
+        historyRoute(
+            goBack = {
+                navController.navigateBack()
+            },
+        )
     }
-
 }
+
+
+
