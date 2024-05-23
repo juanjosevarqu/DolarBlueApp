@@ -47,3 +47,4 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxSerialization" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
