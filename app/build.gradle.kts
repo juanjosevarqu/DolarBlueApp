@@ -81,6 +81,7 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
+    implementation(libs.converter.gson)
 
     // Testing
     testImplementation(libs.junit)
