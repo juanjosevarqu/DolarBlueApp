@@ -55,10 +55,7 @@ fun CalculatorScreen(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(
-                space = 12.dp,
-                alignment = Alignment.CenterVertically
-            ),
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
