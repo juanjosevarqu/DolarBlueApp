@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.calculator.domain.repository
+package com.varqulabs.dolarblue.core.domain
 
 sealed class DataState<out T> {
 

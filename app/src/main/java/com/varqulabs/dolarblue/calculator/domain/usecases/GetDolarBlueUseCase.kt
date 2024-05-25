@@ -2,7 +2,7 @@ package com.varqulabs.dolarblue.calculator.domain.usecases
 
 import com.varqulabs.dolarblue.calculator.domain.model.DolarBlueEntity
 import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
-import com.varqulabs.dolarblue.calculator.domain.repository.DataState
+import com.varqulabs.dolarblue.core.domain.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
