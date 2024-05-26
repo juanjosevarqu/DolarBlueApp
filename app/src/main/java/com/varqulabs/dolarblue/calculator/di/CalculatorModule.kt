@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.calculator.di
 
-import com.varqulabs.dolarblue.calculator.data.remote.DolarBlueService
+import com.varqulabs.dolarblue.calculator.data.remote.DollarBlueService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +15,10 @@ object CalculatorModule {
 
     @Provides
     @Singleton
-    fun provideDolarBlueService(): DolarBlueService = Retrofit.Builder()
+    fun provideDollarBlueService(): DollarBlueService = Retrofit.Builder()
         .baseUrl("https://api.bluelytics.com.ar/")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
-        .create(DolarBlueService::class.java)
+        .create(DollarBlueService::class.java)
 
 }
