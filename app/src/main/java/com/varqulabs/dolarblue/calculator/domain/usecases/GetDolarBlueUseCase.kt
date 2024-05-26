@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flow
 class GetDolarBlueUseCase(
     private val blueRepository: DolarBlueRepository,
 ) {
-
     suspend operator fun invoke(): Flow<DataState<DolarBlue>> {
         return flow {
             try {
