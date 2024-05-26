@@ -91,4 +91,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // okHTTP
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
 }

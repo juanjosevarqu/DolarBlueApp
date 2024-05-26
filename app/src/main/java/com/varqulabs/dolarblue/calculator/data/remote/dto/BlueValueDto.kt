@@ -1,17 +1,17 @@
 package com.varqulabs.dolarblue.calculator.data.remote.dto
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import com.varqulabs.dolarblue.calculator.domain.model.BlueValue
 import com.varqulabs.dolarblue.core.domain.extensions.orZero
 
 data class BlueValueDto(
-    @Json(name = "value_avg") val value_avg: Double? = 0.0,
-    @Json(name = "value_buy") val value_buy: Double? = 0.0,
-    @Json(name = "value_sell") val value_sell: Double? = 0.0,
+    @SerializedName("value_avg") val valueAvg: Double? = 0.0,
+    @SerializedName("value_buy") val valueBuy: Double? = 0.0,
+    @SerializedName("value_sell") val valueSell: Double? = 0.0,
 )
 
 fun BlueValueDto.mapToModel() = BlueValue(
-    valueAvg = value_avg.orZero(),
-    valueBuy = value_buy.orZero(),
-    valueSell = value_sell.orZero(),
+    valueAvg = valueAvg.orZero(),
+    valueBuy = valueBuy.orZero(),
+    valueSell = valueSell.orZero(),
 )
