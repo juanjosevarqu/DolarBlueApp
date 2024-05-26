@@ -1,10 +1,10 @@
 package com.varqulabs.dolarblue.calculator.data.remote
 
-import com.varqulabs.dolarblue.calculator.data.remote.dto.DolarBlueDto
+import com.varqulabs.dolarblue.calculator.data.remote.dto.DollarBlueDto
 import retrofit2.http.GET
 
 interface DollarBlueService {
 
     @GET("v2/latest")
-    suspend fun getDolarBlue(): DolarBlueDto
+    suspend fun getDollarBlue(): DollarBlueDto
 }

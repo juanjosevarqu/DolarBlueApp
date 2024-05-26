@@ -10,6 +10,6 @@ class DollarBlueRepositoryImpl(
 ) : DollarBlueRepository {
 
     override suspend fun getDollarBlue(): DollarBlue {
-        return service.getDolarBlue().mapToModel()
+        return service.getDollarBlue().mapToModel()
     }
 }
