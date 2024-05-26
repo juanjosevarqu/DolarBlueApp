@@ -14,8 +14,8 @@ class GetDollarBlueUseCase(
         return flow {
             try {
                 emit(DataState.Loading)
-                val dolarBlue = blueRepository.getDollarBlue()
-                emit(DataState.Success(dolarBlue))
+                val dollarBlue = blueRepository.getDollarBlue()
+                emit(DataState.Success(dollarBlue))
             } catch (e: Exception) {
                 emit(
                     DataState.Error(
