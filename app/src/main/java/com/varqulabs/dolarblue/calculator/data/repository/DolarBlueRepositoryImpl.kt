@@ -1,15 +1,15 @@
 package com.varqulabs.dolarblue.calculator.data.repository
 
 import com.varqulabs.dolarblue.calculator.data.remote.DolarBlueService
-import com.varqulabs.dolarblue.calculator.data.remote.mapToEntity
-import com.varqulabs.dolarblue.calculator.domain.model.DolarBlueEntity
+import com.varqulabs.dolarblue.calculator.data.remote.model.mapToEntity
+import com.varqulabs.dolarblue.calculator.domain.model.DolarBlue
 import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
 
 class DolarBlueRepositoryImpl(
     private val service: DolarBlueService,
 ) : DolarBlueRepository {
 
-    override suspend fun getDolarBlue(): DolarBlueEntity {
+    override suspend fun getDolarBlue(): DolarBlue {
         return service.getDolarBlue().mapToEntity()
     }
 
