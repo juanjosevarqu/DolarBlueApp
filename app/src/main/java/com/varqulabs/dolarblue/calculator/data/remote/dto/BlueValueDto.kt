@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.calculator.data.remote.model
+package com.varqulabs.dolarblue.calculator.data.remote.dto
 
 import com.squareup.moshi.Json
 import com.varqulabs.dolarblue.calculator.domain.model.BlueValue
