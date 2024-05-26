@@ -8,6 +8,7 @@ import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
 class DolarBlueRepositoryImpl(
     private val service: DolarBlueService,
 ) : DolarBlueRepository {
+
     override suspend fun getDolarBlue(): DolarBlue {
         return service.getDolarBlue().mapToModel()
     }
