@@ -1,15 +1,15 @@
 package com.varqulabs.dolarblue.calculator.data.remote.dto
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import com.varqulabs.dolarblue.calculator.domain.model.BlueValue
 import com.varqulabs.dolarblue.calculator.domain.model.DollarBlue
 
 data class DollarBlueDto(
-    @Json(name = "blue") val blue: BlueValueDto? = BlueValueDto(),
-    @Json(name = "last_update") val last_update: String? = "",
+    @SerializedName("blue") val blue: BlueValueDto? = BlueValueDto(),
+    @SerializedName("last_update") val lastUpdate: String? = "",
 )
 
 fun DollarBlueDto.mapToModel() = DollarBlue(
     blue = blue?.mapToModel() ?: BlueValue(),
-    lastUpdate = last_update.orEmpty(),
+    lastUpdate = lastUpdate.orEmpty(),
 )
