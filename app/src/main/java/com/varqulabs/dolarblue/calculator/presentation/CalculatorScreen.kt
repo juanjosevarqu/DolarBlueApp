@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
-import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDolarValue
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,8 +59,6 @@ fun CalculatorScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-
-
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(40.dp))
             }
@@ -70,7 +68,7 @@ fun CalculatorScreen(
             )
 
             Text(
-                text = "$${state.pesosActual}"
+                text = "$${state.actualPesos}"
             )
 
             Text(
@@ -81,7 +79,7 @@ fun CalculatorScreen(
                 text = state.lastDateUpdated
             )
 
-            Button(onClick = { eventHandler(OnRefreshDolarValue) }) {
+            Button(onClick = { eventHandler(OnRefreshDollarValue) }) {
                 Text(text = "Refrescar valor del dolar")
             }
 

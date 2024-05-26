@@ -8,7 +8,7 @@ sealed interface CalculatorEvent {
 
     data object Init : CalculatorEvent
 
-    data object OnRefreshDolarValue : CalculatorEvent
+    data object OnRefreshDollarValue : CalculatorEvent
 
     data object UpdatePesos : CalculatorEvent
 
