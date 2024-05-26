@@ -1,7 +1,7 @@
 package com.varqulabs.dolarblue.calculator.data.repository
 
 import com.varqulabs.dolarblue.calculator.data.remote.DolarBlueService
-import com.varqulabs.dolarblue.calculator.data.remote.model.mapToEntity
+import com.varqulabs.dolarblue.calculator.data.remote.dto.mapToEntity
 import com.varqulabs.dolarblue.calculator.domain.model.DolarBlue
 import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
 
