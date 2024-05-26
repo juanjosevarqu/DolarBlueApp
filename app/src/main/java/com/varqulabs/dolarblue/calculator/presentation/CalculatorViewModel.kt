@@ -3,7 +3,7 @@ package com.varqulabs.dolarblue.calculator.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.varqulabs.dolarblue.core.domain.DataState
-import com.varqulabs.dolarblue.calculator.domain.usecases.GetDolarBlueUseCase
+import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
-    private val getDollarBlueUseCase: GetDolarBlueUseCase,
+    private val getDollarBlueUseCase: GetDollarBlueUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
     init { eventHandler(Init) }

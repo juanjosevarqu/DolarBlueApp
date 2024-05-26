@@ -6,7 +6,7 @@ import com.varqulabs.dolarblue.core.domain.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetDolarBlueUseCase(
+class GetDollarBlueUseCase(
     private val blueRepository: DolarBlueRepository,
 ) {
 
