@@ -3,7 +3,7 @@ package com.varqulabs.dolarblue.calculator.di
 import com.varqulabs.dolarblue.calculator.data.remote.DolarBlueService
 import com.varqulabs.dolarblue.calculator.data.repository.DolarBlueRepositoryImpl
 import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
-import com.varqulabs.dolarblue.calculator.domain.usecases.GetDolarBlueUseCase
+import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideGetDolarBlueUseCase(repository: DolarBlueRepository): GetDolarBlueUseCase {
-        return GetDolarBlueUseCase(repository)
+    fun provideGetDolarBlueUseCase(repository: DolarBlueRepository): GetDollarBlueUseCase {
+        return GetDollarBlueUseCase(repository)
     }
 }
