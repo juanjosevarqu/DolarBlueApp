@@ -5,12 +5,9 @@ import com.varqulabs.dolarblue.calculator.domain.model.BlueValue
 import com.varqulabs.dolarblue.core.domain.extensions.orZero
 
 data class BlueValueDto(
-    @Json(name = "value_avg")
-    val value_avg: Double? = 0.0,
-    @Json(name = "value_buy")
-    val value_buy: Double? = 0.0,
-    @Json(name = "value_sell")
-    val value_sell: Double? = 0.0,
+    @Json(name = "value_avg") val value_avg: Double? = 0.0,
+    @Json(name = "value_buy") val value_buy: Double? = 0.0,
+    @Json(name = "value_sell") val value_sell: Double? = 0.0,
 )
 
 
