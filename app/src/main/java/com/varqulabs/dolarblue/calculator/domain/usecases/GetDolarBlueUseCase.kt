@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.calculator.domain.usecases
 
-import com.varqulabs.dolarblue.calculator.domain.model.DolarBlueEntity
+import com.varqulabs.dolarblue.calculator.domain.model.DolarBlue
 import com.varqulabs.dolarblue.calculator.domain.repository.DolarBlueRepository
 import com.varqulabs.dolarblue.core.domain.DataState
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +10,7 @@ class GetDolarBlueUseCase(
     private val blueRepository: DolarBlueRepository,
 ) {
 
-    suspend operator fun invoke(): Flow<DataState<DolarBlueEntity>> {
+    suspend operator fun invoke(): Flow<DataState<DolarBlue>> {
         return flow {
             try {
                 emit(DataState.Loading)
