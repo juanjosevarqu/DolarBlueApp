@@ -83,6 +83,13 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.converter.gson)
 
+    // Data Store
+    implementation(libs.datastore.preferences)
+
+    // okHTTP
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -91,8 +98,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    // okHTTP
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
 }
