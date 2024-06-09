@@ -6,7 +6,7 @@ import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRep
 class GetDarkThemeByPreferencesUseCase(
     private val preferencesRepository: PreferencesRepository,
 ) {
-    suspend fun invoke(): Boolean {
+    suspend operator fun invoke(): Boolean {
         return preferencesRepository.getNormalPreference(
             key = PreferenceKey.IS_DARK_MODE_KEY,
             defaultValue = false,

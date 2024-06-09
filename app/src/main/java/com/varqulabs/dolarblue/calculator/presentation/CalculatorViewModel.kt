@@ -27,7 +27,7 @@ class CalculatorViewModel @Inject constructor(
     init {
         eventHandler(Init)
         viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias
-            val darkThemeEnabled = getDarkThemeByPreferencesUseCase.invoke()
+            val darkThemeEnabled = getDarkThemeByPreferencesUseCase()
             updateUi { copy(isDarkMode = darkThemeEnabled) }
         }
     }
