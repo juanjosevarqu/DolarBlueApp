@@ -13,5 +13,5 @@ data class CalculatorState(
     val dollarEquivalency: Double = 0.0,
     val pesosEquivalency: Double = 0.0,
     val bolivianosEquivalency: Double = 0.0,
-    val isDarkMode: Boolean = false,
+    val isDarkMode: Boolean = true, // TODO @JuanJo - Temporal para testear las preferencias
 )

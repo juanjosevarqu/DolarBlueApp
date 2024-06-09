@@ -2,15 +2,14 @@ package com.varqulabs.dolarblue.calculator.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
-import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
-import com.varqulabs.dolarblue.core.data.local.preferences.PreferencesConstants
-import com.varqulabs.dolarblue.core.data.local.preferences.PreferencesDataStoreService
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
+import com.varqulabs.dolarblue.core.domain.usecases.GetDarkThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,15 +21,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
-    preferencesRepository: PreferencesDataStoreService,
+    private val getDarkThemeByPreferencesUseCase: GetDarkThemeByPreferencesUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
     init {
         eventHandler(Init)
-        viewModelScope.launch {
-            preferencesRepository.getPreference(PreferencesConstants.IS_DARK_MODE_KEY, false).collect {
-                updateUi { copy(isDarkMode = it) }
-            }
+        viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias
+            val darkThemeEnabled = getDarkThemeByPreferencesUseCase.invoke()
+            updateUi { copy(isDarkMode = darkThemeEnabled) }
         }
     }
 

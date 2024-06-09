@@ -38,7 +38,7 @@ fun CalculatorScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Calculator Screen")
+                    Text(text = "Calculator Screen ${state.isDarkMode}")
                 },
                 actions = {
                     IconButton(onClick = { eventHandler(OnHistoryClick) }) {
