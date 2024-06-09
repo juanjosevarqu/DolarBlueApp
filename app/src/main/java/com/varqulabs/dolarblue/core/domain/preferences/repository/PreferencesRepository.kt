@@ -1,9 +1,9 @@
-package com.varqulabs.dolarblue.core.data.local.preferences
+package com.varqulabs.dolarblue.core.domain.preferences.repository
 
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.flow.Flow
 
-interface PreferencesDataStoreService {
+interface PreferencesRepository {
 
     suspend fun <T> getPreference(key: Preferences.Key<T>, defaultValue: T): Flow<T>
 
