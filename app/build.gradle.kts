@@ -95,4 +95,8 @@ dependencies {
     // okHTTP
     implementation (libs.okhttp)
     implementation (libs.logging.interceptor)
+
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
 }
