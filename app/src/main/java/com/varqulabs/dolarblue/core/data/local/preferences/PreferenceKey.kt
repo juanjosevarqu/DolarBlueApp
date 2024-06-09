@@ -3,7 +3,7 @@ package com.varqulabs.dolarblue.core.data.local.preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
-object PreferencesKeys {
+object PreferenceKey {
 
     val IS_DARK_MODE_KEY = booleanPreferencesKey("IS_DARK_MODE_KEY")
 
