@@ -2,11 +2,9 @@ package com.varqulabs.dolarblue.history.domain.model
 
 import java.time.LocalDateTime
 
-data class Conversion(
+data class CurrentExchangeRate(
     val id: Int? = null,
     val pesosBob: String,
     val pesosArg: String,
-    val dollar: String,
     val date: LocalDateTime,
-    val currentExchangeId: Int
 )
