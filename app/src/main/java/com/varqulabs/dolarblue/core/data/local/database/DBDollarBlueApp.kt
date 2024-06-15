@@ -17,7 +17,7 @@ import com.varqulabs.dolarblue.history.data.local.database.entities.CurrentExcha
         ConversionEntity::class,
         CurrentExchangeRateEntity::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(LocalDateTimeConverter::class)
