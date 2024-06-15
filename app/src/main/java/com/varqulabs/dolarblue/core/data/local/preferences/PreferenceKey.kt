@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferenceKey {
 
-    val IS_DEFAULT_THEME_KEY = booleanPreferencesKey("IS_DEFAULT_THEME_ENABLED")
+    val IS_DEFAULT_THEME_KEY = booleanPreferencesKey("IS_DEFAULT_THEME_KEY")
 
     val FAVOURITE_CURRENCY_KEY = stringPreferencesKey("FAVOURITE_CURRENCY_KEY")
 
