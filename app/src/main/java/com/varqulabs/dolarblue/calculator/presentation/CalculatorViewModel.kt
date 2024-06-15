@@ -8,7 +8,7 @@ import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
-import com.varqulabs.dolarblue.core.domain.usecases.GetDarkThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferences
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
@@ -21,14 +21,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
-    private val getDarkThemeByPreferencesUseCase: GetDarkThemeByPreferencesUseCase,
+    private val getDefaultThemeByPreferences: GetDefaultThemeByPreferences,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
     init {
         eventHandler(Init)
-        viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias
-            val darkThemeEnabled = getDarkThemeByPreferencesUseCase()
-            updateUi { copy(isDarkMode = darkThemeEnabled) }
+        viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias (SplashViewModel)
+            val defaultTheme = getDefaultThemeByPreferences()
+            updateUi { copy(isDefaultTheme = defaultTheme) }
         }
     }
 

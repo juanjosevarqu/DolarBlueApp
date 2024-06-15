@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.data.local.preferences.repository.PreferencesRepositoryImpl
-import com.varqulabs.dolarblue.core.domain.usecases.GetDarkThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,8 +48,8 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideGetDarkThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDarkThemeByPreferencesUseCase {
-        return GetDarkThemeByPreferencesUseCase(preferences)
+    fun provideGetDarkThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferences {
+        return GetDefaultThemeByPreferences(preferences)
     }
 
 }

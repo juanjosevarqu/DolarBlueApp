@@ -13,5 +13,6 @@ data class CalculatorState(
     val dollarEquivalency: Double = 0.0,
     val pesosEquivalency: Double = 0.0,
     val bolivianosEquivalency: Double = 0.0,
-    val isDarkMode: Boolean = true, // TODO @JuanJo - Temporal para testear las preferencias
+    val isDefaultTheme: Boolean = true, // TODO @JuanJo - Temporal para testear las preferencias
+    // Esto no deberia ir aqui, sino en el ViewModel del SplashScreen
 )
