@@ -8,7 +8,7 @@ import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
-import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferences
+import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferencesUseCase
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
-    private val getDefaultThemeByPreferences: GetDefaultThemeByPreferences,
+    private val getDefaultThemeByPreferences: GetDefaultThemeByPreferencesUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
     init {
