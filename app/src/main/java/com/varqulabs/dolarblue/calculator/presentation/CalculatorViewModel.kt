@@ -2,13 +2,14 @@ package com.varqulabs.dolarblue.calculator.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
-import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
+import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,9 +21,16 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
+    private val getDefaultThemeByPreferences: GetDefaultThemeByPreferencesUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
-    init { eventHandler(Init) }
+    init {
+        eventHandler(Init)
+        viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias (SplashViewModel)
+            val defaultTheme = getDefaultThemeByPreferences()
+            updateUi { copy(isDefaultTheme = defaultTheme) }
+        }
+    }
 
     override fun eventHandler(event: CalculatorEvent) {
         when (event) {
