@@ -1,7 +1,8 @@
 package com.varqulabs.dolarblue.history.domain.repository
 
 import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
+import kotlinx.coroutines.flow.Flow
 
 interface ConversionsHistoryRepository {
-    suspend fun getConversionsHistory(): List<ConversionsHistory>
+    suspend fun getConversionsHistory(): Flow<List<ConversionsHistory>>
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Entity(tableName = "conversion_table")
 data class ConversionEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Int? = null,
+    @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "pesosBob") val pesosBob: String,
     @ColumnInfo(name = "pesosArg") val pesosArg: String,
     @ColumnInfo(name = "dollar") val dollar: String,

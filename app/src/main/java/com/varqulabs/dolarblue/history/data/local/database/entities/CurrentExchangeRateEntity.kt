@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Entity(tableName = "current_exchange_rate_table")
 data class CurrentExchangeRateEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Int? = null,
+    @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "pesosBob") val pesosBob: String,
     @ColumnInfo(name = "pesosArg") val pesosArg: String,
     @ColumnInfo(name = "date") val date: LocalDateTime,
