@@ -28,6 +28,5 @@ fun NavGraphBuilder.settingsRoute(
                 Text(text = "Go Back to Home Screen")
             }
         }
-
     }
 }
