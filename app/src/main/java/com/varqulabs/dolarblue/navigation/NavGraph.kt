@@ -16,7 +16,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Calculator,
+        startDestination = Routes.History,
         modifier = modifier,
     ) {
 
@@ -30,8 +30,8 @@ fun AppNavGraph(
         )
 
         historyRoute(
-            goBack = {
-                navController.navigateBack()
+            openDrawer = {
+                // TODO @JuanJo - Abrir el Drawer
             },
         )
     }
