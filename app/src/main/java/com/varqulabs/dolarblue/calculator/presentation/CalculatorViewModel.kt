@@ -21,13 +21,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
-    private val getDefaultThemeByPreferences: GetDefaultThemeByPreferencesUseCase,
+    private val getDefaultThemeByPreferencesUseCase: GetDefaultThemeByPreferencesUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
 
     init {
         eventHandler(Init)
         viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias (SplashViewModel)
-            val defaultTheme = getDefaultThemeByPreferences()
+            val defaultTheme = getDefaultThemeByPreferencesUseCase()
             updateUi { copy(isDefaultTheme = defaultTheme) }
         }
     }
