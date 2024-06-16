@@ -1,6 +1,8 @@
 package com.varqulabs.dolarblue.core.user.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.varqulabs.dolarblue.core.user.data.repository.AuthRepositoryImpl
+import com.varqulabs.dolarblue.core.user.domain.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +16,11 @@ object UserAuthModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthRepository {
+        return AuthRepositoryImpl(firebaseAuth)
+    }
 
 }
