@@ -12,9 +12,7 @@ class LoginWithEmailAndPasswordUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val authRepository: AuthRepository
 ) : UseCase<LoginRequest, AuthResult<Unit>>(dispatcher) {
-
     override fun executeData(input: LoginRequest): Flow<AuthResult<Unit>> {
         return authRepository.login(loginRequest = input).flowOn(dispatcher)
     }
-
 }
