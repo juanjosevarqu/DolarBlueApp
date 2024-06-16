@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class CalculatorState(
+    val reload: Boolean = true,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val actualDollar: Double = 0.0,
@@ -13,6 +14,4 @@ data class CalculatorState(
     val dollarEquivalency: Double = 0.0,
     val pesosEquivalency: Double = 0.0,
     val bolivianosEquivalency: Double = 0.0,
-    val isDefaultTheme: Boolean = true, // TODO @JuanJo - Temporal para testear las preferencias
-    // Esto no deberia ir aqui, sino en el ViewModel del SplashScreen
 )

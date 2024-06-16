@@ -21,8 +21,11 @@ fun AppNavGraph(
     ) {
 
         calculatorRoute(
-            navigateToHistory = {
-                navController.navigateToSingleTop(Routes.History)
+            openDrawer = {
+                // TODO @JuanJo - Abrir el Drawer
+            },
+            navigateToSettings = {
+                // TODO @JuanJo - Agregar Navegacion a los Ajustes
             },
         )
 

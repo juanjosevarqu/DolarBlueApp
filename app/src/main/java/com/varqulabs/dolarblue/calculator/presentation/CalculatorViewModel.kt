@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
-import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnHistoryClick
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnClickDrawer
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnClickSettings
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
-import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorUiEffect.NavigateToSettings
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorUiEffect.OpenDrawer
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
@@ -21,30 +23,22 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val getDollarBlueUseCase: GetDollarBlueUseCase,
-    private val getDefaultThemeByPreferencesUseCase: GetDefaultThemeByPreferencesUseCase,
 ) : ViewModel(), MVIContract<CalculatorState, CalculatorEvent, CalculatorUiEffect> by mviDelegate(CalculatorState()) {
-
-    init {
-        eventHandler(Init)
-        viewModelScope.launch {// TODO @JuanJo - Temporal para testear que funcionen las preferencias (SplashViewModel)
-            val defaultTheme = getDefaultThemeByPreferencesUseCase()
-            updateUi { copy(isDefaultTheme = defaultTheme) }
-        }
-    }
 
     override fun eventHandler(event: CalculatorEvent) {
         when (event) {
             is Loading -> updateUi { copy(isLoading = event.isLoading) }
-            is OnHistoryClick -> emitNavigationToHistory()
+            is OnClickDrawer -> emitOpenDrawer()
+            is OnClickSettings -> emitNavigationToSettings()
             is Init -> getDollarBlue()
             is OnRefreshDollarValue -> getDollarBlue()
             is UpdatePesos -> updatePesos()
         }
     }
 
-    private fun emitNavigationToHistory() {
-        viewModelScope.emitEffect(CalculatorUiEffect.NavigateToHistory)
-    }
+    private fun emitOpenDrawer() = viewModelScope.emitEffect(OpenDrawer)
+
+    private fun emitNavigationToSettings() = viewModelScope.emitEffect(NavigateToSettings)
 
     private fun getDollarBlue() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -57,7 +51,7 @@ class CalculatorViewModel @Inject constructor(
                             lastDateUpdated = dataState.data.lastUpdate,
                             isLoading = false,
                             isError = false,
-                        )
+                        ).also { disableReload() }
                         is DataState.Error -> copy(isError = true)
                         is DataState.NetworkError -> copy(isError = true)
                     }
@@ -65,6 +59,8 @@ class CalculatorViewModel @Inject constructor(
             }
         }
     }
+
+    private fun disableReload() = updateUi { copy(reload = false) }
 
     private fun updatePesos() { // TODO - Temp function to check UI state update & test dollar use case
         updateUi { copy(actualPesos = actualPesos + 10.0) }
