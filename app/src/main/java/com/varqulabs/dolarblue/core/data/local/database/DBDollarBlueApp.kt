@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.varqulabs.dolarblue.core.data.local.database.converters.LocalDateTimeConverter
-import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionDao
-import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionHistoryDao
-import com.varqulabs.dolarblue.history.data.local.database.dao.CurrentExchangeRateDao
-import com.varqulabs.dolarblue.history.data.local.database.entities.ConversionEntity
-import com.varqulabs.dolarblue.history.data.local.database.entities.CurrentExchangeRateEntity
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
+import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.CurrentExchangeRateDao
+import com.varqulabs.dolarblue.calculator.data.local.database.entities.ConversionEntity
+import com.varqulabs.dolarblue.calculator.data.local.database.entities.CurrentExchangeRateEntity
 
 @Database(
     entities = [
@@ -25,7 +25,7 @@ abstract class DBDollarBlueApp : RoomDatabase() {
 
     abstract fun conversionDao(): ConversionDao
     abstract fun currentExchangeRateDao(): CurrentExchangeRateDao
-    abstract fun conversionHistoryDao(): ConversionHistoryDao
+    abstract fun conversionsHistoryDao(): ConversionsHistoryDao
 
     companion object {
         @JvmStatic

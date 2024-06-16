@@ -2,9 +2,9 @@ package com.varqulabs.dolarblue.core.di
 
 import android.content.Context
 import com.varqulabs.dolarblue.core.data.local.database.DBDollarBlueApp
-import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionDao
-import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionHistoryDao
-import com.varqulabs.dolarblue.history.data.local.database.dao.CurrentExchangeRateDao
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
+import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.CurrentExchangeRateDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +39,7 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun provideConversionHistoryDao(dbDollarBlueApp: DBDollarBlueApp): ConversionHistoryDao {
-        return dbDollarBlueApp.conversionHistoryDao()
+    fun provideConversionsHistoryDao(dbDollarBlueApp: DBDollarBlueApp): ConversionsHistoryDao {
+        return dbDollarBlueApp.conversionsHistoryDao()
     }
 }

@@ -7,8 +7,13 @@ import com.varqulabs.dolarblue.history.data.local.database.entities.relations.Co
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ConversionHistoryDao {
+interface ConversionsHistoryDao {
+
     @Transaction
     @Query("SELECT * FROM current_exchange_rate_table")
-    fun getConversionsHistory(): Flow<List<ConversionsHistoryRelation>>
+    fun getConversionsHistoryFlow(): Flow<List<ConversionsHistoryRelation>>
+
+    @Transaction
+    @Query("SELECT * FROM current_exchange_rate_table")
+    fun getConversionsHistory(): List<ConversionsHistoryRelation>
 }
