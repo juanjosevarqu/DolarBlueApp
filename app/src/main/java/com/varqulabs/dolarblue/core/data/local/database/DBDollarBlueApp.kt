@@ -20,19 +20,21 @@ import com.varqulabs.dolarblue.calculator.data.local.database.entities.CurrentEx
     version = 1,
     exportSchema = false
 )
-@TypeConverters(LocalDateTimeConverter::class)
+@TypeConverters(LocalDateTimeConverter::class,)
 abstract class DBDollarBlueApp : RoomDatabase() {
 
     abstract fun conversionDao(): ConversionDao
     abstract fun currentExchangeRateDao(): CurrentExchangeRateDao
     abstract fun conversionsHistoryDao(): ConversionsHistoryDao
 
+    override fun clearAllTables() { }
+
     companion object {
         @JvmStatic
         fun newInstance(context: Context): DBDollarBlueApp {
             return Room
                 .databaseBuilder(context, DBDollarBlueApp::class.java, "DBDollarBlue")
-                .fallbackToDestructiveMigration()
+                //.setDriver(BundledSQLiteDriver()) //TODO: @Deivid - verificar si es necesario posteriormente
                 .build()
         }
     }
