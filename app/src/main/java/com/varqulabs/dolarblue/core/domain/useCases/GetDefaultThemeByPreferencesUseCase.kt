@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.core.domain.usecases
+package com.varqulabs.dolarblue.core.domain.useCases
 
 import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
