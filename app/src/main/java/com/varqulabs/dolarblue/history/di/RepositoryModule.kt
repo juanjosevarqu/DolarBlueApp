@@ -3,7 +3,7 @@ package com.varqulabs.dolarblue.history.di
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
-import com.varqulabs.dolarblue.history.domain.usecases.GetConversionsHistoryFlowUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
