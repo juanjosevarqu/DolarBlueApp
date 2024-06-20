@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.calculator.domain.usecases
+package com.varqulabs.dolarblue.calculator.domain.useCases
 
 import com.varqulabs.dolarblue.calculator.domain.model.DollarBlue
 import com.varqulabs.dolarblue.calculator.domain.repository.DollarBlueRepository
