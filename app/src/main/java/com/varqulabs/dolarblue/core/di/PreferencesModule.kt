@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.data.local.preferences.repository.PreferencesRepositoryImpl
-import com.varqulabs.dolarblue.core.domain.usecases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

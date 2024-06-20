@@ -2,7 +2,7 @@ package com.varqulabs.dolarblue.calculator.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.varqulabs.dolarblue.calculator.domain.usecases.GetDollarBlueUseCase
+import com.varqulabs.dolarblue.calculator.domain.useCases.GetDollarBlueUseCase
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
 import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnClickDrawer
