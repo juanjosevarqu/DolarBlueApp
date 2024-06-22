@@ -3,7 +3,6 @@ package com.varqulabs.dolarblue.calculator.data.local.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.varqulabs.dolarblue.history.domain.model.Conversion
 import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = "conversion_table")
@@ -15,13 +14,4 @@ data class ConversionEntity(
     @ColumnInfo(name = "dollar") val dollar: String,
     @ColumnInfo(name = "date") val date: LocalDateTime, //GUARDAR EN TIMESTAP EN FIREBASE
     @ColumnInfo(name = "currentExchangeId") val currentExchangeId: Int
-)
-
-fun ConversionEntity.mapToModel() = Conversion(
-    id = id,
-    pesosBob = pesosBob,
-    pesosArg = pesosArg,
-    dollar = dollar,
-    date = date,
-    currentExchangeId = currentExchangeId
 )
