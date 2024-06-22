@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.varqulabs.dolarblue.history.domain.model.CurrentExchangeRate
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = "current_exchange_rate_table")
 data class CurrentExchangeRateEntity(
