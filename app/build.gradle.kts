@@ -6,6 +6,9 @@ plugins {
     id("kotlin-kapt")
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.google.gms.google.services)
+
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidxRoom)
 }
 
 android {
@@ -93,8 +96,8 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     // okHTTP
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     // Testing
     testImplementation(libs.junit)
@@ -105,12 +108,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // okHTTP
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
-
     // ROOM
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    // SQLITE
+    implementation(libs.sqlite.bundled)
+
+    // Kotlin DateTime
+    implementation(libs.kotlinx.datetime)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

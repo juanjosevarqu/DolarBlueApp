@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.history.domain.model
 
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 data class Conversion(
     val id: Int,

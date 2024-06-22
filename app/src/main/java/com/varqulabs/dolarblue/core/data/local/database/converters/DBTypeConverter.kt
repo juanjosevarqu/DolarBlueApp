@@ -1,7 +1,7 @@
 package com.varqulabs.dolarblue.core.data.local.database.converters;
 
 import androidx.room.TypeConverter
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 class LocalDateTimeConverter {
 
