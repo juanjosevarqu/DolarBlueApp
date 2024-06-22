@@ -13,4 +13,3 @@ data class ConversionsHistoryRelation(
     )
     val conversions: List<ConversionEntity>
 )
-
