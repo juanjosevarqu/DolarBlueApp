@@ -5,13 +5,13 @@ import androidx.room.Relation
 import com.varqulabs.dolarblue.calculator.data.local.database.entities.ConversionEntity
 import com.varqulabs.dolarblue.calculator.data.local.database.entities.CurrentExchangeRateEntity
 
-data class ConversionsHistoryRelation(
+data class ConversionsWithCurrentExchangeRelation(
     @Embedded
-    val currentExchangeRate: CurrentExchangeRateEntity,
+    val conversions: ConversionEntity,
     @Relation(
-        entity = ConversionEntity::class,
-        parentColumn = "id",
-        entityColumn = "currentExchangeId"
+        entity = CurrentExchangeRateEntity::class,
+        parentColumn = "currentExchangeId",
+        entityColumn = "id"
     )
-    val conversions: List<ConversionEntity>
+    val currentExchangeRate: CurrentExchangeRateEntity
 )

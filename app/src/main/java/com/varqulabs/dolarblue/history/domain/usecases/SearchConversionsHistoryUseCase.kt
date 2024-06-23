@@ -8,6 +8,6 @@ class SearchConversionsHistoryUseCase(
     private val repository: ConversionsHistoryRepository
 ) {
     suspend operator fun invoke(searchQuery: String): Flow<List<ConversionsHistory>> {
-        return repository.search2(searchQuery)
+        return repository.searchConversionsHistoryByQuery(searchQuery)
     }
 }
