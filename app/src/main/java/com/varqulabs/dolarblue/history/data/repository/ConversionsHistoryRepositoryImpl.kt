@@ -1,7 +1,7 @@
 package com.varqulabs.dolarblue.history.data.repository
 
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
-import com.varqulabs.dolarblue.history.data.local.database.entities.relations.mapToModel
+import com.varqulabs.dolarblue.history.data.local.database.mappers.mapToModel
 import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import kotlinx.coroutines.flow.Flow

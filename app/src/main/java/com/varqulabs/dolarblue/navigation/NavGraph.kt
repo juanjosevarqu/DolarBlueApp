@@ -4,32 +4,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.varqulabs.dolarblue.calculator.navigation.calculatorRoute
-import com.varqulabs.dolarblue.history.navigation.historyRoute
+import com.varqulabs.dolarblue.home.navigation.homeRoute
 import com.varqulabs.dolarblue.navigation.utils.navigateBack
 import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
+import com.varqulabs.dolarblue.settings.navigation.settingsRoute
 
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Calculator,
-        modifier = modifier,
+        startDestination = Routes.Home,
+        modifier = modifier
     ) {
 
-        calculatorRoute(
-            navigateToHistory = {
-                navController.navigateToSingleTop(Routes.ConversionHistory)
-            },
+        homeRoute(
+            navigateToSettings = { navController.navigateToSingleTop(Routes.Settings) }
         )
 
-        historyRoute(
-            goBack = {
-                navController.navigateBack()
-            },
+        settingsRoute(
+            navigateBack = { navController.navigateBack() }
         )
     }
 }

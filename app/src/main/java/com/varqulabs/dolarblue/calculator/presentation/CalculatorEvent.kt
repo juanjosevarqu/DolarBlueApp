@@ -2,7 +2,9 @@ package com.varqulabs.dolarblue.calculator.presentation
 
 sealed interface CalculatorEvent {
 
-    data object OnHistoryClick : CalculatorEvent
+    data object OnClickDrawer : CalculatorEvent
+
+    data object OnClickSettings : CalculatorEvent
 
     data class Loading(val isLoading: Boolean) : CalculatorEvent
 
