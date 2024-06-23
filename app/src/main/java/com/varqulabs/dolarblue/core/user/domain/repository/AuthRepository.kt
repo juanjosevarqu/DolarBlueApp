@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
 
     fun login(loginRequest: LoginRequest): Flow<Result<User>>
-
+    fun resetPassword(email: String): Flow<Result<Boolean>>
 }

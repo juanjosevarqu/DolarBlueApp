@@ -33,4 +33,16 @@ class AuthRepositoryImpl(private val firebaseService: FirebaseAuth) : AuthReposi
         }
     }
 
+    override fun resetPassword(email: String): Flow<Result<Boolean>> {
+        return flow {
+            try {
+                val resetPassword = firebaseService.sendPasswordResetEmail(email).await()
+                emit(Result.success(true))
+            }catch (e: Exception){
+                e.printStackTrace()
+                emit(Result.failure(e))
+            }
+        }
+    }
+
 }
