@@ -12,12 +12,12 @@ import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Calculator,
-        modifier = modifier,
+        startDestination = Routes.History,
+        modifier = modifier
     ) {
 
         calculatorRoute(
@@ -30,8 +30,8 @@ fun AppNavGraph(
         )
 
         historyRoute(
-            goBack = {
-                navController.navigateBack()
+            openDrawer = {
+                // TODO @JuanJo - Abrir el Drawer
             },
         )
     }
