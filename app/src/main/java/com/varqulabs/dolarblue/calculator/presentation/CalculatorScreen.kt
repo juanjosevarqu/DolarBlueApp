@@ -20,7 +20,7 @@ import com.varqulabs.dolarblue.core.presentation.generics.top_bars.DrawerAppBar
 @Composable
 fun CalculatorScreen(
     state: CalculatorState,
-    eventHandler: (CalculatorEvent) -> Unit,
+    eventHandler: (CalculatorEvent) -> Unit
 ) {
 
     LaunchedEffect(state.reload) { if (state.reload) eventHandler(Init) }

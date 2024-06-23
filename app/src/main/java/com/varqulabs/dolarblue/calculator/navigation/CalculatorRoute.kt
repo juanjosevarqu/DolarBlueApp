@@ -19,7 +19,7 @@ import com.varqulabs.dolarblue.navigation.Routes
 
 fun NavGraphBuilder.calculatorRoute(
     openDrawer: () -> Unit,
-    navigateToSettings: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     composable<Routes.Calculator> {
 
@@ -33,7 +33,7 @@ fun NavGraphBuilder.calculatorRoute(
 
             CalculatorScreen(
                 state = state,
-                eventHandler = eventHandler,
+                eventHandler = eventHandler
             )
 
             if (state.isLoading) { CircularLoading() }

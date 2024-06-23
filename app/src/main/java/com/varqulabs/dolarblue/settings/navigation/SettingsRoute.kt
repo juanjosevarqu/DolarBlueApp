@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import com.varqulabs.dolarblue.navigation.Routes
 
 fun NavGraphBuilder.settingsRoute(
-    navigateBack: () -> Unit,
+    navigateBack: () -> Unit
 ) {
     composable<Routes.Settings> {
 
