@@ -1,9 +1,16 @@
 package com.varqulabs.dolarblue.history.di
 
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.CurrentExchangeRateDao
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
+import com.varqulabs.dolarblue.history.data.repository.ConversionsRepositoryImpl
+import com.varqulabs.dolarblue.history.data.repository.CurrentExchangeRateRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
+import com.varqulabs.dolarblue.history.domain.repository.ConversionsRepository
+import com.varqulabs.dolarblue.history.domain.repository.CurrentExchangeRateRepository
 import com.varqulabs.dolarblue.history.domain.usecases.GetConversionsHistoryFlowUseCase
+import com.varqulabs.dolarblue.history.domain.usecases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +31,11 @@ object RepositoryModule {
     @Singleton
     fun provideGetConversionsHistoryFlowUseCase(repository: ConversionsHistoryRepository): GetConversionsHistoryFlowUseCase {
         return GetConversionsHistoryFlowUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchConversionsHistoryUseCase(repository: ConversionsHistoryRepository): SearchConversionsHistoryUseCase {
+        return SearchConversionsHistoryUseCase(repository)
     }
 }
