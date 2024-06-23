@@ -9,4 +9,6 @@ object PreferenceKey {
 
     val FAVOURITE_CURRENCY_KEY = stringPreferencesKey("FAVOURITE_CURRENCY_KEY")
 
+    val NOTIFICATIONS_ENABLED_KEY = booleanPreferencesKey("DO_NOT_DISTURB_KEY")
+
 }

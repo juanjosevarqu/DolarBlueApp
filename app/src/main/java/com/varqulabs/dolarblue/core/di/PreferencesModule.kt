@@ -10,6 +10,11 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.data.local.preferences.repository.PreferencesRepositoryImpl
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.useCases.GetFavoriteCurrencyByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetIsNotificationsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateFavoriteCurrencyFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateIsNotificationsEnabledFromPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,8 +53,37 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideGetDarkThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
+    fun provideGetDefaultThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
         return GetDefaultThemeByPreferencesUseCase(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFavoriteCurrencyByPreferences(preferences: PreferencesRepository): GetFavoriteCurrencyByPreferences {
+        return GetFavoriteCurrencyByPreferences(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetIsNotificationsEnabledByPreferences(preferences: PreferencesRepository): GetIsNotificationsEnabledByPreferences {
+        return GetIsNotificationsEnabledByPreferences(preferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUpdateFavoriteCurrencyFromPreferences(preferences: PreferencesRepository): UpdateFavoriteCurrencyFromPreferences {
+        return UpdateFavoriteCurrencyFromPreferences(preferences)
+    }
+    @Singleton
+    @Provides
+    fun provideUpdateIsNotificationsEnabledFromPreferences(preferences: PreferencesRepository): UpdateIsNotificationsEnabledFromPreferences {
+        return UpdateIsNotificationsEnabledFromPreferences(preferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUpdateDefaultThemeFromPreferences(preferences: PreferencesRepository): UpdateDefaultThemeFromPreferences {
+        return UpdateDefaultThemeFromPreferences(preferences)
     }
 
 }
