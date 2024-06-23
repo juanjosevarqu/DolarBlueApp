@@ -13,5 +13,5 @@ data class CalculatorState(
     val lastDateUpdated: String = "",
     val dollarEquivalency: Double = 0.0,
     val pesosEquivalency: Double = 0.0,
-    val bolivianosEquivalency: Double = 0.0,
+    val bolivianosEquivalency: Double = 0.0
 )

@@ -15,7 +15,7 @@ import com.varqulabs.dolarblue.history.presentation.HistoryViewModel
 import com.varqulabs.dolarblue.navigation.Routes
 
 fun NavGraphBuilder.historyRoute(
-    openDrawer: () -> Unit,
+    openDrawer: () -> Unit
 ) {
     composable<Routes.History> {
 
@@ -26,7 +26,7 @@ fun NavGraphBuilder.historyRoute(
 
             HistoryScreen(
                 state = state,
-                eventHandler = eventHandler,
+                eventHandler = eventHandler
             )
 
             if (state.isLoading) { CircularLoading() }

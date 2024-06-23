@@ -12,7 +12,7 @@ import com.varqulabs.dolarblue.settings.navigation.settingsRoute
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
