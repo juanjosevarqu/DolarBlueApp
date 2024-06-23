@@ -6,9 +6,15 @@ import kotlinx.serialization.Serializable
 sealed class Routes {
 
     @Serializable
+    data object Home : Routes()
+
+    @Serializable
     data object Calculator : Routes()
 
     @Serializable
-    data object ConversionHistory : Routes()
+    data object History : Routes()
+
+    @Serializable
+    data object Settings : Routes()
 
 }

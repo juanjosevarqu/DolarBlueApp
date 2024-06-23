@@ -22,7 +22,7 @@ fun AppNavGraph(
 
         calculatorRoute(
             navigateToHistory = {
-                navController.navigateToSingleTop(Routes.ConversionHistory)
+                navController.navigateToSingleTop(Routes.History)
             },
         )
 
