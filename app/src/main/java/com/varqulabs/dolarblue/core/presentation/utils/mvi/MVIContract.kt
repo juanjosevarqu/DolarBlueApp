@@ -33,7 +33,7 @@ interface MVIContract<State, Event, UiEffect> {
  *
  * Example usage:
  * ```
- * val (uiState, onAction, sideEffect) = mvi.toTriple()
+ * val (state, eventHandler, uiEffect) = mvi.toTriple()
  * ```
  * */
 @Stable

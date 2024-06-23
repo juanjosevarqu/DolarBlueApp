@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.history.domain.usecases
+package com.varqulabs.dolarblue.history.domain.useCases
 
 import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
