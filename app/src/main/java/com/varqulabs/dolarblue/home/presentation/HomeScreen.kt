@@ -28,12 +28,12 @@ private val drawerItems = listOf(
     DrawerItem(
         title = R.string.copy_calculator,
         icon = R.drawable.ic_launcher_foreground,
-        route = Routes.Calculator,
+        route = Routes.Calculator
     ),
     DrawerItem(
         title = R.string.copy_history,
         icon = R.drawable.ic_launcher_foreground,
-        route = Routes.History,
+        route = Routes.History
     ),
 )
 
@@ -42,7 +42,7 @@ internal fun HomeScreen(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    navigateToSettings: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
 
     var currentDrawerRoute by remember { mutableStateOf<Routes>(Routes.Calculator) }
@@ -64,16 +64,16 @@ internal fun HomeScreen(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Routes.Calculator,
+            startDestination = Routes.Calculator
         ) {
 
             calculatorRoute(
                 openDrawer = { coroutineScope.launch { drawerState.open() } },
-                navigateToSettings = navigateToSettings,
+                navigateToSettings = navigateToSettings
             )
 
             historyRoute(
-                openDrawer = { coroutineScope.launch { drawerState.open() } },
+                openDrawer = { coroutineScope.launch { drawerState.open() } }
             )
         }
     }
