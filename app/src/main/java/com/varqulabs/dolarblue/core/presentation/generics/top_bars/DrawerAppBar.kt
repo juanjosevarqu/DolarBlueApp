@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 fun DrawerAppBar(
     title: String,
     modifier: Modifier = Modifier,
-    onClickDrawer: () -> Unit,
+    onClickDrawer: () -> Unit
 ) {
     TopAppBar(
         title = { Text(text = title) },
