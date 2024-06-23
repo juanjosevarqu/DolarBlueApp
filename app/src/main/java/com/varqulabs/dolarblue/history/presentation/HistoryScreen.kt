@@ -14,7 +14,7 @@ import com.varqulabs.dolarblue.history.presentation.HistoryEvent.OnClickDrawer
 @Composable
 fun HistoryScreen(
     state: HistoryState,
-    eventHandler: (HistoryEvent) -> Unit,
+    eventHandler: (HistoryEvent) -> Unit
 ) {
     Scaffold(
         topBar = {

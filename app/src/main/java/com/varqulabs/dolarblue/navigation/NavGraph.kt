@@ -12,12 +12,12 @@ import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
         startDestination = Routes.History,
-        modifier = modifier,
+        modifier = modifier
     ) {
 
         calculatorRoute(
