@@ -7,5 +7,5 @@ import com.varqulabs.dolarblue.navigation.Routes
 data class DrawerItem(
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
-    val route: Routes,
+    val route: Routes
 )
