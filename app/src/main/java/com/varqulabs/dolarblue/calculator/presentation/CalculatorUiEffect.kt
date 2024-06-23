@@ -4,5 +4,7 @@ sealed class CalculatorUiEffect {
 
     data class ShowError(val message: String) : CalculatorUiEffect()
 
-    data object NavigateToHistory : CalculatorUiEffect()
+    data object OpenDrawer : CalculatorUiEffect()
+
+    data object NavigateToSettings : CalculatorUiEffect()
 }
