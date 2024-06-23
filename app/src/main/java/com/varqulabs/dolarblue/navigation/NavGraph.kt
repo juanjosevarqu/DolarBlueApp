@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.varqulabs.dolarblue.calculator.navigation.calculatorRoute
-import com.varqulabs.dolarblue.history.navigation.historyRoute
+import com.varqulabs.dolarblue.home.navigation.homeRoute
 import com.varqulabs.dolarblue.navigation.utils.navigateBack
 import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
+import com.varqulabs.dolarblue.settings.navigation.settingsRoute
 
 @Composable
 fun AppNavGraph(
@@ -16,23 +16,16 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.History,
+        startDestination = Routes.Home,
         modifier = modifier
     ) {
 
-        calculatorRoute(
-            openDrawer = {
-                // TODO @JuanJo - Abrir el Drawer
-            },
-            navigateToSettings = {
-                // TODO @JuanJo - Agregar Navegacion a los Ajustes
-            },
+        homeRoute(
+            navigateToSettings = { navController.navigateToSingleTop(Routes.Settings) }
         )
 
-        historyRoute(
-            openDrawer = {
-                // TODO @JuanJo - Abrir el Drawer
-            },
+        settingsRoute(
+            navigateBack = { navController.navigateBack() }
         )
     }
 }
