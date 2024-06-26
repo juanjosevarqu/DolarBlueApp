@@ -4,6 +4,7 @@ import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistor
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +25,11 @@ object RepositoryModule {
     @Singleton
     fun provideGetConversionsHistoryFlowUseCase(repository: ConversionsHistoryRepository): GetConversionsHistoryFlowUseCase {
         return GetConversionsHistoryFlowUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchConversionsHistoryUseCase(repository: ConversionsHistoryRepository): SearchConversionsHistoryUseCase {
+        return SearchConversionsHistoryUseCase(repository)
     }
 }
