@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.auth.di
 
-import com.varqulabs.dolarblue.auth.data.useCases.ResetPasswordUseCaseExecutor
+import com.varqulabs.dolarblue.auth.data.useCases.ResetPasswordUseCase
 import com.varqulabs.dolarblue.core.di.IoDispatcher
 import com.varqulabs.dolarblue.core.user.domain.repository.AuthRepository
 import dagger.Module
@@ -19,8 +19,8 @@ object AuthModule {
     fun provideResetPasswordUse(
         @IoDispatcher dispatcher: CoroutineDispatcher,
         authRepository: AuthRepository
-    ): ResetPasswordUseCaseExecutor {
-        return ResetPasswordUseCaseExecutor(
+    ): ResetPasswordUseCase {
+        return ResetPasswordUseCase(
             dispatcher = dispatcher,
             authRepository = authRepository
         )
@@ -31,8 +31,8 @@ object AuthModule {
     fun provideLoginWithEmailAndPasswordUseCase(
         @IoDispatcher dispatcher: CoroutineDispatcher,
         authRepository: AuthRepository
-    ): ResetPasswordUseCaseExecutor {
-        return ResetPasswordUseCaseExecutor(
+    ): ResetPasswordUseCase {
+        return ResetPasswordUseCase(
             dispatcher = dispatcher,
             authRepository = authRepository
         )

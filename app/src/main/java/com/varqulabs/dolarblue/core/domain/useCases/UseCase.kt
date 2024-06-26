@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-abstract class UseCaseExecutor<T : Any, R : Any>(private val dispatcher: CoroutineDispatcher) {
+abstract class UseCase<T : Any, R : Any>(private val dispatcher: CoroutineDispatcher) {
 
     fun execute(input: T): Flow<DataState<R>> = flow {
         emit(DataState.Loading)
@@ -22,6 +22,6 @@ abstract class UseCaseExecutor<T : Any, R : Any>(private val dispatcher: Corouti
         ))
     }
 
-    internal abstract fun executeData(input: T): Flow<R>
+    protected abstract suspend fun executeData(input: T): Flow<R>
 
 }
