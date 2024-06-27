@@ -26,4 +26,8 @@ class ConversionsHistoryRepositoryImpl(
                 }
         }
     }
+
+    override suspend fun addConversionFavorite(conversionId: Int, isFavorite: Boolean) {
+        conversionHistoryDao.addConversionFavorite(conversionId, isFavorite)
+    }
 }

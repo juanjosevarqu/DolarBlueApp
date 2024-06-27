@@ -27,4 +27,7 @@ interface ConversionsHistoryDao {
         OR conversion_table.date LIKE '%' || :querySearch || '%'
      """)
     fun searchConversionsHistoryByQuery(querySearch: String): Flow<List<ConversionsWithCurrentExchangeRelation>>
+
+    @Query("UPDATE conversion_table SET isFavorite = :isFavorite WHERE id = :conversionId")
+    fun addConversionFavorite(conversionId: Int, isFavorite: Boolean)
 }
