@@ -4,5 +4,9 @@ import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
 import kotlinx.coroutines.flow.Flow
 
 interface ConversionsHistoryRepository {
+
     suspend fun getConversionsHistoryFlow(): Flow<List<ConversionsHistory>>
+
+    suspend fun searchConversionsHistoryByQuery(querySearch: String): Flow<List<ConversionsHistory>>
+
 }
