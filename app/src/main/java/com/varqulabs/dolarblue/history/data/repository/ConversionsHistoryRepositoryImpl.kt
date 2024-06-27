@@ -16,6 +16,17 @@ class ConversionsHistoryRepositoryImpl(
         return conversionHistoryDao.getConversionsHistoryFlow().map { it.map { it.mapToModel() } }
     }
 
+    override suspend fun getFavoriteConversionsHistory(): Flow<List<ConversionsHistory>> {
+        return conversionHistoryDao.getFavoriteConversionsHistory().map { relations ->
+            relations.groupBy { relation -> relation.currentExchangeRate.id }
+                .map { (id, groupedResults) ->
+                    ConversionsHistory(
+                        currentExchangeRate = groupedResults.first().currentExchangeRate.mapToModel(),
+                        conversions = groupedResults.map { it.conversions.mapToModel() })
+                }
+        }
+    }
+
     override suspend fun searchConversionsHistoryByQuery(querySearch: String): Flow<List<ConversionsHistory>> {
         return conversionHistoryDao.searchConversionsHistoryByQuery(querySearch).map { relations ->
             relations.groupBy { relation -> relation.currentExchangeRate.id }

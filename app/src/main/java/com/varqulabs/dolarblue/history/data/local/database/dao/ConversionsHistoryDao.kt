@@ -20,11 +20,20 @@ interface ConversionsHistoryDao {
 
     @Transaction
     @Query("""
+        SELECT * FROM current_exchange_rate_table 
+        JOIN conversion_table ON current_exchange_rate_table.id = conversion_table.currentExchangeId 
+        WHERE conversion_table.isFavorite = 1
+    """)
+    fun getFavoriteConversionsHistory(): Flow<List<ConversionsWithCurrentExchangeRelation>>
+
+    @Transaction
+    @Query("""
         SELECT conversion_table.*
         FROM current_exchange_rate_table
         JOIN conversion_table ON current_exchange_rate_table.id = conversion_table.currentExchangeId
         WHERE conversion_table.name LIKE '%' || :querySearch || '%'
         OR conversion_table.date LIKE '%' || :querySearch || '%'
+        OR conversion_table.pesosBob LIKE '%' || :querySearch || '%'
      """)
     fun searchConversionsHistoryByQuery(querySearch: String): Flow<List<ConversionsWithCurrentExchangeRelation>>
 
