@@ -5,6 +5,7 @@ import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryReposit
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import com.varqulabs.dolarblue.history.domain.useCases.AddConversionFavoriteUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -30,13 +31,19 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSearchConversionsHistoryUseCase(repository: ConversionsHistoryRepository): SearchConversionsHistoryUseCase {
-        return SearchConversionsHistoryUseCase(repository)
+    fun provideAddConversionFavoriteUseCase(repository: ConversionsHistoryRepository): AddConversionFavoriteUseCase {
+        return AddConversionFavoriteUseCase(repository)
     }
 
     @Provides
     @Singleton
-    fun provideAddConversionFavoriteUseCase(repository: ConversionsHistoryRepository): AddConversionFavoriteUseCase {
-        return AddConversionFavoriteUseCase(repository)
+    fun provideGetFavoriteConversionsHistoryUseCase(repository: ConversionsHistoryRepository): GetFavoriteConversionsHistoryUseCase {
+        return GetFavoriteConversionsHistoryUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchConversionsHistoryUseCase(repository: ConversionsHistoryRepository): SearchConversionsHistoryUseCase {
+        return SearchConversionsHistoryUseCase(repository)
     }
 }
