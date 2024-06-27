@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class SearchConversionsHistoryUseCase(
     private val repository: ConversionsHistoryRepository
 ) {
-    suspend operator fun invoke(searchQuery: String): Flow<List<ConversionsHistory>> {
-        return repository.searchConversionsHistoryByQuery(searchQuery)
+    suspend operator fun invoke(columnName: String, searchQuery: String): Flow<List<ConversionsHistory>> {
+        return repository.searchConversionsHistoryByQuery(columnName, searchQuery)
     }
 }
