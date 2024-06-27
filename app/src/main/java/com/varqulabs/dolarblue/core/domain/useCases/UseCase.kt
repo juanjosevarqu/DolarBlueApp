@@ -22,6 +22,6 @@ abstract class UseCase<T : Any, R : Any>(private val dispatcher: CoroutineDispat
         ))
     }
 
-    internal abstract fun executeData(input: T): Flow<R>
+    protected abstract suspend fun executeData(input: T): Flow<R>
 
 }

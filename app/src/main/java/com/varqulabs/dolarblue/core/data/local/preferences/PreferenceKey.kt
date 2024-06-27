@@ -9,4 +9,6 @@ object PreferenceKey {
 
     val FAVOURITE_CURRENCY_KEY = stringPreferencesKey("FAVOURITE_CURRENCY_KEY")
 
+    val USER_SESSION = stringPreferencesKey("USER_SESSION")
+
 }
