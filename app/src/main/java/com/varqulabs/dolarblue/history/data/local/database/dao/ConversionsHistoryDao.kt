@@ -20,7 +20,7 @@ interface ConversionsHistoryDao {
 
     @Transaction
     @Query("""
-        SELECT * FROM current_exchange_rate_table 
+        SELECT conversion_table.* FROM current_exchange_rate_table 
         JOIN conversion_table ON current_exchange_rate_table.id = conversion_table.currentExchangeId 
         WHERE conversion_table.isFavorite = 1
     """)
