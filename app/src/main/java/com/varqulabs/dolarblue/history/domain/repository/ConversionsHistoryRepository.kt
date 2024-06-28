@@ -7,6 +7,10 @@ interface ConversionsHistoryRepository {
 
     suspend fun getConversionsHistoryFlow(): Flow<List<ConversionsHistory>>
 
+    suspend fun updateConversion(conversionId: Int, conversionName: String)
+
+    suspend fun deleteConversion(conversionId: Int)
+
     suspend fun addConversionFavorite(conversionId: Int, isFavorite: Boolean)
 
     suspend fun getFavoriteConversionsHistory(): Flow<List<ConversionsHistory>>

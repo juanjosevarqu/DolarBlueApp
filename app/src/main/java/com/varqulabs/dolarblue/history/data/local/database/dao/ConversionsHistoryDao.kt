@@ -20,6 +20,12 @@ interface ConversionsHistoryDao {
     @Query("SELECT * FROM current_exchange_rate_table")
     fun getConversionsHistory(): List<ConversionsHistoryRelation>
 
+    @Query("UPDATE conversion_table SET name = :conversionName WHERE id = :conversionId")
+    fun updateConversion(conversionId: Int, conversionName: String)
+
+    @Query("DELETE FROM conversion_table WHERE id = :conversionId")
+    fun deleteConversion(conversionId: Int)
+
     @Query("UPDATE conversion_table SET isFavorite = :isFavorite WHERE id = :conversionId")
     fun addConversionFavorite(conversionId: Int, isFavorite: Boolean)
 

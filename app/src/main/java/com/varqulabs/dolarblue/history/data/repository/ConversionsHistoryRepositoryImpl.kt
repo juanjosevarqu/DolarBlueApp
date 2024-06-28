@@ -17,6 +17,14 @@ class ConversionsHistoryRepositoryImpl(
         return conversionHistoryDao.getConversionsHistoryFlow().map { it.map { it.mapToModel() } }
     }
 
+    override suspend fun updateConversion(conversionId: Int, conversionName: String) {
+        conversionHistoryDao.updateConversion(conversionId, conversionName)
+    }
+
+    override suspend fun deleteConversion(conversionId: Int) {
+        conversionHistoryDao.deleteConversion(conversionId)
+    }
+
     override suspend fun addConversionFavorite(conversionId: Int, isFavorite: Boolean) {
         conversionHistoryDao.addConversionFavorite(conversionId, isFavorite)
     }
