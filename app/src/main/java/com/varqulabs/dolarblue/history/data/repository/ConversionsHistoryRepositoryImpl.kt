@@ -39,16 +39,8 @@ class ConversionsHistoryRepositoryImpl(
 
         val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%$querySearch%", "%$querySearch%"))
 
-        return  conversionHistoryDao.searchConversionsHistoryByQuery(simpleQuery).map { relations ->
-            relations.groupBy { relation -> relation.currentExchangeRate.id }
-                .map { (id, groupedResults) ->
-                    ConversionsHistory(
-                        currentExchangeRate = groupedResults.first().currentExchangeRate.mapToModel(),
-                        conversions = groupedResults.map { it.conversions.mapToModel() })
-                }
-        }
+        return getGroupedConversions(conversionHistoryDao.searchConversionsHistoryByQuery(simpleQuery))
     }
-
 
     private fun getGroupedConversions(daoFunction: Flow<List<ConversionsWithCurrentExchangeRelation>>) : Flow<List<ConversionsHistory>> {
         return daoFunction.map { relations ->
