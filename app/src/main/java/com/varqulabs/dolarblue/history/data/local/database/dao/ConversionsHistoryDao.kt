@@ -3,6 +3,8 @@ package com.varqulabs.dolarblue.history.data.local.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
+import com.varqulabs.dolarblue.calculator.data.local.database.entities.ConversionEntity
 import com.varqulabs.dolarblue.history.data.local.database.entities.relations.ConversionsHistoryRelation
 import com.varqulabs.dolarblue.history.data.local.database.entities.relations.ConversionsWithCurrentExchangeRelation
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +19,9 @@ interface ConversionsHistoryDao {
     @Transaction
     @Query("SELECT * FROM current_exchange_rate_table")
     fun getConversionsHistory(): List<ConversionsHistoryRelation>
+
+    @Update
+    suspend fun updateConversion(conversionEntity: ConversionEntity)
 
     @Transaction
     @Query("""
@@ -36,7 +41,4 @@ interface ConversionsHistoryDao {
         OR conversion_table.pesosBob LIKE '%' || :querySearch || '%'
      """)
     fun searchConversionsHistoryByQuery(querySearch: String): Flow<List<ConversionsWithCurrentExchangeRelation>>
-
-    @Query("UPDATE conversion_table SET isFavorite = :isFavorite WHERE id = :conversionId")
-    fun addConversionFavorite(conversionId: Int, isFavorite: Boolean)
 }
