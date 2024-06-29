@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class SignUpWithEmailUseCase(
     dispatcher: CoroutineDispatcher,
     private val userAuthRepository: AuthRepository
-) : UseCase<AuthRequest, Boolean>(dispatcher){
+) : UseCase<AuthRequest, Boolean>(dispatcher) {
     override suspend fun executeData(input: AuthRequest): Flow<Boolean> {
         return userAuthRepository.signUpWithEmailAndPassword(input)
     }
