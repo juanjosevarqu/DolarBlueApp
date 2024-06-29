@@ -45,7 +45,7 @@ class ConversionsHistoryRepositoryImpl(
     private fun getGroupedConversions(daoFunction: Flow<List<ConversionsWithCurrentExchangeRelation>>) : Flow<List<ConversionsHistory>> {
         return daoFunction.map { relations ->
             relations.groupBy { relation -> relation.currentExchangeRate.id }
-                .map { (id, groupedResults) ->
+                .map { (_, groupedResults) ->
                     ConversionsHistory(
                         currentExchangeRate = groupedResults.first().currentExchangeRate.mapToModel(),
                         conversions = groupedResults.map { it.conversions.mapToModel() })
