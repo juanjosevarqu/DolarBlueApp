@@ -39,10 +39,9 @@ class ConversionsHistoryRepositoryImpl(
         val query = """ SELECT conversion_table.* FROM current_exchange_rate_table
                 JOIN conversion_table ON current_exchange_rate_table.id = conversion_table.currentExchangeId
                 WHERE conversion_table.name LIKE  ?
-                OR conversion_table.date LIKE  ?
                 OR $columnName LIKE ? """
 
-        val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%$querySearch%", "%$querySearch%", "%$querySearch%"))
+        val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%$querySearch%", "%$querySearch%"))
 
         return  conversionHistoryDao.searchConversionsHistoryByQuery(simpleQuery).map { relations ->
             relations.groupBy { relation -> relation.currentExchangeRate.id }
