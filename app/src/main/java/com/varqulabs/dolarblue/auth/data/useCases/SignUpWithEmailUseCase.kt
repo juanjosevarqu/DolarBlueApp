@@ -6,11 +6,11 @@ import com.varqulabs.dolarblue.core.user.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class LoginWithEmailAndPasswordUseCase(
-    private val dispatcher: CoroutineDispatcher,
-    private val authRepository: AuthRepository
+class SignUpWithEmailUseCase(
+    dispatcher: CoroutineDispatcher,
+    private val userAuthRepository: AuthRepository
 ) : UseCase<AuthRequest, Boolean>(dispatcher) {
     override suspend fun executeData(input: AuthRequest): Flow<Boolean> {
-        return authRepository.login(loginRequest = input)
+        return userAuthRepository.signUpWithEmailAndPassword(input)
     }
 }
