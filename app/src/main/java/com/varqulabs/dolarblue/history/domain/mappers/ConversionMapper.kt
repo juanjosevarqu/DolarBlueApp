@@ -4,5 +4,12 @@ import com.varqulabs.dolarblue.calculator.data.local.database.entities.Conversio
 import com.varqulabs.dolarblue.history.domain.model.Conversion
 
 fun Conversion.mapToEntity() = ConversionEntity(
-    id, name, pesosBob, pesosArg, dollar, date, isFavorite, currentExchangeId
+    id = id,
+    name = name,
+    pesosBob = pesosBob,
+    pesosArg = pesosArg,
+    dollar = dollar,
+    date = date,
+    isFavorite = isFavorite,
+    currentExchangeId = currentExchangeId
 )
