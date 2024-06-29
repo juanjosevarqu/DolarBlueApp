@@ -1,6 +1,5 @@
 package com.varqulabs.dolarblue.core.user.data.repository
 
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
@@ -19,7 +18,7 @@ class AuthRepositoryImpl(
     private val preferencesRepository: PreferencesRepository
 ) : AuthRepository {
 
-    override fun login(loginRequest: AuthRequest): Flow<Result<User>> {
+    override fun login(loginRequest: AuthRequest): Flow<Boolean> {
         return flow {
             val user = firebaseService.signInWithEmailAndPassword(
                 loginRequest.email,
@@ -36,9 +35,7 @@ class AuthRepositoryImpl(
                 PreferenceKey.USER_SESSION,
                 userSession
             )
-            emit(
-                true
-            )
+            emit( true)
         }
     }
 
@@ -49,8 +46,23 @@ class AuthRepositoryImpl(
         }
     }
 
-    override fun signUpWithEmailAndPassword(signupRequest: AuthRequest): Flow<AuthResult> = flow{
-        emit(firebaseService.createUserWithEmailAndPassword(signupRequest.email, signupRequest.password).await())
+    override fun signUpWithEmailAndPassword(signupRequest: AuthRequest): Flow<Boolean> = flow {
+        val user = firebaseService.createUserWithEmailAndPassword(
+            signupRequest.email,
+            signupRequest.password
+        ).await()
+        val userSession = Json.encodeToString(
+            User(
+                token = user.user?.uid.orEmpty(),
+                userName = user.user?.displayName.orEmpty(),
+                email = user.user?.email.orEmpty()
+            ).toUserSerializable()
+        )
+        preferencesRepository.putPreference(
+            PreferenceKey.USER_SESSION,
+            userSession
+        )
+        emit(true)
     }
 
 }
