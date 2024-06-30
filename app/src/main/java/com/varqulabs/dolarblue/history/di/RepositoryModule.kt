@@ -3,12 +3,11 @@ package com.varqulabs.dolarblue.history.di
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
-import com.varqulabs.dolarblue.history.domain.useCases.AddConversionFavoriteUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.UpdateConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.DeleteConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
-import com.varqulabs.dolarblue.history.domain.useCases.UpdateConversionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,20 +38,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDeleteConversionUseCase(repository: ConversionsHistoryRepository): DeleteConversionUseCase {
-        return DeleteConversionUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAddConversionFavoriteUseCase(repository: ConversionsHistoryRepository): AddConversionFavoriteUseCase {
-        return AddConversionFavoriteUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
     fun provideGetFavoriteConversionsHistoryUseCase(repository: ConversionsHistoryRepository): GetFavoriteConversionsHistoryUseCase {
         return GetFavoriteConversionsHistoryUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteConversionUseCase(repository: ConversionsHistoryRepository): DeleteConversionUseCase {
+        return DeleteConversionUseCase(repository)
     }
 
     @Provides
