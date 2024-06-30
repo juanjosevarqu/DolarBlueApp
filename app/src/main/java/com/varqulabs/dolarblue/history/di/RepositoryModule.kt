@@ -3,7 +3,9 @@ package com.varqulabs.dolarblue.history.di
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
+import com.varqulabs.dolarblue.history.domain.useCases.UpdateConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,18 @@ object RepositoryModule {
     @Singleton
     fun provideGetConversionsHistoryFlowUseCase(repository: ConversionsHistoryRepository): GetConversionsHistoryFlowUseCase {
         return GetConversionsHistoryFlowUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateConversionUseCase(repository: ConversionsHistoryRepository): UpdateConversionUseCase {
+        return UpdateConversionUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFavoriteConversionsHistoryUseCase(repository: ConversionsHistoryRepository): GetFavoriteConversionsHistoryUseCase {
+        return GetFavoriteConversionsHistoryUseCase(repository)
     }
 
     @Provides
