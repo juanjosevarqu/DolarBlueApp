@@ -73,7 +73,7 @@ val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Normal,
-        fontSize = 8.sp,
+        fontSize = 10.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
