@@ -11,4 +11,8 @@ interface AuthRepository {
 
     fun signUpWithEmailAndPassword(signupRequest: AuthRequest): Flow<Boolean>
 
+    val verifiedAccount: Flow<Boolean>
+
+    fun sendEmailVerified(): Flow<Boolean>
+
 }

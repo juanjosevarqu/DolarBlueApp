@@ -8,6 +8,7 @@ import com.varqulabs.dolarblue.core.user.data.mappers.toUserSerializable
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
 import com.varqulabs.dolarblue.core.user.domain.model.User
 import com.varqulabs.dolarblue.core.user.domain.repository.AuthRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -44,6 +45,31 @@ class AuthRepositoryImpl(
         ).await()
         saveUserSession(user)
         emit(true)
+    }
+
+    override val verifiedAccount: Flow<Boolean> = flow {
+        while (true) {
+            val verified = verifyEmailIsVerified()
+            emit(verified)
+            delay(1000)
+        }
+    }
+
+    override fun sendEmailVerified(): Flow<Boolean> {
+        return flow {
+            emit(
+                runCatching {
+                    if (firebaseService.currentUser != null) {
+                        firebaseService.currentUser?.sendEmailVerification()?.await() ?: false
+                    }
+                }.isSuccess
+            )
+        }
+    }
+
+    private suspend fun verifyEmailIsVerified(): Boolean {
+        firebaseService.currentUser?.reload()?.await()
+        return firebaseService.currentUser?.isEmailVerified ?: false
     }
 
     private suspend fun saveUserSession(user: AuthResult) {

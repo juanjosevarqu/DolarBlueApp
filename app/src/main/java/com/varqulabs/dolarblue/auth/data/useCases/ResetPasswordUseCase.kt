@@ -6,11 +6,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class ResetPasswordUseCase(
-    private val dispatcher: CoroutineDispatcher,
+    dispatcher: CoroutineDispatcher,
     private val authRepository: AuthRepository
 ): UseCase<String, Boolean>(dispatcher){
     override suspend fun executeData(input: String): Flow<Boolean> {
        return authRepository.resetPassword(input)
     }
 }
-
