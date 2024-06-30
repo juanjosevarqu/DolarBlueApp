@@ -55,21 +55,19 @@ class AuthRepositoryImpl(
         }
     }
 
-    override fun sendEmailVerified(): Flow<Boolean> {
-        return flow {
-            emit(
-                runCatching {
-                    if (firebaseService.currentUser != null) {
-                        firebaseService.currentUser?.sendEmailVerification()?.await() ?: false
-                    }
-                }.isSuccess
-            )
-        }
+    override fun sendEmailVerified(): Flow<Boolean> = flow {
+        val result = firebaseService.currentUser?.let { user ->
+            runCatching { user.sendEmailVerification().await() }.isSuccess
+        } ?: false
+        emit(result)
     }
 
+
     private suspend fun verifyEmailIsVerified(): Boolean {
-        firebaseService.currentUser?.reload()?.await()
-        return firebaseService.currentUser?.isEmailVerified ?: false
+        return firebaseService.currentUser?.let { user ->
+            user.reload().await()
+            user.isEmailVerified
+        } ?: false
     }
 
     private suspend fun saveUserSession(user: AuthResult) {
