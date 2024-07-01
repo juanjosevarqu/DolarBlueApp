@@ -1,5 +1,7 @@
 package com.varqulabs.dolarblue.history.domain.repository
 
+import com.varqulabs.dolarblue.calculator.data.local.database.entities.ConversionEntity
+import com.varqulabs.dolarblue.calculator.data.local.database.entities.CurrentExchangeRateEntity
 import com.varqulabs.dolarblue.history.domain.model.Conversion
 import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +14,7 @@ interface ConversionsHistoryRepository {
 
     suspend fun updateConversion(conversion: Conversion)
 
-    suspend fun deleteConversion(conversionId: Int)
+    suspend fun deleteConversion(conversion: Conversion)
 
     suspend fun searchConversionsHistoryByQuery(columnName: String, querySearch: String): Flow<List<ConversionsHistory>>
 }
