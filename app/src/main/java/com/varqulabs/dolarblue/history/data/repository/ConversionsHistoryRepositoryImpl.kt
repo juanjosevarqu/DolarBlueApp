@@ -1,10 +1,6 @@
 package com.varqulabs.dolarblue.history.data.repository
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
-import com.varqulabs.dolarblue.calculator.data.local.database.dao.CurrentExchangeRateDao
-import com.varqulabs.dolarblue.calculator.data.local.database.entities.ConversionEntity
-import com.varqulabs.dolarblue.calculator.data.local.database.entities.CurrentExchangeRateEntity
 import com.varqulabs.dolarblue.calculator.data.local.database.mappers.mapToModel
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.local.database.entities.relations.ConversionsWithCurrentExchangeRelation
