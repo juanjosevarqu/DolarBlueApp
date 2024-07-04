@@ -47,5 +47,5 @@ interface ConversionsHistoryDao {
 
     @Transaction
     @RawQuery
-    fun searchConversionsHistoryByQuery(query: SupportSQLiteQuery): Flow<List<ConversionsWithCurrentExchangeRelation>>
+    fun searchConversionsHistoryByQueryAndCurrency(query: SupportSQLiteQuery): Flow<List<ConversionsWithCurrentExchangeRelation>>
 }
