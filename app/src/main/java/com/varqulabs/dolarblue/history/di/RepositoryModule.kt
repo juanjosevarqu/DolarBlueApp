@@ -1,5 +1,6 @@
 package com.varqulabs.dolarblue.history.di
 
+import com.varqulabs.dolarblue.core.di.IoDispatcher
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
@@ -12,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -26,31 +28,59 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideGetConversionsHistoryFlowUseCase(repository: ConversionsHistoryRepository): GetConversionsHistoryFlowUseCase {
-        return GetConversionsHistoryFlowUseCase(repository)
+    fun provideGetConversionsHistoryFlowUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): GetConversionsHistoryFlowUseCase {
+        return GetConversionsHistoryFlowUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
     }
 
     @Provides
     @Singleton
-    fun provideUpdateConversionUseCase(repository: ConversionsHistoryRepository): UpdateConversionUseCase {
-        return UpdateConversionUseCase(repository)
+    fun provideUpdateConversionUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): UpdateConversionUseCase {
+        return UpdateConversionUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
     }
 
     @Provides
     @Singleton
-    fun provideGetFavoriteConversionsHistoryUseCase(repository: ConversionsHistoryRepository): GetFavoriteConversionsHistoryUseCase {
-        return GetFavoriteConversionsHistoryUseCase(repository)
+    fun provideGetFavoriteConversionsHistoryUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): GetFavoriteConversionsHistoryUseCase {
+        return GetFavoriteConversionsHistoryUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
     }
 
     @Provides
     @Singleton
-    fun provideDeleteConversionUseCase(repository: ConversionsHistoryRepository): DeleteConversionUseCase {
-        return DeleteConversionUseCase(repository)
+    fun provideDeleteConversionUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): DeleteConversionUseCase {
+        return DeleteConversionUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
     }
 
     @Provides
     @Singleton
-    fun provideSearchConversionsHistoryUseCase(repository: ConversionsHistoryRepository): SearchConversionsHistoryUseCase {
-        return SearchConversionsHistoryUseCase(repository)
+    fun provideSearchConversionsHistoryUseCase(
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): SearchConversionsHistoryUseCase {
+        return SearchConversionsHistoryUseCase(
+            repository = conversionsHistoryRepository
+        )
     }
 }

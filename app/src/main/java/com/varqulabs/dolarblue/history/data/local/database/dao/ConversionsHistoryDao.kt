@@ -16,7 +16,15 @@ import kotlinx.coroutines.flow.Flow
 interface ConversionsHistoryDao {
 
     @Transaction
-    @Query("SELECT * FROM current_exchange_rate_table")
+    @Query("""
+        SELECT * FROM current_exchange_rate_table
+        WHERE id IN (
+            SELECT currentExchangeId
+            FROM conversion_table
+            GROUP BY currentExchangeId
+            HAVING COUNT(*) > 0
+        )
+    """)
     fun getConversionsHistoryFlow(): Flow<List<ConversionsHistoryRelation>>
 
     @Transaction
