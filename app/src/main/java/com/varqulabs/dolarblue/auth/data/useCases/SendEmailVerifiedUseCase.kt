@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class SendEmailVerifiedUseCase(
     dispatcher: CoroutineDispatcher,
     private val authRepository: AuthRepository
-) : UseCase<Unit, Boolean>(dispatcher) {
-    override suspend fun executeData(input: Unit): Flow<Boolean> {
+) : UseCase<Unit, Unit>(dispatcher) {
+    override suspend fun executeData(input: Unit): Flow<Unit> {
         return authRepository.sendEmailVerified()
     }
 }

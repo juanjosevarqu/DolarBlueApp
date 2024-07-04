@@ -13,6 +13,6 @@ interface AuthRepository {
 
     val verifiedAccount: Flow<Boolean>
 
-    fun sendEmailVerified(): Flow<Boolean>
+    fun sendEmailVerified(): Flow<Unit>
 
 }

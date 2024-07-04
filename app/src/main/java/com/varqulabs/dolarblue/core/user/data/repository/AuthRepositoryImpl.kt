@@ -33,7 +33,7 @@ class AuthRepositoryImpl(
 
     override fun resetPassword(email: String): Flow<Boolean> {
         return flow {
-            val resetPassword = firebaseService.sendPasswordResetEmail(email).await()
+            firebaseService.sendPasswordResetEmail(email).await()
             emit(true)
         }
     }
@@ -55,11 +55,9 @@ class AuthRepositoryImpl(
         }
     }
 
-    override fun sendEmailVerified(): Flow<Boolean> = flow {
-        val result = firebaseService.currentUser?.let { user ->
-            runCatching { user.sendEmailVerification().await() }.isSuccess
-        } ?: false
-        emit(result)
+    override fun sendEmailVerified(): Flow<Unit> = flow {
+        firebaseService.currentUser?.sendEmailVerification()?.await()
+        emit(Unit)
     }
 
 
