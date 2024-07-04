@@ -7,6 +7,7 @@ import com.varqulabs.dolarblue.history.data.local.database.entities.relations.Co
 import com.varqulabs.dolarblue.history.data.local.database.mappers.mapToModel
 import com.varqulabs.dolarblue.history.domain.mappers.mapToEntity
 import com.varqulabs.dolarblue.history.domain.model.Conversion
+import com.varqulabs.dolarblue.history.domain.model.ConversionSearch
 import com.varqulabs.dolarblue.history.domain.model.ConversionsHistory
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import kotlinx.coroutines.flow.Flow
@@ -28,18 +29,17 @@ class ConversionsHistoryRepositoryImpl(
         conversionHistoryDao.updateConversion(conversion.mapToEntity())
     }
 
-    override suspend fun searchConversionsHistoryByQuery(
-        columnName: String,
-        querySearch: String
+    override suspend fun searchConversionsHistoryByQueryAndCurrency(
+        conversionSearch: ConversionSearch
     ): Flow<List<ConversionsHistory>> {
         val query = """ SELECT conversion_table.* FROM current_exchange_rate_table
                 JOIN conversion_table ON current_exchange_rate_table.id = conversion_table.currentExchangeId
                 WHERE conversion_table.name LIKE  ?
-                OR $columnName LIKE ? """
+                OR ${conversionSearch.currencyColumnName} LIKE ? """
 
-        val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%$querySearch%", "%$querySearch%"))
+        val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%${conversionSearch.searchQuery}%", "%${conversionSearch.searchQuery}%"))
 
-        return getGroupedConversions(conversionHistoryDao.searchConversionsHistoryByQuery(simpleQuery))
+        return getGroupedConversions(conversionHistoryDao.searchConversionsHistoryByQueryAndCurrency(simpleQuery))
     }
 
     private fun getGroupedConversions(daoFunction: Flow<List<ConversionsWithCurrentExchangeRelation>>) : Flow<List<ConversionsHistory>> {
