@@ -5,17 +5,16 @@ import com.varqulabs.dolarblue.history.domain.model.Conversion
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 
 class DeleteConversionUseCase(
     dispatcher: CoroutineDispatcher,
     private val conversionsHistoryRepository: ConversionsHistoryRepository
 ): UseCase<Conversion, Unit>(dispatcher) {
-    /*suspend operator fun invoke(conversion: Conversion) {
-        conversionsHistoryRepository.deleteConversion(conversion)
-    }*/
     override suspend fun executeData(input: Conversion): Flow<Unit> {
-        conversionsHistoryRepository.deleteConversion(input)
-        return emptyFlow()
+        return flow {
+            conversionsHistoryRepository.deleteConversion(input)
+            emit(Unit)
+        }
     }
 }

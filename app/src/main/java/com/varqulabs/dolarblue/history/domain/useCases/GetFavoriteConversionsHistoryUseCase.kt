@@ -10,9 +10,6 @@ class GetFavoriteConversionsHistoryUseCase(
     dispatcher: CoroutineDispatcher,
     private val conversionsHistoryRepository: ConversionsHistoryRepository
 ): UseCase<Unit, List<ConversionsHistory>>(dispatcher) {
-    /*suspend operator fun invoke(): Flow<List<ConversionsHistory>> {
-        return repository.getFavoriteConversionsHistory()
-    }*/
     override suspend fun executeData(input: Unit): Flow<List<ConversionsHistory>> {
         return conversionsHistoryRepository.getFavoriteConversionsHistory()
     }

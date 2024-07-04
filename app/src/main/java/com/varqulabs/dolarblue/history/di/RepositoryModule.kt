@@ -77,10 +77,12 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSearchConversionsHistoryUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
         conversionsHistoryRepository: ConversionsHistoryRepository
     ): SearchConversionsHistoryUseCase {
         return SearchConversionsHistoryUseCase(
-            repository = conversionsHistoryRepository
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
         )
     }
 }
