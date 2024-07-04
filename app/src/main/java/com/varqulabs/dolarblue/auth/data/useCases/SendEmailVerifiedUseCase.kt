@@ -1,16 +1,15 @@
 package com.varqulabs.dolarblue.auth.data.useCases
 
-import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
 import com.varqulabs.dolarblue.core.domain.useCases.UseCase
 import com.varqulabs.dolarblue.core.user.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class LoginWithEmailAndPasswordUseCase(
+class SendEmailVerifiedUseCase(
     dispatcher: CoroutineDispatcher,
     private val authRepository: AuthRepository
-) : UseCase<AuthRequest, Boolean>(dispatcher) {
-    override suspend fun executeData(input: AuthRequest): Flow<Boolean> {
-        return authRepository.login(loginRequest = input)
+) : UseCase<Unit, Unit>(dispatcher) {
+    override suspend fun executeData(input: Unit): Flow<Unit> {
+        return authRepository.sendEmailVerified()
     }
 }
