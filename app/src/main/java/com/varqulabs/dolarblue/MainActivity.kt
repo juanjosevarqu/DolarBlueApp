@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.varqulabs.dolarblue.navigation.AppNavGraph
-import com.varqulabs.dolarblue.ui.theme.DolarBlueTheme
+import com.varqulabs.dolarblue.core.presentation.desingsystem.DolarBlueTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
