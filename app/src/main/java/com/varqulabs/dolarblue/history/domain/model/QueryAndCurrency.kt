@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.history.domain.model
 
-data class ConversionSearch(
+data class QueryAndCurrency(
     val currencyColumnName: String,
     val searchQuery: String,
 )
