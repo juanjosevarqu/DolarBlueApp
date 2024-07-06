@@ -29,6 +29,10 @@ class ConversionsHistoryRepositoryImpl(
         conversionHistoryDao.updateConversion(conversion.mapToEntity())
     }
 
+    override suspend fun deleteConversion(conversion: Conversion) {
+        conversionHistoryDao.deleteConversion(conversion.mapToEntity())
+    }
+
     override suspend fun searchConversionsHistoryByQueryAndCurrency(
         queryAndCurrency: QueryAndCurrency
     ): Flow<List<ConversionsHistory>> {

@@ -1,6 +1,7 @@
 package com.varqulabs.dolarblue.history.data.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.room.Transaction
@@ -24,6 +25,9 @@ interface ConversionsHistoryDao {
 
     @Update
     suspend fun updateConversion(conversionEntity: ConversionEntity)
+
+    @Delete
+    suspend fun deleteConversion(conversionEntity: ConversionEntity)
 
     @Transaction
     @Query("""
