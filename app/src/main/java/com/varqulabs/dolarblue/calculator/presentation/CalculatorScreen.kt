@@ -48,7 +48,6 @@ fun CalculatorScreen(
                 Text(text = "Navegar a los Ajustes desde Calculadora")
             }
 
-
             Text(
                 text = "Valor del Dolar Blue:"
             )
