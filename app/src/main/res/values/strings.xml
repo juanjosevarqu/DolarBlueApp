@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">Dolar Blue</string>
+    <string name="copy_login">Iniciar sesión</string>
+    <string name="copy_notifications">Notificaciones</string>
 
     <string name="copy_calculator">Calculadora</string>
 
     <string name="copy_history">Historial</string>
+
+    <string name="copy_news">Noticias</string>
 
     <string name="copy_settings">Configuración</string>
 </resources>

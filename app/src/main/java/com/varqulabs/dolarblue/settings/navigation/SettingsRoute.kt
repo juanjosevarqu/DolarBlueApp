@@ -3,12 +3,15 @@ package com.varqulabs.dolarblue.settings.navigation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.varqulabs.dolarblue.R
+import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
 import com.varqulabs.dolarblue.navigation.Routes
 
 fun NavGraphBuilder.settingsRoute(
@@ -16,16 +19,20 @@ fun NavGraphBuilder.settingsRoute(
 ) {
     composable<Routes.Settings> {
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Scaffold(
+            topBar = {
+                SimpleAppBar(title = stringResource(id = R.string.copy_settings)) {
+                    navigateBack()
+                }
+            }
+        ) { paddingValues ->
 
-            Text(text = "Settings Screen")
-
-            Button(onClick = { navigateBack() }) {
-                Text(text = "Go Back to Home Screen")
+            Column(
+                modifier = Modifier.padding(paddingValues).fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // TODO @JuanJo
             }
         }
     }
