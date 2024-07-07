@@ -10,4 +10,15 @@
     <string name="copy_news">Noticias</string>
 
     <string name="copy_settings">Configuración</string>
+    <string name="copy_theme">Tema</string>
+    <string name="copy_dark_mode">Modo Oscuro</string>
+    <string name="copy_favorite_currency">Moneda favorita</string>
+    <string name="copy_select_most_used_currency">Elija la moneda que más utilice</string>
+    <string name="copy_my_account">Mi cuenta</string>
+    <string name="copy_change_my_name">Cambiar mi nombre</string>
+    <string name="copy_change_password">Cambiar contraseña</string>
+    <string name="copy_exit_my_account">Salir de mi cuenta</string>
+    <string name="copy_do_not_disturb">No molestar</string>
+    <string name="copy_interesting_news">Noticias de tu interés</string>
+
 </resources>
