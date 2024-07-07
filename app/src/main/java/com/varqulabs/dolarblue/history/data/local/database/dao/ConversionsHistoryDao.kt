@@ -19,10 +19,8 @@ interface ConversionsHistoryDao {
     @Query("""
         SELECT * FROM current_exchange_rate_table
         WHERE id IN (
-            SELECT currentExchangeId
+            SELECT DISTINCT currentExchangeId            
             FROM conversion_table
-            GROUP BY currentExchangeId
-            HAVING COUNT(*) > 0
         )
     """)
     fun getConversionsHistoryFlow(): Flow<List<ConversionsHistoryRelation>>
@@ -31,16 +29,20 @@ interface ConversionsHistoryDao {
     @Query("""
         SELECT * FROM current_exchange_rate_table
         WHERE id IN (
-            SELECT currentExchangeId
+            SELECT DISTINCT currentExchangeId
             FROM conversion_table
-            GROUP BY currentExchangeId
-            HAVING COUNT(*) > 0
         )
     """)
     fun getConversionsHistory(): List<ConversionsHistoryRelation>
 
     @Update
     suspend fun updateConversion(conversionEntity: ConversionEntity)
+
+    @Query("SELECT COUNT (*) FROM conversion_table WHERE currentExchangeId =:currentExchangeId")
+    suspend fun getTheExchangeRateConversionCount(currentExchangeId: Int): Int
+
+    @Query("DELETE FROM current_exchange_rate_table WHERE id = :currentExchangeId")
+    suspend fun deleteCurrentExchangeRate(currentExchangeId: Int)
 
     @Delete
     suspend fun deleteConversion(conversionEntity: ConversionEntity)

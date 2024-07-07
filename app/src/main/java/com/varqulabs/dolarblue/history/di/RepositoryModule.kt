@@ -6,8 +6,10 @@ import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryReposit
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import com.varqulabs.dolarblue.history.domain.useCases.UpdateConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.DeleteConversionUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.DeleteCurrentExchangeUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.GetTheExchangeRateConversionCountUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -81,6 +83,30 @@ object RepositoryModule {
         conversionsHistoryRepository: ConversionsHistoryRepository
     ): SearchConversionsHistoryUseCase {
         return SearchConversionsHistoryUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteCurrentExchangeUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): DeleteCurrentExchangeUseCase {
+        return DeleteCurrentExchangeUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetTheExchangeRateConversionCountUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): GetTheExchangeRateConversionCountUseCase {
+        return GetTheExchangeRateConversionCountUseCase(
             dispatcher = dispatcher,
             conversionsHistoryRepository = conversionsHistoryRepository
         )

@@ -13,6 +13,10 @@ interface ConversionsHistoryRepository {
 
     suspend fun updateConversion(conversion: Conversion)
 
+    suspend fun getTheExchangeRateConversionCount(id: Int): Int
+
+    suspend fun deleteCurrentExchangeRate(currentExchangeId: Int)
+
     suspend fun deleteConversion(conversion: Conversion)
 
     suspend fun searchConversionsHistoryByQueryAndCurrency(queryAndCurrency: QueryAndCurrency): Flow<List<ConversionsHistory>>
