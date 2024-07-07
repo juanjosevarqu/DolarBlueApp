@@ -20,6 +20,7 @@ fun HistoryScreen(
         topBar = {
             DrawerAppBar(
                 title = stringResource(id = R.string.copy_history),
+                actionIcon = R.drawable.favoritos_1_p,
                 onClickDrawer = { eventHandler(OnClickDrawer) }
             )
         }
