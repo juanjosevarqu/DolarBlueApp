@@ -29,12 +29,12 @@ class ConversionsHistoryRepositoryImpl(
         conversionHistoryDao.updateConversion(conversion.mapToEntity())
     }
 
-    override suspend fun getTheExchangeRateConversionCount(id: Int): Int {
-        return conversionHistoryDao.getTheExchangeRateConversionCount(id)
+    override suspend fun getExchangeRateConversionCount(exchangeRateId: Int): Flow<Int> {
+        return conversionHistoryDao.getExchangeRateConversionCount(exchangeRateId)
     }
 
-    override suspend fun deleteCurrentExchangeRate(currentExchangeId: Int) {
-        conversionHistoryDao.deleteCurrentExchangeRate(currentExchangeId)
+    override suspend fun deleteExchangeRate(exchangeRateId: Int) {
+        conversionHistoryDao.deleteExchangeRate(exchangeRateId)
     }
 
     override suspend fun deleteConversion(conversion: Conversion) {

@@ -17,9 +17,10 @@ interface ConversionsHistoryDao {
 
     @Transaction
     @Query("""
-        SELECT * FROM current_exchange_rate_table
+        SELECT *
+        FROM current_exchange_rate_table
         WHERE id IN (
-            SELECT DISTINCT currentExchangeId            
+            SELECT DISTINCT currentExchangeId
             FROM conversion_table
         )
     """)
@@ -38,11 +39,11 @@ interface ConversionsHistoryDao {
     @Update
     suspend fun updateConversion(conversionEntity: ConversionEntity)
 
-    @Query("SELECT COUNT (*) FROM conversion_table WHERE currentExchangeId =:currentExchangeId")
-    suspend fun getTheExchangeRateConversionCount(currentExchangeId: Int): Int
+    @Query("SELECT COUNT (*) FROM conversion_table WHERE currentExchangeId = :exchangeRateId")
+    fun getExchangeRateConversionCount(exchangeRateId: Int): Flow<Int>
 
-    @Query("DELETE FROM current_exchange_rate_table WHERE id = :currentExchangeId")
-    suspend fun deleteCurrentExchangeRate(currentExchangeId: Int)
+    @Query("DELETE FROM current_exchange_rate_table WHERE id = :exchangeRateId")
+    suspend fun deleteExchangeRate(exchangeRateId: Int)
 
     @Delete
     suspend fun deleteConversion(conversionEntity: ConversionEntity)

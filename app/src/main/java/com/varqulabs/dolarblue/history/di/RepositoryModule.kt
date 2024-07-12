@@ -6,10 +6,10 @@ import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryReposit
 import com.varqulabs.dolarblue.history.domain.repository.ConversionsHistoryRepository
 import com.varqulabs.dolarblue.history.domain.useCases.UpdateConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.DeleteConversionUseCase
-import com.varqulabs.dolarblue.history.domain.useCases.DeleteCurrentExchangeUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.DeleteExchangeRateUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
-import com.varqulabs.dolarblue.history.domain.useCases.GetTheExchangeRateConversionCountUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.GetExchangeRateConversionCountUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -90,11 +90,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDeleteCurrentExchangeUseCase(
+    fun provideDeleteExchangeRateUseCase(
         @IoDispatcher dispatcher: CoroutineDispatcher,
         conversionsHistoryRepository: ConversionsHistoryRepository
-    ): DeleteCurrentExchangeUseCase {
-        return DeleteCurrentExchangeUseCase(
+    ): DeleteExchangeRateUseCase {
+        return DeleteExchangeRateUseCase(
             dispatcher = dispatcher,
             conversionsHistoryRepository = conversionsHistoryRepository
         )
@@ -102,11 +102,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideGetTheExchangeRateConversionCountUseCase(
+    fun provideGetExchangeRateConversionCountUseCase(
         @IoDispatcher dispatcher: CoroutineDispatcher,
         conversionsHistoryRepository: ConversionsHistoryRepository
-    ): GetTheExchangeRateConversionCountUseCase {
-        return GetTheExchangeRateConversionCountUseCase(
+    ): GetExchangeRateConversionCountUseCase {
+        return GetExchangeRateConversionCountUseCase(
             dispatcher = dispatcher,
             conversionsHistoryRepository = conversionsHistoryRepository
         )

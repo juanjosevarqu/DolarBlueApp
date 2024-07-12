@@ -6,13 +6,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class DeleteCurrentExchangeUseCase(
+class DeleteExchangeRateUseCase(
     dispatcher: CoroutineDispatcher,
     private val conversionsHistoryRepository: ConversionsHistoryRepository
 ): UseCase<Int, Unit>(dispatcher) {
     override suspend fun executeData(input: Int): Flow<Unit> {
         return flow {
-            conversionsHistoryRepository.deleteCurrentExchangeRate(input)
+            conversionsHistoryRepository.deleteExchangeRate(input)
             emit(Unit)
         }
     }
