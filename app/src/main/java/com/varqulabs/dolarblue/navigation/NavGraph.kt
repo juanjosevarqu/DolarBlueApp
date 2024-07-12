@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.varqulabs.dolarblue.auth.navigation.authRoute
 import com.varqulabs.dolarblue.home.navigation.homeRoute
 import com.varqulabs.dolarblue.navigation.utils.navigateBack
 import com.varqulabs.dolarblue.navigation.utils.navigateToSingleTop
@@ -20,6 +21,7 @@ fun AppNavGraph(
         modifier = modifier
     ) {
 
+        authRoute()
         homeRoute(
             navigateToSettings = { navController.navigateToSingleTop(Routes.Settings) }
         )
