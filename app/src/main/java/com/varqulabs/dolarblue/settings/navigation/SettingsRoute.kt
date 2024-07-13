@@ -1,38 +1,42 @@
 package com.varqulabs.dolarblue.settings.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.varqulabs.dolarblue.R
-import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
+import com.varqulabs.dolarblue.core.domain.extensions.ifTrue
+import com.varqulabs.dolarblue.core.presentation.generics.loadings.CircularLoading
+import com.varqulabs.dolarblue.core.presentation.utils.mvi.CollectEffect
+import com.varqulabs.dolarblue.core.presentation.utils.mvi.toTriple
 import com.varqulabs.dolarblue.navigation.Routes
+import com.varqulabs.dolarblue.settings.presentation.SettingsScreen
+import com.varqulabs.dolarblue.settings.presentation.SettingsUiEffect
+import com.varqulabs.dolarblue.settings.presentation.SettingsViewModel
 
 fun NavGraphBuilder.settingsRoute(
     navigateBack: () -> Unit
 ) {
     composable<Routes.Settings> {
 
-        Scaffold(
-            topBar = {
-                SimpleAppBar(title = stringResource(id = R.string.copy_settings)) {
-                    navigateBack()
-                }
-            }
-        ) { paddingValues ->
+        val viewModel = hiltViewModel<SettingsViewModel>()
+        val (state, eventHandler, uiEffect) = viewModel.toTriple()
 
-            Column(
-                modifier = Modifier.padding(paddingValues).fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // TODO @JuanJo
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            SettingsScreen(
+                state = state,
+                eventHandler = eventHandler
+            )
+
+            state.isLoading.ifTrue { CircularLoading() }
+        }
+
+        CollectEffect(uiEffect = uiEffect) {
+            when (it) {
+                is SettingsUiEffect.GoBack -> navigateBack()
+                else -> {}
             }
         }
     }
