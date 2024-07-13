@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.core.domain.enums.Currency
-import com.varqulabs.dolarblue.settings.presentation.components.aux.SingleCurrencySelector
+import com.varqulabs.dolarblue.settings.presentation.components.childrens.SingleCurrencySelector
 
 @Composable
 fun FavoriteCurrencyConfigs(

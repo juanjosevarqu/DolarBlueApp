@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.core.domain.enums.Currency
-import com.varqulabs.dolarblue.settings.presentation.components.aux.OptionTogglelable
-import com.varqulabs.dolarblue.settings.presentation.components.aux.SelectableCurrency
+import com.varqulabs.dolarblue.settings.presentation.components.childrens.OptionTogglelable
+import com.varqulabs.dolarblue.settings.presentation.components.childrens.SelectableCurrency
 
 @Composable
 fun NewsSettings(

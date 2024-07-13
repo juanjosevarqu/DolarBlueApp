@@ -1,4 +1,4 @@
-package com.varqulabs.dolarblue.settings.presentation.components.aux
+package com.varqulabs.dolarblue.settings.presentation.components.childrens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
