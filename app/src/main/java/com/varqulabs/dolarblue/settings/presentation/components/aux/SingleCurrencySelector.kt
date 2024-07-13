@@ -33,11 +33,3 @@ fun SingleCurrencySelector(
         }
     }
 }
-
-@Preview
-@Composable
-private fun SingleCurrencySelectorPreview() {
-    SingleCurrencySelector(
-        currencySelected = Currency.BOLIVIANO
-    ) {}
-}
