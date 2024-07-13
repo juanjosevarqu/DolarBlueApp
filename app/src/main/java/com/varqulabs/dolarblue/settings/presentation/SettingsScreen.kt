@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
@@ -27,6 +28,15 @@ import com.varqulabs.dolarblue.settings.presentation.components.FavoriteCurrency
 import com.varqulabs.dolarblue.settings.presentation.components.MyAccountActions
 import com.varqulabs.dolarblue.settings.presentation.components.NewsSettings
 import com.varqulabs.dolarblue.settings.presentation.components.ThemeConfigs
+
+@Preview
+@Composable
+fun PreviewDemo(){
+    SettingsScreen(
+        state = SettingsState(),
+        eventHandler = {}
+    )
+}
 
 @Composable
 fun SettingsScreen(

@@ -9,9 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.varqulabs.dolarblue.core.presentation.desingsystem.DolarBlueTheme
 import com.varqulabs.dolarblue.core.presentation.utils.modifier.clickableSingleWithOutRipple
 
 @Composable
@@ -39,16 +37,5 @@ fun SelectableCurrency(
                 else MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.5F),
             modifier = Modifier.padding(14.dp),
         )
-    }
-}
-
-@Preview
-@Composable
-fun BoxSelectablePreview() {
-    DolarBlueTheme {
-        SelectableCurrency(
-            selected = false,
-            currencyCode = "BOB"
-        ) {}
     }
 }
