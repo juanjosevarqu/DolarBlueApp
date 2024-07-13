@@ -16,15 +16,34 @@ import kotlinx.coroutines.flow.Flow
 interface ConversionsHistoryDao {
 
     @Transaction
-    @Query("SELECT * FROM current_exchange_rate_table")
+    @Query("""
+        SELECT *
+        FROM current_exchange_rate_table
+        WHERE id IN (
+            SELECT DISTINCT currentExchangeId
+            FROM conversion_table
+        )
+    """)
     fun getConversionsHistoryFlow(): Flow<List<ConversionsHistoryRelation>>
 
     @Transaction
-    @Query("SELECT * FROM current_exchange_rate_table")
+    @Query("""
+        SELECT * FROM current_exchange_rate_table
+        WHERE id IN (
+            SELECT DISTINCT currentExchangeId
+            FROM conversion_table
+        )
+    """)
     fun getConversionsHistory(): List<ConversionsHistoryRelation>
 
     @Update
     suspend fun updateConversion(conversionEntity: ConversionEntity)
+
+    @Query("SELECT COUNT (*) FROM conversion_table WHERE currentExchangeId = :exchangeRateId")
+    fun getExchangeRateConversionCount(exchangeRateId: Int): Flow<Int>
+
+    @Query("DELETE FROM current_exchange_rate_table WHERE id = :exchangeRateId")
+    suspend fun deleteExchangeRate(exchangeRateId: Int)
 
     @Delete
     suspend fun deleteConversion(conversionEntity: ConversionEntity)
