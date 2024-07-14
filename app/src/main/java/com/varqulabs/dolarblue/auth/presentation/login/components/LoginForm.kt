@@ -32,13 +32,13 @@ fun LoginForm(
     context: Context,
     state: LoginState,
     eventHandler: (LoginEvent) -> Unit
-){
+) {
 
     val focusManager = LocalFocusManager.current
 
     Column(
         modifier = modifier
-    ){
+    ) {
 
         DolarBlueTextField(
             state = state.email,

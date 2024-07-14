@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.varqulabs.dolarblue.auth.presentation.login
 
@@ -50,15 +49,13 @@ fun LoginScreen(
         ) {
 
             Image(
-                modifier = Modifier
-                    .size(64.dp),
+                modifier = Modifier.size(64.dp),
                 painter = painterResource(id = R.drawable.logo_app),
                 contentDescription = stringResource(R.string.content_description_image_logo)
             )
 
             Spacer(
-                modifier = Modifier
-                    .height(135.dp)
+                modifier = Modifier.height(135.dp)
             )
 
             Text(
@@ -67,8 +64,7 @@ fun LoginScreen(
             )
 
             Spacer(
-                modifier = Modifier
-                    .height(85.dp)
+                modifier = Modifier.height(85.dp)
             )
 
             LoginForm(
