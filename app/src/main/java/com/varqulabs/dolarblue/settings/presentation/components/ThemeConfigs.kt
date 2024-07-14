@@ -17,7 +17,7 @@ import com.varqulabs.dolarblue.settings.presentation.components.childrens.Option
 fun ThemeConfigs(
     darkThemeEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClickToggle: () -> Unit
+    onClickToggle: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,

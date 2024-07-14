@@ -12,9 +12,9 @@ sealed interface SettingsEvent {
 
     data class OnSelectFavoriteCurrency(val currency: Currency) : SettingsEvent
 
-    data object OnToggleDoNotDisturb : SettingsEvent
+    data class UpdateDoNotDisturb(val newValue: Boolean) : SettingsEvent
 
-    data object OnToggleBolivianNotifications : SettingsEvent
+    data class UpdateBolivianNewsEnabled(val newValue: Boolean) : SettingsEvent
 
     data object OnToggleDollarNotifications : SettingsEvent
 
