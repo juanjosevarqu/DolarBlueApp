@@ -13,6 +13,7 @@ import com.varqulabs.dolarblue.core.presentation.ui.UiText
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -89,17 +90,15 @@ class LoginViewModel @Inject constructor(
 
     //Funcion que realiza el inicio de sesión
     private fun onLogin() {
-        viewModelScope.launch {
-            val currentState = uiState.value
+        viewModelScope.launch(Dispatchers.IO) {
 
-            val canLogging = validateAndSetErrors(currentState)
+            val canLogging = validateAndSetErrors(uiState.value)
 
             if (!canLogging) {
-                updateUi { copy(isLoading = true) }
                 loginWithEmailAndPasswordUseCase.execute(
                     AuthRequest(
-                        email = currentState.email,
-                        password = currentState.password
+                        email = uiState.value.email,
+                        password =  uiState.value.password
                     )
                 ).collectLatest { dataState ->
                     updateUiStateForDataState(dataState) {
@@ -114,7 +113,6 @@ class LoginViewModel @Inject constructor(
     //Funcion que envia el email para verificar el correo electronico
     private fun sendEmailVerified() {
         viewModelScope.launch {
-            updateUi { copy(isLoading = true) }
             sendEmailVerifiedUseCase.execute(Unit).collectLatest { dataState ->
                 updateUiStateForDataState(dataState) {
                     updateUi {

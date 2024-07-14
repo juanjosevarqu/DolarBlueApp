@@ -16,10 +16,8 @@ import com.varqulabs.dolarblue.core.presentation.generics.loadings.CircularLoadi
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.CollectEffect
 import com.varqulabs.dolarblue.navigation.Routes
 
-fun NavGraphBuilder.authRoute(){
-    navigation<Routes.Auth>(
-        startDestination = Routes.Login
-    ){
+fun NavGraphBuilder.authRoute() {
+    navigation<Routes.Auth>(startDestination = Routes.Login) {
         composable<Routes.Login> {
 
             val viewModel = hiltViewModel<LoginViewModel>()
@@ -34,15 +32,19 @@ fun NavGraphBuilder.authRoute(){
                 eventHandler = eventHandler
             )
 
-            if (state.isLoading) { CircularLoading() }
+            if (state.isLoading) {
+                CircularLoading()
+            }
 
-            if (state.isVisibleDialogConfirmEmail){
+            if (state.isVisibleDialogConfirmEmail) {
                 DialogConfirmEmail()
             }
 
             CollectEffect(uiEffect) {
                 when (it) {
-                    is LoginUiEffect.ShowError ->  Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    is LoginUiEffect.ShowError -> Toast.makeText(
+                        context, it.message, Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 

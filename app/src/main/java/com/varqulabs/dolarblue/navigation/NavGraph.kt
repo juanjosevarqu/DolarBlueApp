@@ -22,6 +22,7 @@ fun AppNavGraph(
     ) {
 
         authRoute()
+
         homeRoute(
             navigateToSettings = { navController.navigateToSingleTop(Routes.Settings) }
         )

@@ -1,7 +1,9 @@
 package com.varqulabs.dolarblue.auth.presentation.login
 
+import androidx.compose.runtime.Stable
 import com.varqulabs.dolarblue.core.presentation.ui.UiText
 
+@Stable
 data class LoginState (
     val email: String = "",
     val emailError: UiText? = null,

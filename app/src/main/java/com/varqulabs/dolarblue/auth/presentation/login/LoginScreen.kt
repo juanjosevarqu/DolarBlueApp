@@ -36,35 +36,46 @@ fun LoginScreen(
         topBar = {
             DrawerAppBar(
                 title = "",
-            ) {}
+                onClickDrawer = {}
+            )
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(it).padding(30.dp),
+                .padding(it)
+                .padding(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Image(
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier
+                    .size(64.dp),
                 painter = painterResource(id = R.drawable.logo_app),
                 contentDescription = stringResource(R.string.content_description_image_logo)
             )
 
-            Spacer(modifier = Modifier.height(135.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(135.dp)
+            )
 
-            Text(text = stringResource(R.string.welcome_app), style = MaterialTheme.typography.headlineLarge)
+            Text(
+                text = stringResource(R.string.welcome_app),
+                style = MaterialTheme.typography.headlineLarge
+            )
 
-            Spacer(modifier = Modifier.height(85.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(85.dp)
+            )
 
             LoginForm(
-                context= context,
+                context = context,
                 state = state,
                 eventHandler = eventHandler
             )
-
         }
     }
 }

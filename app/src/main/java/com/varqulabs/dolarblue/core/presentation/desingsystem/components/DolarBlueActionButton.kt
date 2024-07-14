@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun DolarBlueActionButton(
@@ -33,7 +34,7 @@ fun DolarBlueActionButton(
                 alpha = 0.6f
             )
         ),
-        shape = RoundedCornerShape(40f),
+        shape = RoundedCornerShape(10.dp),
         modifier = modifier
             .height(IntrinsicSize.Min)
     ) {
