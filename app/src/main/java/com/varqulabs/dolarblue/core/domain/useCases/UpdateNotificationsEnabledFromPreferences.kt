@@ -17,6 +17,6 @@ class UpdateNotificationsEnabledFromPreferences(
             key = PreferenceKey.NOTIFICATIONS_ENABLED_KEY,
             value = input
         )
-        return flow { emit(Unit) }
+        return emptyFlow()
     }
 }

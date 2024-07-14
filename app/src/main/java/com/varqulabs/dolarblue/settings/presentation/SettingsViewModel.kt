@@ -11,7 +11,9 @@ import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFr
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,7 +37,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.OnToggleDarkMode -> updateUi { copy(darkThemeEnabled = !darkThemeEnabled) }
             is SettingsEvent.OnSelectFavoriteCurrency -> setFavoriteCurrency(event.currency)
             is SettingsEvent.UpdateDoNotDisturb -> updateIsNotificationsEnabled(event.newValue)
-            //is SettingsEvent.UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled(event.newValue)
+            is SettingsEvent.UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled(event.newValue)
             is SettingsEvent.OnToggleDollarNotifications -> updateUi { copy(dollarNewsEnabled = !dollarNewsEnabled) }
             is SettingsEvent.OnToggleArgentinianNotifications -> updateUi { copy(argentinianNewsEnabled = !argentinianNewsEnabled) }
             else -> updateUi { copy(isError = false) }
@@ -52,7 +54,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun init() {
         getIsNotificationsEnabled()
-        //getIsBolivianNewsEnabled()
+        getIsBolivianNewsEnabled()
     }
 
     private fun setFavoriteCurrency(currency: Currency) {
@@ -79,7 +81,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun updateIsNotificationsEnabled(newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateNotificationsEnabledFromPreferences.execute(newValue)
+            updateNotificationsEnabledFromPreferences.execute(newValue).collect()
         }
     }
 
@@ -103,7 +105,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun updateIsBolivianNewsEnabled(newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateBolivianNewsEnabledFromPreferences.execute(newValue)
+            updateBolivianNewsEnabledFromPreferences.execute(newValue).collectLatest {  }
         }
     }
 
