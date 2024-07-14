@@ -1,31 +1,42 @@
 package com.varqulabs.dolarblue.settings.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.varqulabs.dolarblue.core.domain.extensions.ifTrue
+import com.varqulabs.dolarblue.core.presentation.generics.loadings.CircularLoading
+import com.varqulabs.dolarblue.core.presentation.utils.mvi.CollectEffect
+import com.varqulabs.dolarblue.core.presentation.utils.mvi.toTriple
 import com.varqulabs.dolarblue.navigation.Routes
+import com.varqulabs.dolarblue.settings.presentation.SettingsScreen
+import com.varqulabs.dolarblue.settings.presentation.SettingsUiEffect
+import com.varqulabs.dolarblue.settings.presentation.SettingsViewModel
 
 fun NavGraphBuilder.settingsRoute(
     navigateBack: () -> Unit
 ) {
     composable<Routes.Settings> {
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        val viewModel = hiltViewModel<SettingsViewModel>()
+        val (state, eventHandler, uiEffect) = viewModel.toTriple()
 
-            Text(text = "Settings Screen")
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            Button(onClick = { navigateBack() }) {
-                Text(text = "Go Back to Home Screen")
+            SettingsScreen(
+                state = state,
+                eventHandler = eventHandler
+            )
+
+            state.isLoading.ifTrue { CircularLoading() }
+        }
+
+        CollectEffect(uiEffect = uiEffect) {
+            when (it) {
+                is SettingsUiEffect.GoBack -> navigateBack()
+                else -> {}
             }
         }
     }

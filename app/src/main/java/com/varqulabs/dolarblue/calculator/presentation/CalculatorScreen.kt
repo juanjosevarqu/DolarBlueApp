@@ -14,7 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.R
-import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.*
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Init
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.Loading
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnClickDrawer
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnClickSettings
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.OnRefreshDollarValue
+import com.varqulabs.dolarblue.calculator.presentation.CalculatorEvent.UpdatePesos
 import com.varqulabs.dolarblue.core.presentation.generics.top_bars.DrawerAppBar
 
 @Composable

@@ -48,7 +48,7 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideGetDarkThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
+    fun provideGetDefaultThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
         return GetDefaultThemeByPreferencesUseCase(preferences)
     }
 
