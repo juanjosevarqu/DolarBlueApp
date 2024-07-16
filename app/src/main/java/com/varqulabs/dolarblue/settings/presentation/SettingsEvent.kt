@@ -18,7 +18,7 @@ sealed interface SettingsEvent {
 
     data class UpdateDollarNewsEnabled(val newValue: Boolean) : SettingsEvent
 
-    data object OnToggleArgentinianNotifications : SettingsEvent
+    data class UpdateArgentinianNewsEnabled(val newValue: Boolean) : SettingsEvent
 
     data object OnSignIn : SettingsEvent
 

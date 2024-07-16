@@ -19,7 +19,7 @@ import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnChangePasss
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnLogout
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSelectFavoriteCurrency
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSignIn
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleArgentinianNotifications
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateArgentinianNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateBolivianNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleDarkMode
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDoNotDisturb
@@ -82,7 +82,7 @@ fun SettingsScreen(
                 onClickDoNotDisturbToggle = { eventHandler(UpdateDoNotDisturb(it)) },
                 onClickBolivianNews = { eventHandler(UpdateBolivianNewsEnabled(it)) },
                 onClickDollarNews = { eventHandler(UpdateDollarNewsEnabled(it)) },
-                onClickArgentinianNews = { eventHandler(OnToggleArgentinianNotifications) }
+                onClickArgentinianNews = { eventHandler(UpdateArgentinianNewsEnabled(it)) }
             )
 
             MyAccountActions(

@@ -9,10 +9,12 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.varqulabs.dolarblue.core.data.local.preferences.repository.PreferencesRepositoryImpl
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
+import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
 import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
@@ -126,6 +128,30 @@ object PreferencesModule {
         preferencesRepository: PreferencesRepository,
     ): UpdateDollarNewsEnabledFromPreferences {
         return UpdateDollarNewsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetArgentinianNewsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetArgentinianNewsEnabledByPreferences {
+        return GetArgentinianNewsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateArgentinianNewsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateArgentinianNewsEnabledFromPreferences {
+        return UpdateArgentinianNewsEnabledFromPreferences(
             dispatcher = dispatcher,
             preferencesRepository = preferencesRepository
         )

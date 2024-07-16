@@ -26,7 +26,7 @@ fun NewsSettings(
     onClickDoNotDisturbToggle: (Boolean) -> Unit,
     onClickBolivianNews: (Boolean) -> Unit,
     onClickDollarNews: (Boolean) -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -90,7 +90,7 @@ private fun InterestingNewsSelector(
     modifier: Modifier = Modifier,
     onClickBolivianNews: (Boolean) -> Unit,
     onClickDollarNews: (Boolean) -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -123,7 +123,7 @@ private fun FilterInterestingNews(
     modifier: Modifier = Modifier,
     onClickBolivianNews: (Boolean) -> Unit,
     onClickDollarNews: (Boolean) -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -148,7 +148,7 @@ private fun FilterInterestingNews(
             selected = argentinianNewsEnabled,
             currencyCode = Currency.PESOS.code,
             modifier = Modifier.weight(1f),
-            onClick = onClickArgentinianNews
+            onClick = { onClickArgentinianNews(!argentinianNewsEnabled) }
         )
     }
 }
