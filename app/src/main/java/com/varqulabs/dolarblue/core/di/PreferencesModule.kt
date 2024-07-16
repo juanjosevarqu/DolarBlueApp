@@ -11,8 +11,10 @@ import com.varqulabs.dolarblue.core.data.local.preferences.repository.Preference
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import dagger.Module
 import dagger.Provides
@@ -100,6 +102,30 @@ object PreferencesModule {
         preferencesRepository: PreferencesRepository,
     ): UpdateBolivianNewsEnabledFromPreferences {
         return UpdateBolivianNewsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDollarNewsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetDollarNewsEnabledByPreferences {
+        return GetDollarNewsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateDollarNewsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateDollarNewsEnabledFromPreferences {
+        return UpdateDollarNewsEnabledFromPreferences(
             dispatcher = dispatcher,
             preferencesRepository = preferencesRepository
         )

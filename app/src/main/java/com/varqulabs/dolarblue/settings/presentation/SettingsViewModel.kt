@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.domain.enums.Currency
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
@@ -22,7 +24,9 @@ class SettingsViewModel @Inject constructor(
     private val getNotificationsEnabledByPreferences: GetNotificationsEnabledByPreferences,
     private val updateNotificationsEnabledFromPreferences: UpdateNotificationsEnabledFromPreferences,
     private val getBolivianNewsEnabledByPreferences: GetBolivianNewsEnabledByPreferences,
-    private val updateBolivianNewsEnabledFromPreferences: UpdateBolivianNewsEnabledFromPreferences
+    private val updateBolivianNewsEnabledFromPreferences: UpdateBolivianNewsEnabledFromPreferences,
+    private val getDollarNewsEnabledByPreferences: GetDollarNewsEnabledByPreferences,
+    private val updateDollarNewsEnabledFromPreferences: UpdateDollarNewsEnabledFromPreferences
 ) : ViewModel(), MVIContract<SettingsState, SettingsEvent, SettingsUiEffect> by mviDelegate(SettingsState()) {
 
     override fun eventHandler(event: SettingsEvent) {
@@ -54,6 +58,7 @@ class SettingsViewModel @Inject constructor(
     private fun init() {
         getIsNotificationsEnabled()
         getIsBolivianNewsEnabled()
+        getIsDollarNewsEnabled()
     }
 
     private fun setFavoriteCurrency(currency: Currency) {
@@ -78,12 +83,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun updateIsNotificationsEnabled(newValue: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
-            updateNotificationsEnabledFromPreferences.execute(newValue).collect()
-        }
-    }
-
     private fun getIsBolivianNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
             getBolivianNewsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
@@ -102,9 +101,39 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun getIsDollarNewsEnabled() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getDollarNewsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
+                updateUi {
+                    when (dataState) {
+                        is DataState.Loading -> copy(isError = false, isLoading = true)
+                        is DataState.Success -> copy(
+                            isError = false,
+                            isLoading = false,
+                            dollarNewsEnabled = dataState.data
+                        )
+                        is DataState.Error, is DataState.NetworkError -> copy(isError = true, isLoading = false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateIsNotificationsEnabled(newValue: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateNotificationsEnabledFromPreferences.execute(newValue).collect()
+        }
+    }
+
     private fun updateIsBolivianNewsEnabled(newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             updateBolivianNewsEnabledFromPreferences.execute(newValue).collect()
+        }
+    }
+
+    private fun updateIsDollarNewsEnabled(newValue: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateDollarNewsEnabledFromPreferences.execute(newValue).collect()
         }
     }
 
