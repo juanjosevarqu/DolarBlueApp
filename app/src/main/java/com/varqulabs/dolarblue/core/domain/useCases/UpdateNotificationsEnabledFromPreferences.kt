@@ -5,7 +5,6 @@ import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRep
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flow
 
 class UpdateNotificationsEnabledFromPreferences(
     dispatcher: CoroutineDispatcher,

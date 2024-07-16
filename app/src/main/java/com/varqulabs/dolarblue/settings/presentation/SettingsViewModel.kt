@@ -11,7 +11,6 @@ import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFr
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -105,7 +104,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun updateIsBolivianNewsEnabled(newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateBolivianNewsEnabledFromPreferences.execute(newValue).collectLatest {  }
+            updateBolivianNewsEnabledFromPreferences.execute(newValue).collect()
         }
     }
 
