@@ -41,7 +41,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.OnSelectFavoriteCurrency -> setFavoriteCurrency(event.currency)
             is SettingsEvent.UpdateDoNotDisturb -> updateIsNotificationsEnabled(event.newValue)
             is SettingsEvent.UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled(event.newValue)
-            is SettingsEvent.OnToggleDollarNotifications -> updateUi { copy(dollarNewsEnabled = !dollarNewsEnabled) }
+            is SettingsEvent.UpdateDollarNewsEnabled -> updateIsDollarNewsEnabled(event.newValue)
             is SettingsEvent.OnToggleArgentinianNotifications -> updateUi { copy(argentinianNewsEnabled = !argentinianNewsEnabled) }
             else -> updateUi { copy(isError = false) }
         }
