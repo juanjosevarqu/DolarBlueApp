@@ -10,5 +10,6 @@ package com.varqulabs.dolarblue.auth.domain
              val passwordRegex = Regex("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+\$).{8,}")
              return  password.matches(passwordRegex)
          }
+         const val MIN_PASSWORD_LENGTH = 8
      }
 }
