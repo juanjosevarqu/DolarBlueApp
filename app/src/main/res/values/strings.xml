@@ -36,4 +36,7 @@
     <string name="welcome_app">Bienvenido</string>
     <string name="title_dialog_confirm_email">Message de confirmación</string>
     <string name="body_dialog_confirm_email">Confime su email en su bandeja de entrada, revise al sección de SPAM</string>
+
+    <string name="update_dialog_cancel_button">Cancelar</string>
+    <string name="update_dialog_accept_button">Confirmar</string>
 </resources>
