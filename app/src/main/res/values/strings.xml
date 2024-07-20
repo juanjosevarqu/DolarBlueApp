@@ -21,4 +21,16 @@
     <string name="copy_do_not_disturb">No molestar</string>
     <string name="copy_interesting_news">Noticias de tu interés</string>
 
+    <string name="error_field_empty">El campo esta vació</string>
+    <string name="error_email_invalid">El correo ingresado es incorrecto</string>
+    <string name="error_password_lengh">La contraseña debe contener %d caracteres</string>
+    <string name="password_not_strong">La contraseña no es segura</string>
+    <string name="text_forgot_password">¿Olvidaste la contraseña?</string>
+    <string name="title_password_field">Contraseña</string>
+    <string name="text_button_login">Iniciar sessión</string>
+    <string name="title_email_field">Correo electronico</string>
+    <string name="content_description_image_logo">Logo de la aplicación</string>
+    <string name="welcome_app">Bienvenido</string>
+    <string name="title_dialog_confirm_email">Message de confirmación</string>
+    <string name="body_dialog_confirm_email">Confime su email en su bandeja de entrada, revise al sección de SPAM</string>
 </resources>
