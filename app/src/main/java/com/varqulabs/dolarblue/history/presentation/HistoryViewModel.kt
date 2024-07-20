@@ -37,11 +37,7 @@ class HistoryViewModel @Inject constructor(
         when (event) {
             is OnClickDrawer -> emitOpenDrawer()
             is Init -> executeGetConversionHistory()
-            is OnClickGetFavoriteConversions -> {
-                updateUi { copy(showFavoriteConversions = !showFavoriteConversions) }
-                showConversions(uiState.value.showFavoriteConversions)
-            }
-
+            is OnClickGetFavoriteConversions -> handleGetConversions()
             is OnSetCurrencyColumnName -> setCurrencyColumnName(event.currencyColumnName)
             is OnSetSearchQuery -> setSearchQuery(event.searchQuery)
             is OnSearchConversion -> searchConversions(
@@ -49,27 +45,19 @@ class HistoryViewModel @Inject constructor(
                 currencyColumnName = uiState.value.currencyColumnName
             )
 
-            is OnClickClearTextField -> {
-                updateUi { copy(searchQuery = "") }
-                executeGetConversionHistory()
-            }
+            is OnClickClearTextField -> clearTextField()
+            is OnClickShowDialog -> handleDialog(
+                isVisible = true,
+                selectedConversion = event.conversion
+            )
 
-            is OnClickShowDialog -> {
-                updateUi {
-                    copy(
-                        isDialogVisible = true,
-                        selectedConversion = event.conversion
-                    )
-                }
-            }
+            is OnClickHideDialog -> handleDialog(
+                isVisible = false,
+                selectedConversion = null
+            )
 
-            is OnClickHideDialog -> updateUi { copy(isDialogVisible = false) }
             is OnSetNameConversion -> setConversionName(event.name)
-            is OnSetFavoriteConversion -> {
-                updateUi { copy(selectedConversion = event.conversion) }
-                setFavoriteConversion(!event.conversion.isFavorite)
-            }
-
+            is OnSetFavoriteConversion -> setFavoriteConversion(event.conversion)
             is OnShowSnackBar -> showSnackBar(event.conversionDeleted)
             is UndoConversionDelete -> undoConversionDelete()
             is OnDeleteConversion -> confirmationDeleteConversion()
@@ -91,8 +79,14 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    private fun showConversions(showFavoriteConversions: Boolean) {
-        if (showFavoriteConversions) {
+    private fun setShowFavoriteConversions() {
+        updateUi { copy(showFavoriteConversions = !showFavoriteConversions) }
+    }
+
+    private fun handleGetConversions() {
+        setShowFavoriteConversions()
+
+        if (uiState.value.showFavoriteConversions) {
             executeGetFavoritesConversionHistory()
         } else {
             executeGetConversionHistory()
@@ -151,15 +145,35 @@ class HistoryViewModel @Inject constructor(
             }
         }
 
+    private fun clearTextField() {
+        updateUi { copy(searchQuery = "") }
+        executeGetConversionHistory()
+    }
+
+    private fun handleDialog(isVisible: Boolean, selectedConversion: Conversion?) {
+        updateUi {
+            copy(
+                isDialogVisible = isVisible,
+                selectedConversion = selectedConversion
+            )
+        }
+    }
+
     private fun setConversionName(name: String) {
         if (uiState.value.selectedConversion != null) {
             executeUpdateConversion(uiState.value.selectedConversion!!.copy(name = name))
         }
     }
 
-    private fun setFavoriteConversion(isFavorite: Boolean) {
+    private fun setSelectedConversion(conversion: Conversion?) {
+        updateUi { copy(selectedConversion = conversion) }
+    }
+
+    private fun setFavoriteConversion(conversion: Conversion) {
+        setSelectedConversion(conversion)
+
         if (uiState.value.selectedConversion != null) {
-            executeUpdateConversion(uiState.value.selectedConversion!!.copy(isFavorite = isFavorite))
+            executeUpdateConversion(uiState.value.selectedConversion!!.copy(isFavorite = !conversion.isFavorite))
         }
     }
 
