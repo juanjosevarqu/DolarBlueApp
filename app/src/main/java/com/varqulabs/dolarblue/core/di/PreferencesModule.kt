@@ -11,11 +11,12 @@ import com.varqulabs.dolarblue.core.data.local.preferences.repository.Preference
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
-import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeEnabledByPreferencesUseCase
 import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import dagger.Module
@@ -57,8 +58,26 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideGetDefaultThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
-        return GetDefaultThemeByPreferencesUseCase(preferences)
+    fun provideGetDefaultThemeByPreferencesUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository
+    ): GetDefaultThemeEnabledByPreferencesUseCase {
+        return GetDefaultThemeEnabledByPreferencesUseCase(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateDefaultEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateDefaultThemeEnabledFromPreferences {
+        return UpdateDefaultThemeEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
     }
 
     @Provides

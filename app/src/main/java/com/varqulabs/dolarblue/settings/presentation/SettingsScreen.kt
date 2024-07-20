@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.R
+import com.varqulabs.dolarblue.core.presentation.desingsystem.LocalTheme
 import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnBack
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnChangeMyName
@@ -21,7 +22,7 @@ import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSelectFavor
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSignIn
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateArgentinianNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateBolivianNewsEnabled
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleDarkMode
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDarkThemeEnabled
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDoNotDisturb
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDollarNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.components.FavoriteCurrencyConfigs
@@ -62,9 +63,9 @@ fun SettingsScreen(
         ) {
 
             ThemeConfigs(
-                darkThemeEnabled = state.darkThemeEnabled,
+                darkThemeEnabled = LocalTheme.current.isDark,
                 modifier = Modifier.fillMaxWidth(),
-                onClickToggle = { eventHandler(OnToggleDarkMode) }
+                onClickToggle = { eventHandler(UpdateDarkThemeEnabled(it)) }
             )
 
             FavoriteCurrencyConfigs(

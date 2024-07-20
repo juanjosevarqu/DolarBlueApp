@@ -8,7 +8,7 @@ sealed interface SettingsEvent {
 
     data object OnBack : SettingsEvent
 
-    data object OnToggleDarkMode : SettingsEvent
+    data class UpdateDarkThemeEnabled(val newValue: Boolean) : SettingsEvent
 
     data class OnSelectFavoriteCurrency(val currency: Currency) : SettingsEvent
 

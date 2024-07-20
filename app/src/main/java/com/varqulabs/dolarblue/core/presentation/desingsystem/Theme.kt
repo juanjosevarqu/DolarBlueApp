@@ -6,7 +6,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.varqulabs.dolarblue.MainActivity
@@ -86,6 +88,10 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainerHigh = surfaceContainerHighLight,
 )
 
+data class DefaultTheme(val isDark: Boolean = false)
+
+val LocalTheme = compositionLocalOf { DefaultTheme() }
+
 @Composable
 fun DolarBlueTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -100,9 +106,11 @@ fun DolarBlueTheme(
         WindowCompat.getInsetsController(windowColor, windowColor.decorView).isAppearanceLightStatusBars = false
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalTheme provides DefaultTheme(darkTheme)) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

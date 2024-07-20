@@ -9,6 +9,7 @@ import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPrefer
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
@@ -29,7 +30,8 @@ class SettingsViewModel @Inject constructor(
     private val getDollarNewsEnabledByPreferences: GetDollarNewsEnabledByPreferences,
     private val updateDollarNewsEnabledFromPreferences: UpdateDollarNewsEnabledFromPreferences,
     private val getArgentinianNewsEnabledByPreferences: GetArgentinianNewsEnabledByPreferences,
-    private val updateArgentinianNewsEnabledFromPreferences: UpdateArgentinianNewsEnabledFromPreferences
+    private val updateArgentinianNewsEnabledFromPreferences: UpdateArgentinianNewsEnabledFromPreferences,
+    private val updateDefaultThemeEnabledFromPreferences: UpdateDefaultThemeEnabledFromPreferences
 ) : ViewModel(), MVIContract<SettingsState, SettingsEvent, SettingsUiEffect> by mviDelegate(SettingsState()) {
 
     override fun eventHandler(event: SettingsEvent) {
@@ -40,7 +42,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.OnSignIn -> emitNavigationToLogin()
             is SettingsEvent.OnBack -> emitNavigationBack()
             is SettingsEvent.Init -> init()
-            is SettingsEvent.OnToggleDarkMode -> updateUi { copy(darkThemeEnabled = !darkThemeEnabled) } // TODO @JuanJo - Temporal
+            is SettingsEvent.UpdateDarkThemeEnabled -> updateDarkThemeEnabled(event.newValue)
             is SettingsEvent.OnSelectFavoriteCurrency -> updateUi { copy(favoriteCurrency = event.currency) } // TODO @JuanJo - Temporal
             is SettingsEvent.UpdateDoNotDisturb -> updateIsNotificationsEnabled(event.newValue)
             is SettingsEvent.UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled(event.newValue)
@@ -133,6 +135,12 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun updateDarkThemeEnabled(newValue: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateDefaultThemeEnabledFromPreferences.execute(newValue).collect()
         }
     }
 
