@@ -30,8 +30,7 @@ class HistoryViewModel @Inject constructor(
     private val deleteConversionUseCase: DeleteConversionUseCase,
     private val getExchangeRateConversionCountUseCase: GetExchangeRateConversionCountUseCase,
     private val deleteExchangeRateUseCase: DeleteExchangeRateUseCase
-) : ViewModel(),
-    MVIContract<HistoryState, HistoryEvent, HistoryUiEffect> by mviDelegate(HistoryState()) {
+) : ViewModel(), MVIContract<HistoryState, HistoryEvent, HistoryUiEffect> by mviDelegate(HistoryState()) {
 
     override fun eventHandler(event: HistoryEvent) {
         when (event) {
@@ -40,11 +39,8 @@ class HistoryViewModel @Inject constructor(
             is OnClickGetFavoriteConversions -> handleGetConversions()
             is OnSetCurrencyColumnName -> setCurrencyColumnName(event.currencyColumnName)
             is OnSetSearchQuery -> setSearchQuery(event.searchQuery)
-            is OnSearchConversion -> searchConversions(
-                searchQuery = uiState.value.searchQuery,
-                currencyColumnName = uiState.value.currencyColumnName
-            )
-            is OnClickClearTextField -> clearTextField()
+            is OnSearchConversion -> searchConversions()
+            is OnClickClearTextField -> resetTextField()
             is OnClickShowDialog -> handleDialog(
                 isVisible = true,
                 selectedConversion = event.conversion
@@ -56,37 +52,40 @@ class HistoryViewModel @Inject constructor(
             is OnSetNameConversion -> setConversionName(event.name)
             is OnSetFavoriteConversion -> setFavoriteConversion(event.conversion)
             is OnShowSnackBar -> showSnackBar(event.conversionDeleted)
-            is UndoConversionDelete -> undoConversionDelete()
+            is UndoConversionDelete -> resetUIState()
             is OnDeleteConversion -> confirmationDeleteConversion()
         }
     }
 
-    // TODO crear string para informationMessage
-    private fun executeGetConversionHistory() = viewModelScope.launch(Dispatchers.IO) {
-        getConversionsHistoryUseCase.execute(Unit).collectLatest { dataState ->
-            updateUiStateForDataState(dataState) { data ->
-                updateUi {
-                    copy(
-                        isLoading = false,
-                        conversionsHistory = data,
-                        informationMessage = "No hay información por mostrar"
-                    ).also { disableReload() }
-                }
-            }
-        }
+    private fun emitOpenDrawer() = viewModelScope.emitEffect(HistoryUiEffect.OpenDrawer)
+
+    private fun emitError(error: String) = viewModelScope.emitEffect(HistoryUiEffect.ShowError(error))
+
+    private fun handleGetConversions() {
+        setShowFavoriteConversions()
+        if (uiState.value.showFavoriteConversions) executeGetFavoritesConversionHistory()
+        else executeGetConversionHistory()
     }
 
     private fun setShowFavoriteConversions() {
         updateUi { copy(showFavoriteConversions = !showFavoriteConversions) }
     }
 
-    private fun handleGetConversions() {
-        setShowFavoriteConversions()
-
-        if (uiState.value.showFavoriteConversions) {
-            executeGetFavoritesConversionHistory()
-        } else {
-            executeGetConversionHistory()
+    // TODO crear string para informationMessage
+    private fun executeGetConversionHistory() = viewModelScope.launch(Dispatchers.IO) {
+        getConversionsHistoryUseCase.execute(Unit).collectLatest { dataState ->
+            updateUiStateForDataState(
+                dataState = dataState,
+                isLoading = true
+            ) { data ->
+                updateUi {
+                    copy(
+                        isLoading = false,
+                        conversionsHistory = data,
+                        informationMessage = "No hay información por mostrar"
+                    )
+                }
+            }
         }
     }
 
@@ -96,7 +95,6 @@ class HistoryViewModel @Inject constructor(
             updateUiStateForDataState(dataState) { data ->
                 updateUi {
                     copy(
-                        isLoading = false,
                         conversionsHistory = data,
                         informationMessage = "No hay información por mostrar"
                     )
@@ -113,11 +111,13 @@ class HistoryViewModel @Inject constructor(
         updateUi { copy(searchQuery = searchQuery) }
     }
 
-    private fun searchConversions(searchQuery: String, currencyColumnName: String) {
-        if (searchQuery.isNotBlank() || searchQuery.isNotEmpty()) {
-            executeConversionHistorySearch(currencyColumnName, searchQuery)
-        } else {
-            executeGetConversionHistory()
+    private fun searchConversions() {
+        with(uiState.value){
+            if (searchQuery.isNotBlank()) {
+                executeConversionHistorySearch(currencyColumnName, searchQuery)
+            } else {
+                executeGetConversionHistory()
+            }
         }
     }
 
@@ -133,7 +133,6 @@ class HistoryViewModel @Inject constructor(
                 updateUiStateForDataState(dataState) { data ->
                     updateUi {
                         copy(
-                            isLoading = false,
                             conversionsHistory = data,
                             informationMessage = "No se encontraron coincidencias"
                         )
@@ -142,7 +141,7 @@ class HistoryViewModel @Inject constructor(
             }
         }
 
-    private fun clearTextField() {
+    private fun resetTextField() {
         updateUi { copy(searchQuery = "") }
         executeGetConversionHistory()
     }
@@ -162,16 +161,8 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    private fun setSelectedConversion(conversion: Conversion?) {
-        updateUi { copy(selectedConversion = conversion) }
-    }
-
     private fun setFavoriteConversion(conversion: Conversion) {
-        setSelectedConversion(conversion)
-
-        if (uiState.value.selectedConversion != null) {
-            executeUpdateConversion(uiState.value.selectedConversion!!.copy(isFavorite = !conversion.isFavorite))
-        }
+        executeUpdateConversion(conversion.copy(isFavorite = !conversion.isFavorite))
     }
 
     private fun executeUpdateConversion(conversion: Conversion) =
@@ -179,10 +170,7 @@ class HistoryViewModel @Inject constructor(
             updateConversionUseCase.execute(conversion).collectLatest { dataState ->
                 updateUiStateForDataState(dataState) {
                     updateUi {
-                        copy(
-                            isLoading = false,
-                            isDialogVisible = false
-                        )
+                        copy(isDialogVisible = false)
                     }
                 }
             }
@@ -190,7 +178,6 @@ class HistoryViewModel @Inject constructor(
 
     private fun showSnackBar(conversionDeleted: Conversion) {
         filterConversionHistoryList(conversionDeleted)
-
         updateUi {
             copy(
                 isSnackBarVisible = true,
@@ -207,15 +194,12 @@ class HistoryViewModel @Inject constructor(
                     conversionHistory.copy(
                         conversions = conversionHistory.conversions.filter { it != conversion }
                     )
-                } else {
-                    conversionHistory
-                }
+                } else conversionHistory
             }
-
         updateUi { copy(filteredConversionsHistory = filteredConversionsHistory) }
     }
 
-    private fun undoConversionDelete() {
+    private fun resetUIState() {
         updateUi {
             copy(
                 isSnackBarVisible = false,
@@ -240,7 +224,6 @@ class HistoryViewModel @Inject constructor(
                     updateUi {
                         executeExchangeRateConversionCount(conversion.currentExchangeId)
                         copy(
-                            isLoading = false,
                             isSnackBarVisible = false,
                             recentlyConversionDeleted = null,
                             filteredConversionsHistory = emptyList(),
@@ -257,10 +240,7 @@ class HistoryViewModel @Inject constructor(
                 .collectLatest { dataState ->
                     updateUiStateForDataState(dataState) { data ->
                         updateUi {
-                            copy(
-                                isLoading = false,
-                                conversionCount = data
-                            )
+                            copy(conversionCount = data)
                         }
                         conversionCountAndDeleteExchangeRate(exchangeRateId)
                     }
@@ -279,50 +259,28 @@ class HistoryViewModel @Inject constructor(
                 updateUiStateForDataState(
                     dataState = dataState,
                     onError = { executeGetConversionHistory() }
-                ) {
-                    updateUi {
-                        copy(isLoading = false)
-                    }
-                }
+                )
             }
         }
 
-    private fun disableReload() = updateUi { copy(reload = false) }
-
-    private fun emitOpenDrawer() = viewModelScope.emitEffect(HistoryUiEffect.OpenDrawer)
-
-    private fun emitError(error: String) =
-        viewModelScope.emitEffect(HistoryUiEffect.ShowError(error))
-
     private fun <T> updateUiStateForDataState(
         dataState: DataState<T>,
-        isLoading: Boolean = true,
+        isLoading: Boolean = false,
         onError: () -> Unit = {},
-        onSuccess: (T) -> Unit
+        onSuccess: (T) -> Unit = {}
     ) {
-        when (dataState) {
-            DataState.Loading -> {
-                updateUi {
-                    copy(
-                        isLoading = isLoading,
-                        isError = false
-                    )
+        updateUi {
+            when (dataState) {
+                DataState.Loading -> copy(isLoading = isLoading, isError = false)
+                is DataState.Success -> {
+                    onSuccess(dataState.data)
+                    copy()
                 }
-            }
-
-            is DataState.Success -> {
-                onSuccess(dataState.data)
-            }
-
-            is DataState.Error, DataState.NetworkError -> {
-                updateUi {
+                is DataState.Error, DataState.NetworkError -> {
                     emitError(dataState.getErrorMessage())
-                    copy(
-                        isLoading = false,
-                        isError = true
-                    )
+                    onError()
+                    copy(isLoading = false, isError = true)
                 }
-                onError()
             }
         }
     }
