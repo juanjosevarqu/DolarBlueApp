@@ -19,7 +19,7 @@ fun OptionTogglelable(
     title: String,
     checked: Boolean,
     modifier: Modifier = Modifier,
-    onClickToggle: () -> Unit
+    onClickToggle: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -43,7 +43,7 @@ fun OptionTogglelable(
 
         Switch(
             checked = checked,
-            onCheckedChange = { onClickToggle() },
+            onCheckedChange = { onClickToggle(it) },
             colors = SwitchDefaults.colors(
                 checkedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
                 checkedBorderColor = MaterialTheme.colorScheme.primary,

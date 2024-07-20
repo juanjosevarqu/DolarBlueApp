@@ -19,11 +19,11 @@ import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnChangePasss
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnLogout
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSelectFavoriteCurrency
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnSignIn
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleArgentinianNotifications
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleBolivianNotifications
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateArgentinianNewsEnabled
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateBolivianNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleDarkMode
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleDoNotDisturb
-import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnToggleDollarNotifications
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDoNotDisturb
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.UpdateDollarNewsEnabled
 import com.varqulabs.dolarblue.settings.presentation.components.FavoriteCurrencyConfigs
 import com.varqulabs.dolarblue.settings.presentation.components.MyAccountActions
 import com.varqulabs.dolarblue.settings.presentation.components.NewsSettings
@@ -79,10 +79,10 @@ fun SettingsScreen(
                 dollarNewsEnabled = state.dollarNewsEnabled,
                 argentinianNewsEnabled = state.argentinianNewsEnabled,
                 modifier = Modifier.fillMaxWidth(),
-                onClickDoNotDisturbToggle = { eventHandler(OnToggleDoNotDisturb) },
-                onClickBolivianNews = { eventHandler(OnToggleBolivianNotifications) },
-                onClickDollarNews = { eventHandler(OnToggleDollarNotifications) },
-                onClickArgentinianNews = { eventHandler(OnToggleArgentinianNotifications) }
+                onClickDoNotDisturbToggle = { eventHandler(UpdateDoNotDisturb(it)) },
+                onClickBolivianNews = { eventHandler(UpdateBolivianNewsEnabled(it)) },
+                onClickDollarNews = { eventHandler(UpdateDollarNewsEnabled(it)) },
+                onClickArgentinianNews = { eventHandler(UpdateArgentinianNewsEnabled(it)) }
             )
 
             MyAccountActions(

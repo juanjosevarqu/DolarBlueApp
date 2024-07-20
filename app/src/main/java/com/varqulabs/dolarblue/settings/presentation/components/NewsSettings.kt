@@ -23,10 +23,10 @@ fun NewsSettings(
     dollarNewsEnabled: Boolean,
     argentinianNewsEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClickDoNotDisturbToggle: () -> Unit,
-    onClickBolivianNews: () -> Unit,
-    onClickDollarNews: () -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickDoNotDisturbToggle: (Boolean) -> Unit,
+    onClickBolivianNews: (Boolean) -> Unit,
+    onClickDollarNews: (Boolean) -> Unit,
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -61,7 +61,7 @@ fun NewsSettings(
 private fun NotificationsToggle(
     doNotDisturbEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClickToggle: () -> Unit
+    onClickToggle: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -88,9 +88,9 @@ private fun InterestingNewsSelector(
     dollarNewsEnabled: Boolean,
     argentinianNewsEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClickBolivianNews: () -> Unit,
-    onClickDollarNews: () -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickBolivianNews: (Boolean) -> Unit,
+    onClickDollarNews: (Boolean) -> Unit,
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -121,9 +121,9 @@ private fun FilterInterestingNews(
     dollarNewsEnabled: Boolean,
     argentinianNewsEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClickBolivianNews: () -> Unit,
-    onClickDollarNews: () -> Unit,
-    onClickArgentinianNews: () -> Unit
+    onClickBolivianNews: (Boolean) -> Unit,
+    onClickDollarNews: (Boolean) -> Unit,
+    onClickArgentinianNews: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -134,21 +134,21 @@ private fun FilterInterestingNews(
             selected = bolivianNewsEnabled,
             currencyCode = Currency.BOLIVIANO.code,
             modifier = Modifier.weight(1f),
-            onClick = onClickBolivianNews
+            onClick = { onClickBolivianNews(!bolivianNewsEnabled) }
         )
 
         SelectableCurrency(
             selected = dollarNewsEnabled,
             currencyCode = Currency.DOLLAR.code,
             modifier = Modifier.weight(1f),
-            onClick = onClickDollarNews
+            onClick = { onClickDollarNews(!dollarNewsEnabled) }
         )
 
         SelectableCurrency(
             selected = argentinianNewsEnabled,
             currencyCode = Currency.PESOS.code,
             modifier = Modifier.weight(1f),
-            onClick = onClickArgentinianNews
+            onClick = { onClickArgentinianNews(!argentinianNewsEnabled) }
         )
     }
 }

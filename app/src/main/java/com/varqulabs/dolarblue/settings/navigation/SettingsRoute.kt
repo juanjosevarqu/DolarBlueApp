@@ -2,6 +2,7 @@ package com.varqulabs.dolarblue.settings.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -11,6 +12,7 @@ import com.varqulabs.dolarblue.core.presentation.generics.loadings.CircularLoadi
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.CollectEffect
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.toTriple
 import com.varqulabs.dolarblue.navigation.Routes
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent
 import com.varqulabs.dolarblue.settings.presentation.SettingsScreen
 import com.varqulabs.dolarblue.settings.presentation.SettingsUiEffect
 import com.varqulabs.dolarblue.settings.presentation.SettingsViewModel
@@ -22,6 +24,8 @@ fun NavGraphBuilder.settingsRoute(
 
         val viewModel = hiltViewModel<SettingsViewModel>()
         val (state, eventHandler, uiEffect) = viewModel.toTriple()
+
+        LaunchedEffect(Unit) { eventHandler(SettingsEvent.Init) }
 
         Box(modifier = Modifier.fillMaxSize()) {
 
