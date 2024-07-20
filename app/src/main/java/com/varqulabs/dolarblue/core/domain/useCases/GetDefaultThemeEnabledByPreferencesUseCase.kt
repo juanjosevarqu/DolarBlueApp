@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.core.domain.useCases
 
-import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey
+import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey.DEFAULT_THEME_ENABLED_KEY
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ class GetDefaultThemeEnabledByPreferencesUseCase(
 
     override suspend fun executeData(input: Unit): Flow<Boolean> {
         return preferencesRepository.getPreference(
-            key = PreferenceKey.DEFAULT_THEME_ENABLED_KEY,
+            key = DEFAULT_THEME_ENABLED_KEY,
             defaultValue = false
         )
     }
