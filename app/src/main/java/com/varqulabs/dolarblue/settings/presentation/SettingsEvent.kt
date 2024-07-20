@@ -8,17 +8,17 @@ sealed interface SettingsEvent {
 
     data object OnBack : SettingsEvent
 
-    data object OnToggleDarkMode : SettingsEvent
+    data class UpdateDarkThemeEnabled(val newValue: Boolean) : SettingsEvent
 
     data class OnSelectFavoriteCurrency(val currency: Currency) : SettingsEvent
 
-    data class UpdateDoNotDisturb(val newValue: Boolean) : SettingsEvent
+    data object UpdateDoNotDisturb : SettingsEvent
 
-    data class UpdateBolivianNewsEnabled(val newValue: Boolean) : SettingsEvent
+    data object UpdateBolivianNewsEnabled : SettingsEvent
 
-    data class UpdateDollarNewsEnabled(val newValue: Boolean) : SettingsEvent
+    data object UpdateDollarNewsEnabled : SettingsEvent
 
-    data class UpdateArgentinianNewsEnabled(val newValue: Boolean) : SettingsEvent
+    data object UpdateArgentinianNewsEnabled : SettingsEvent
 
     data object OnSignIn : SettingsEvent
 
