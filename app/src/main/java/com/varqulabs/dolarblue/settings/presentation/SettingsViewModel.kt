@@ -9,10 +9,13 @@ import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPrefer
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
+import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.*
+import com.varqulabs.dolarblue.settings.presentation.SettingsUiEffect.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -29,33 +32,34 @@ class SettingsViewModel @Inject constructor(
     private val getDollarNewsEnabledByPreferences: GetDollarNewsEnabledByPreferences,
     private val updateDollarNewsEnabledFromPreferences: UpdateDollarNewsEnabledFromPreferences,
     private val getArgentinianNewsEnabledByPreferences: GetArgentinianNewsEnabledByPreferences,
-    private val updateArgentinianNewsEnabledFromPreferences: UpdateArgentinianNewsEnabledFromPreferences
+    private val updateArgentinianNewsEnabledFromPreferences: UpdateArgentinianNewsEnabledFromPreferences,
+    private val updateDefaultThemeEnabledFromPreferences: UpdateDefaultThemeEnabledFromPreferences
 ) : ViewModel(), MVIContract<SettingsState, SettingsEvent, SettingsUiEffect> by mviDelegate(SettingsState()) {
 
     override fun eventHandler(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnLogout -> {}
-            is SettingsEvent.OnChangePasssword -> emitNavigationToChangePassword()
-            is SettingsEvent.OnChangeMyName -> emitNavigationToChangeName()
-            is SettingsEvent.OnSignIn -> emitNavigationToLogin()
-            is SettingsEvent.OnBack -> emitNavigationBack()
-            is SettingsEvent.Init -> init()
-            is SettingsEvent.OnToggleDarkMode -> updateUi { copy(darkThemeEnabled = !darkThemeEnabled) } // TODO @JuanJo - Temporal
-            is SettingsEvent.OnSelectFavoriteCurrency -> updateUi { copy(favoriteCurrency = event.currency) } // TODO @JuanJo - Temporal
-            is SettingsEvent.UpdateDoNotDisturb -> updateIsNotificationsEnabled(event.newValue)
-            is SettingsEvent.UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled(event.newValue)
-            is SettingsEvent.UpdateDollarNewsEnabled -> updateIsDollarNewsEnabled(event.newValue)
-            is SettingsEvent.UpdateArgentinianNewsEnabled -> updateIsArgentinianNewsEnabled(event.newValue)
+            is OnLogout -> {}
+            is OnChangePasssword -> emitNavigationToChangePassword()
+            is OnChangeMyName -> emitNavigationToChangeName()
+            is OnSignIn -> emitNavigationToLogin()
+            is OnBack -> emitNavigationBack()
+            is Init -> init()
+            is UpdateDarkThemeEnabled -> updateDarkThemeEnabled(event.newValue)
+            is OnSelectFavoriteCurrency -> updateUi { copy(favoriteCurrency = event.currency) } // TODO @JuanJo - Temporal
+            is UpdateDoNotDisturb -> updateIsNotificationsEnabled()
+            is UpdateBolivianNewsEnabled -> updateIsBolivianNewsEnabled()
+            is UpdateDollarNewsEnabled -> updateIsDollarNewsEnabled()
+            is UpdateArgentinianNewsEnabled -> updateIsArgentinianNewsEnabled()
         }
     }
 
-    private fun emitNavigationToLogin() = viewModelScope.emitEffect(SettingsUiEffect.NavigateToLogin)
+    private fun emitNavigationToLogin() = viewModelScope.emitEffect(NavigateToLogin)
 
-    private fun emitNavigationToChangeName() = viewModelScope.emitEffect(SettingsUiEffect.NavigateToChangeName)
+    private fun emitNavigationToChangeName() = viewModelScope.emitEffect(NavigateToChangeName)
 
-    private fun emitNavigationToChangePassword() = viewModelScope.emitEffect(SettingsUiEffect.NavigateToChangePassword)
+    private fun emitNavigationToChangePassword() = viewModelScope.emitEffect(NavigateToChangePassword)
 
-    private fun emitNavigationBack() = viewModelScope.emitEffect(SettingsUiEffect.GoBack)
+    private fun emitNavigationBack() = viewModelScope.emitEffect(GoBack)
 
     private fun init() {
         getIsNotificationsEnabled()
@@ -128,39 +132,49 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun updateIsNotificationsEnabled(newValue: Boolean) {
+    private fun updateDarkThemeEnabled(newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateNotificationsEnabledFromPreferences.execute(newValue).collect()
+            updateDefaultThemeEnabledFromPreferences.execute(newValue).collect()
         }
     }
 
-    private fun updateIsBolivianNewsEnabled(newValue: Boolean) {
+    private fun updateIsNotificationsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
-            updateBolivianNewsEnabledFromPreferences.execute(newValue).collect()
+            updateNotificationsEnabledFromPreferences.execute(!uiState.value.doNotDisturbEnabled).collect()
         }
     }
 
-    private fun updateIsDollarNewsEnabled(newValue: Boolean) {
+    private fun updateIsBolivianNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
-            updateDollarNewsEnabledFromPreferences.execute(newValue).collect()
+            updateBolivianNewsEnabledFromPreferences.execute(!uiState.value.bolivianNewsEnabled).collect()
         }
     }
 
-    private fun updateIsArgentinianNewsEnabled(newValue: Boolean) {
+    private fun updateIsDollarNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
-            updateArgentinianNewsEnabledFromPreferences.execute(newValue).collect()
+            updateDollarNewsEnabledFromPreferences.execute(!uiState.value.dollarNewsEnabled).collect()
         }
     }
 
-    private fun updateUiStateForDataState(dataState: DataState<Boolean>, onSuccess: (Boolean) -> Unit) {
-        when (dataState) {
-            is DataState.Error, DataState.NetworkError -> {
-                updateUi { copy(isError = true, isLoading = false) }
+    private fun updateIsArgentinianNewsEnabled() {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateArgentinianNewsEnabledFromPreferences.execute(!uiState.value.argentinianNewsEnabled).collect()
+        }
+    }
+
+    private fun updateUiStateForDataState(
+        dataState: DataState<Boolean>,
+        onSuccess: (Boolean) -> Unit
+    ) {
+        updateUi {
+            when (dataState) {
+                is DataState.Error, DataState.NetworkError -> copy(isError = true, isLoading = false)
+                is DataState.Loading -> copy(isError = false, isLoading = true)
+                is DataState.Success -> {
+                    onSuccess(dataState.data)
+                    copy()
+                }
             }
-            DataState.Loading -> {
-                updateUi { copy(isError = false, isLoading = true) }
-            }
-            is DataState.Success -> { onSuccess(dataState.data) }
         }
     }
 

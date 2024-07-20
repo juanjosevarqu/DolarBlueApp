@@ -9,7 +9,6 @@ data class SettingsState(
     val reload: Boolean = false,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val darkThemeEnabled: Boolean = false,
     val favoriteCurrency: Currency = Currency.BOLIVIANO,
     val doNotDisturbEnabled: Boolean = false,
     val bolivianNewsEnabled: Boolean = false,
