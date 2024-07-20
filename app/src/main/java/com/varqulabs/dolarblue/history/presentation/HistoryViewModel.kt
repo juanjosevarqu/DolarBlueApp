@@ -44,18 +44,15 @@ class HistoryViewModel @Inject constructor(
                 searchQuery = uiState.value.searchQuery,
                 currencyColumnName = uiState.value.currencyColumnName
             )
-
             is OnClickClearTextField -> clearTextField()
             is OnClickShowDialog -> handleDialog(
                 isVisible = true,
                 selectedConversion = event.conversion
             )
-
             is OnClickHideDialog -> handleDialog(
                 isVisible = false,
                 selectedConversion = null
             )
-
             is OnSetNameConversion -> setConversionName(event.name)
             is OnSetFavoriteConversion -> setFavoriteConversion(event.conversion)
             is OnShowSnackBar -> showSnackBar(event.conversionDeleted)
