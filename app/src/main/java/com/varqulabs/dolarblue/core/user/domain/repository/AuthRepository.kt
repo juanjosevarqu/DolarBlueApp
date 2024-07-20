@@ -1,5 +1,7 @@
 package com.varqulabs.dolarblue.core.user.domain.repository
 
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.TwitterAuthCredential
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
 import kotlinx.coroutines.flow.Flow
 
@@ -14,5 +16,7 @@ interface AuthRepository {
     val verifiedAccount: Flow<Boolean>
 
     fun sendEmailVerified(): Flow<Unit>
+
+    fun signInWithGoogleAccount(credential: AuthCredential): Flow<Boolean>
 
 }

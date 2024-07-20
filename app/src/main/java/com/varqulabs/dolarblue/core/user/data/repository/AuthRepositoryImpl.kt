@@ -1,7 +1,9 @@
 package com.varqulabs.dolarblue.core.user.data.repository
 
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.user.data.mappers.toUserSerializable
@@ -25,7 +27,7 @@ class AuthRepositoryImpl(
             val user = firebaseService.signInWithEmailAndPassword(
                 loginRequest.email,
                 loginRequest.password
-            ).await()
+            ).await().user
             saveUserSession(user)
             emit(true)
         }
@@ -42,7 +44,7 @@ class AuthRepositoryImpl(
         val user = firebaseService.createUserWithEmailAndPassword(
             signupRequest.email,
             signupRequest.password
-        ).await()
+        ).await().user
         saveUserSession(user)
         emit(true)
     }
@@ -68,18 +70,25 @@ class AuthRepositoryImpl(
         } ?: false
     }
 
-    private suspend fun saveUserSession(user: AuthResult) {
-        val userSession = Json.encodeToString(
-            User(
-                token = user.user?.uid.orEmpty(),
-                userName = user.user?.displayName.orEmpty(),
-                email = user.user?.email.orEmpty()
-            ).toUserSerializable()
-        )
-        preferencesRepository.putPreference(
-            PreferenceKey.USER_SESSION,
-            userSession
-        )
+    override fun signInWithGoogleAccount(credential: AuthCredential): Flow<Boolean> = flow {
+        val user = firebaseService.signInWithCredential(credential).await().user
+        saveUserSession(user)
+        emit(true)
     }
 
+    private suspend fun saveUserSession(user: FirebaseUser?) {
+        user?.run {
+            val userSession = Json.encodeToString(
+                User(
+                    token = user.uid,
+                    userName = user.displayName.orEmpty(),
+                    email = user.email.orEmpty()
+                ).toUserSerializable()
+            )
+            preferencesRepository.putPreference(
+                PreferenceKey.USER_SESSION,
+                userSession
+            )
+        }
+    }
 }

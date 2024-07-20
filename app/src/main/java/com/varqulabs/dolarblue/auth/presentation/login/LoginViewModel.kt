@@ -1,10 +1,13 @@
 package com.varqulabs.dolarblue.auth.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.AuthCredential
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.auth.data.useCases.LoginWithEmailAndPasswordUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SendEmailVerifiedUseCase
+import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.VerifiedAccountUseCase
 import com.varqulabs.dolarblue.auth.domain.UserValidator
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
@@ -22,7 +25,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val verifiedAccountUseCase: VerifiedAccountUseCase,
     private val sendEmailVerifiedUseCase: SendEmailVerifiedUseCase,
-    private val loginWithEmailAndPasswordUseCase: LoginWithEmailAndPasswordUseCase
+    private val loginWithEmailAndPasswordUseCase: LoginWithEmailAndPasswordUseCase,
+    private val signInWithGoogleAccountUseCase: SignInWithGoogleAccountUseCase
 ) : ViewModel(), MVIContract<LoginState, LoginEvent, LoginUiEffect> by mviDelegate(LoginState()) {
 
     override fun eventHandler(event: LoginEvent) {
@@ -44,6 +48,8 @@ class LoginViewModel @Inject constructor(
             }
 
             LoginEvent.OnClickLogin -> onLogin()
+
+            is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
         }
     }
 
@@ -140,6 +146,19 @@ class LoginViewModel @Inject constructor(
                         )
                     }
                 }
+            }
+        }
+    }
+    private fun signInWithGoogleAccount(credential: AuthCredential) = viewModelScope.launch {
+        signInWithGoogleAccountUseCase.execute(credential).collectLatest {dataState ->
+            updateUiStateForDataState(dataState){
+                updateUi {
+                    copy(
+                        isLoading = false,
+                        isError = false
+                    )
+                }
+                emitError("Logged SuccesFully")
             }
         }
     }

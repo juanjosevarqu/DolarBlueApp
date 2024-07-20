@@ -3,6 +3,7 @@ package com.varqulabs.dolarblue.auth.di
 import com.varqulabs.dolarblue.auth.data.useCases.LoginWithEmailAndPasswordUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.ResetPasswordUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SendEmailVerifiedUseCase
+import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SignUpWithEmailUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.VerifiedAccountUseCase
 import com.varqulabs.dolarblue.core.di.IoDispatcher
@@ -87,6 +88,18 @@ object AuthModule {
         return SignUpWithEmailUseCase(
             dispatcher = dispatcher,
             userAuthRepository = authRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSignUpWithGoogleAccountUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        authRepository: AuthRepository
+    ): SignInWithGoogleAccountUseCase {
+        return SignInWithGoogleAccountUseCase(
+            dispatcher = dispatcher,
+            repository = authRepository
         )
     }
 }
