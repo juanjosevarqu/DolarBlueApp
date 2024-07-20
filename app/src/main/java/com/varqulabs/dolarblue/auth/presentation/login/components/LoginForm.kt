@@ -124,7 +124,6 @@ fun LoginForm(
                 launcher.launch(getSignupWithGoogleAccountIntent(context))
             }
         )
-
     }
 
 }
