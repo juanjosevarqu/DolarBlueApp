@@ -37,7 +37,6 @@ class LoginViewModel @Inject constructor(
                     emailError = validErrorEmail(event.email)
                 )
             }
-
             is LoginEvent.OnPasswordChange -> {
                 updateUi {
                     copy(
@@ -46,9 +45,7 @@ class LoginViewModel @Inject constructor(
                     )
                 }
             }
-
             LoginEvent.OnClickLogin -> onLogin()
-
             is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
         }
     }

@@ -1,6 +1,7 @@
 package com.varqulabs.dolarblue.auth.presentation.login.components
 
 import android.content.Context
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -120,19 +121,21 @@ fun LoginForm(
                 .padding(horizontal = 30.dp),
             text = "tu cola",
             onClick = {
-                val options = GoogleSignInOptions.Builder(
-                    GoogleSignInOptions.DEFAULT_SIGN_IN
-                ).requestIdToken(context.getString(R.string.web_client_id))
-                    .requestEmail().build()
-                val client = GoogleSignIn.getClient(
-                    context,
-                    options
-                )
-                launcher.launch(client.signInIntent)
-
+                launcher.launch(getSignupWithGoogleAccountIntent(context))
             }
         )
 
     }
 
+}
+private fun getSignupWithGoogleAccountIntent(context: Context): Intent {
+    val options = GoogleSignInOptions.Builder(
+        GoogleSignInOptions.DEFAULT_SIGN_IN
+        ).requestIdToken(context.getString(R.string.web_client_id))
+        .requestEmail().build()
+    val client = GoogleSignIn.getClient(
+        context,
+        options
+    )
+    return client.signInIntent
 }

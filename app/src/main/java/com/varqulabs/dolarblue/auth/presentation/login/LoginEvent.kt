@@ -10,6 +10,6 @@ sealed interface LoginEvent {
 
     data object OnClickLogin : LoginEvent
 
-    data class OnClickLoginWithGoogle( val credential: AuthCredential) : LoginEvent
+    data class OnClickLoginWithGoogle(val credential: AuthCredential) : LoginEvent
 
 }
