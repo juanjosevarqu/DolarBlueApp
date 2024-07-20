@@ -62,7 +62,6 @@ class AuthRepositoryImpl(
         emit(Unit)
     }
 
-
     private suspend fun verifyEmailIsVerified(): Boolean {
         return firebaseService.currentUser?.let { user ->
             user.reload().await()
@@ -78,6 +77,7 @@ class AuthRepositoryImpl(
 
     private suspend fun saveUserSession(user: FirebaseUser?) {
         user?.run {
+
             val userSession = Json.encodeToString(
                 User(
                     token = user.uid,
@@ -85,6 +85,7 @@ class AuthRepositoryImpl(
                     email = user.email.orEmpty()
                 ).toUserSerializable()
             )
+
             preferencesRepository.putPreference(
                 PreferenceKey.USER_SESSION,
                 userSession

@@ -45,12 +45,10 @@ fun LoginForm(
     ) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
         val account = task.getResult(ApiException::class.java)
-        val credential = GoogleAuthProvider.getCredential(
-            account.idToken,
-            null
-        )
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         eventHandler(LoginEvent.OnClickLoginWithGoogle(credential))
     }
+
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -113,6 +111,7 @@ fun LoginForm(
                 eventHandler(LoginEvent.OnClickLogin)
             }
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         DolarBlueActionButton(

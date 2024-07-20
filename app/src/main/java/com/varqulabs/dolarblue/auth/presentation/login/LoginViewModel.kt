@@ -149,6 +149,7 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
     private fun signInWithGoogleAccount(credential: AuthCredential) = viewModelScope.launch {
         signInWithGoogleAccountUseCase.execute(credential).collectLatest {dataState ->
             updateUiStateForDataState(dataState){
