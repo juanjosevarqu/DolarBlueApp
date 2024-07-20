@@ -7,14 +7,23 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.data.local.preferences.repository.PreferencesRepositoryImpl
+import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
+import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeByPreferencesUseCase
+import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,6 +59,102 @@ object PreferencesModule {
     @Singleton
     fun provideGetDefaultThemeByPreferencesUseCase(preferences: PreferencesRepository): GetDefaultThemeByPreferencesUseCase {
         return GetDefaultThemeByPreferencesUseCase(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetNotificationsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetNotificationsEnabledByPreferences {
+        return GetNotificationsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateNotificationsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateNotificationsEnabledFromPreferences {
+        return UpdateNotificationsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetBolivianNewsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetBolivianNewsEnabledByPreferences {
+        return GetBolivianNewsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateBolivianNewsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateBolivianNewsEnabledFromPreferences {
+        return UpdateBolivianNewsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetDollarNewsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetDollarNewsEnabledByPreferences {
+        return GetDollarNewsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateDollarNewsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateDollarNewsEnabledFromPreferences {
+        return UpdateDollarNewsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetArgentinianNewsEnabledByPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): GetArgentinianNewsEnabledByPreferences {
+        return GetArgentinianNewsEnabledByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateArgentinianNewsEnabledFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateArgentinianNewsEnabledFromPreferences {
+        return UpdateArgentinianNewsEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
     }
 
 }
