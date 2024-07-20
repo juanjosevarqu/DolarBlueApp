@@ -35,6 +35,7 @@ fun NavGraphBuilder.historyRoute(
         CollectEffect(uiEffect = uiEffect) {
             when (it) {
                 is HistoryUiEffect.OpenDrawer -> openDrawer()
+                else -> {}
             }
         }
     }
