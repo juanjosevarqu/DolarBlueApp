@@ -80,10 +80,10 @@ fun SettingsScreen(
                 dollarNewsEnabled = state.dollarNewsEnabled,
                 argentinianNewsEnabled = state.argentinianNewsEnabled,
                 modifier = Modifier.fillMaxWidth(),
-                onClickDoNotDisturbToggle = { eventHandler(UpdateDoNotDisturb(it)) },
-                onClickBolivianNews = { eventHandler(UpdateBolivianNewsEnabled(it)) },
-                onClickDollarNews = { eventHandler(UpdateDollarNewsEnabled(it)) },
-                onClickArgentinianNews = { eventHandler(UpdateArgentinianNewsEnabled(it)) }
+                onClickDoNotDisturbToggle = { eventHandler(UpdateDoNotDisturb) },
+                onClickBolivianNews = { eventHandler(UpdateBolivianNewsEnabled) },
+                onClickDollarNews = { eventHandler(UpdateDollarNewsEnabled) },
+                onClickArgentinianNews = { eventHandler(UpdateArgentinianNewsEnabled) }
             )
 
             MyAccountActions(
