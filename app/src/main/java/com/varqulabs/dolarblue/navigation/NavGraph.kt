@@ -28,7 +28,8 @@ fun AppNavGraph(
         )
 
         settingsRoute(
-            navigateBack = { navController.navigateBack() }
+            navigateBack = { navController.navigateBack() },
+            navigateToLogin = { navController.navigateToSingleTop(Routes.Login)}
         )
     }
 }

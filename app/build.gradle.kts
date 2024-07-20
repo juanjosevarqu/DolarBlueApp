@@ -120,6 +120,9 @@ dependencies {
 
     // Kotlin UUID
     implementation(libs.kotlinx.uuid.core)
+
+    // Google Services
+    implementation(libs.google.services)
 }
 
 room {

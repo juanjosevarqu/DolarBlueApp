@@ -18,7 +18,8 @@ import com.varqulabs.dolarblue.settings.presentation.SettingsUiEffect
 import com.varqulabs.dolarblue.settings.presentation.SettingsViewModel
 
 fun NavGraphBuilder.settingsRoute(
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     composable<Routes.Settings> {
 
@@ -40,6 +41,7 @@ fun NavGraphBuilder.settingsRoute(
         CollectEffect(uiEffect = uiEffect) {
             when (it) {
                 is SettingsUiEffect.GoBack -> navigateBack()
+                is SettingsUiEffect.NavigateToLogin -> navigateToLogin()
                 else -> {}
             }
         }

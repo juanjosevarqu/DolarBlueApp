@@ -1,6 +1,9 @@
 package com.varqulabs.dolarblue.auth.presentation.login.components
 
 import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent
 import com.varqulabs.dolarblue.auth.presentation.login.LoginState
@@ -33,6 +40,15 @@ fun LoginForm(
     state: LoginState,
     eventHandler: (LoginEvent) -> Unit
 ) {
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+        val account = task.getResult(ApiException::class.java)
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        eventHandler(LoginEvent.OnClickLoginWithGoogle(credential))
+    }
 
     val focusManager = LocalFocusManager.current
 
@@ -97,6 +113,28 @@ fun LoginForm(
             }
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        DolarBlueActionButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
+            text = "tu cola",
+            onClick = {
+                launcher.launch(getSignupWithGoogleAccountIntent(context))
+            }
+        )
     }
 
+}
+private fun getSignupWithGoogleAccountIntent(context: Context): Intent {
+    val options = GoogleSignInOptions.Builder(
+        GoogleSignInOptions.DEFAULT_SIGN_IN
+        ).requestIdToken(context.getString(R.string.web_client_id))
+        .requestEmail().build()
+    val client = GoogleSignIn.getClient(
+        context,
+        options
+    )
+    return client.signInIntent
 }
