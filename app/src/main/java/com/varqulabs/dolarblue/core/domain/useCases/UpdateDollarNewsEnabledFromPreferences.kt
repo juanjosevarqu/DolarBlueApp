@@ -1,6 +1,6 @@
 package com.varqulabs.dolarblue.core.domain.useCases
 
-import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey
+import com.varqulabs.dolarblue.core.data.local.preferences.PreferenceKey.DOLLAR_NEWS_ENABLED_KEY
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ class UpdateDollarNewsEnabledFromPreferences(
 
     override suspend fun executeData(input: Boolean): Flow<Unit> {
         preferencesRepository.putPreference(
-            key = PreferenceKey.DOLLAR_NEWS_ENABLED_KEY,
+            key = DOLLAR_NEWS_ENABLED_KEY,
             value = input
         )
         return emptyFlow()
