@@ -6,5 +6,5 @@ data class CurrentExchangeRate(
     val id: Int,
     val pesosBob: String,
     val pesosArg: String,
-    val date: LocalDateTime,
+    val date: LocalDateTime
 )
