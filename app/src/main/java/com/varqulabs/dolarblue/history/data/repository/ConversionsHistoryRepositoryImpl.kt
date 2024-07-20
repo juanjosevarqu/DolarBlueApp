@@ -1,6 +1,7 @@
 package com.varqulabs.dolarblue.history.data.repository
 
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
 import com.varqulabs.dolarblue.calculator.data.local.database.mappers.mapToModel
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.local.database.entities.relations.ConversionsWithCurrentExchangeRelation
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ConversionsHistoryRepositoryImpl(
-    private val conversionHistoryDao: ConversionsHistoryDao
+    private val conversionHistoryDao: ConversionsHistoryDao,
+    private val conversionDao: ConversionDao
 ) : ConversionsHistoryRepository {
 
     override suspend fun getConversionsHistoryFlow(): Flow<List<ConversionsHistory>> {
@@ -52,6 +54,10 @@ class ConversionsHistoryRepositoryImpl(
         val simpleQuery = SimpleSQLiteQuery(query = query, bindArgs = arrayOf("%${queryAndCurrency.searchQuery}%", "%${queryAndCurrency.searchQuery}%"))
 
         return getGroupedConversions(conversionHistoryDao.searchConversionsHistoryByQueryAndCurrency(simpleQuery))
+    }
+
+    override suspend fun insertConversion(conversion: Conversion) {
+        conversionDao.insertConversion(conversion.mapToEntity())
     }
 
     private fun getGroupedConversions(daoFunction: Flow<List<ConversionsWithCurrentExchangeRelation>>) : Flow<List<ConversionsHistory>> {

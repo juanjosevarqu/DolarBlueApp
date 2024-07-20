@@ -69,15 +69,13 @@ class SettingsViewModel @Inject constructor(
     private fun getIsNotificationsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
             getNotificationsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
-                updateUi {
-                    when (dataState) {
-                        is DataState.Loading -> copy(isError = false, isLoading = true)
-                        is DataState.Success -> copy(
+                updateUiStateForDataState(dataState) {
+                    updateUi {
+                        copy(
                             isError = false,
                             isLoading = false,
-                            doNotDisturbEnabled = dataState.data
+                            doNotDisturbEnabled = it
                         )
-                        is DataState.Error, is DataState.NetworkError -> copy(isError = true, isLoading = false)
                     }
                 }
             }
@@ -87,15 +85,13 @@ class SettingsViewModel @Inject constructor(
     private fun getIsBolivianNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
             getBolivianNewsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
-                updateUi {
-                    when (dataState) {
-                        is DataState.Loading -> copy(isError = false, isLoading = true)
-                        is DataState.Success -> copy(
+                updateUiStateForDataState(dataState) {
+                    updateUi {
+                        copy(
                             isError = false,
                             isLoading = false,
-                            bolivianNewsEnabled = dataState.data
+                            bolivianNewsEnabled = it
                         )
-                        is DataState.Error, is DataState.NetworkError -> copy(isError = true, isLoading = false)
                     }
                 }
             }
@@ -105,15 +101,13 @@ class SettingsViewModel @Inject constructor(
     private fun getIsDollarNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
             getDollarNewsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
-                updateUi {
-                    when (dataState) {
-                        is DataState.Loading -> copy(isError = false, isLoading = true)
-                        is DataState.Success -> copy(
+                updateUiStateForDataState(dataState) {
+                    updateUi {
+                        copy(
                             isError = false,
                             isLoading = false,
-                            dollarNewsEnabled = dataState.data
+                            dollarNewsEnabled = it
                         )
-                        is DataState.Error, is DataState.NetworkError -> copy(isError = true, isLoading = false)
                     }
                 }
             }
@@ -123,15 +117,13 @@ class SettingsViewModel @Inject constructor(
     private fun getIsArgentinianNewsEnabled() {
         viewModelScope.launch(Dispatchers.IO) {
             getArgentinianNewsEnabledByPreferences.execute(Unit).collectLatest { dataState ->
-                updateUi {
-                    when (dataState) {
-                        is DataState.Loading -> copy(isError = false, isLoading = true)
-                        is DataState.Success -> copy(
+                updateUiStateForDataState(dataState) {
+                    updateUi {
+                        copy(
                             isError = false,
                             isLoading = false,
-                            argentinianNewsEnabled = dataState.data
+                            argentinianNewsEnabled = it
                         )
-                        is DataState.Error, is DataState.NetworkError -> copy(isError = true, isLoading = false)
                     }
                 }
             }
@@ -168,5 +160,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun updateUiStateForDataState(dataState: DataState<Boolean>, onSuccess: (Boolean) -> Unit) {
+        when (dataState) {
+            is DataState.Error, DataState.NetworkError -> {
+                updateUi { copy(isError = true, isLoading = false) }
+            }
+            DataState.Loading -> {
+                updateUi { copy(isError = false, isLoading = true) }
+            }
+            is DataState.Success -> { onSuccess(dataState.data) }
+        }
+    }
 
 }
