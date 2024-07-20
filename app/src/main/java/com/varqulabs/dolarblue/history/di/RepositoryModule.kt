@@ -1,5 +1,6 @@
 package com.varqulabs.dolarblue.history.di
 
+import com.varqulabs.dolarblue.calculator.data.local.database.dao.ConversionDao
 import com.varqulabs.dolarblue.core.di.IoDispatcher
 import com.varqulabs.dolarblue.history.data.local.database.dao.ConversionsHistoryDao
 import com.varqulabs.dolarblue.history.data.repository.ConversionsHistoryRepositoryImpl
@@ -10,6 +11,7 @@ import com.varqulabs.dolarblue.history.domain.useCases.DeleteExchangeRateUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetConversionsHistoryFlowUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetFavoriteConversionsHistoryUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.GetExchangeRateConversionCountUseCase
+import com.varqulabs.dolarblue.history.domain.useCases.InsertConversionUseCase
 import com.varqulabs.dolarblue.history.domain.useCases.SearchConversionsHistoryUseCase
 import dagger.Module
 import dagger.Provides
@@ -24,8 +26,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideConversionsHistoryRepository(conversionsHistoryDao: ConversionsHistoryDao) : ConversionsHistoryRepository {
-        return ConversionsHistoryRepositoryImpl(conversionsHistoryDao)
+    fun provideConversionsHistoryRepository(
+        conversionsHistoryDao: ConversionsHistoryDao,
+        conversionDao: ConversionDao
+    ) : ConversionsHistoryRepository {
+        return ConversionsHistoryRepositoryImpl(
+            conversionHistoryDao = conversionsHistoryDao,
+            conversionDao = conversionDao
+        )
     }
 
     @Provides
@@ -107,6 +115,18 @@ object RepositoryModule {
         conversionsHistoryRepository: ConversionsHistoryRepository
     ): GetExchangeRateConversionCountUseCase {
         return GetExchangeRateConversionCountUseCase(
+            dispatcher = dispatcher,
+            conversionsHistoryRepository = conversionsHistoryRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideInsertConversionUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        conversionsHistoryRepository: ConversionsHistoryRepository
+    ): InsertConversionUseCase {
+        return InsertConversionUseCase(
             dispatcher = dispatcher,
             conversionsHistoryRepository = conversionsHistoryRepository
         )
