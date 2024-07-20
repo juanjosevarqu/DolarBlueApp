@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="web_client_id">1050037682384-54gf951gr5n2ppj057m711fthjp001m3.apps.googleusercontent.com</string>
+    
     <string name="app_name">Dolar Blue</string>
     <string name="copy_login">Iniciar sesión</string>
     <string name="copy_notifications">Notificaciones</string>
