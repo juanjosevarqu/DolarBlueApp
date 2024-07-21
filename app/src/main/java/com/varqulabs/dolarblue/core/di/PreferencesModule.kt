@@ -13,11 +13,13 @@ import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByP
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeEnabledByPreferencesUseCase
 import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetFavoriteCurrencyByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateFavoriteCurrencyFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import dagger.Module
 import dagger.Provides
@@ -75,6 +77,30 @@ object PreferencesModule {
         preferencesRepository: PreferencesRepository,
     ): UpdateDefaultThemeEnabledFromPreferences {
         return UpdateDefaultThemeEnabledFromPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFavoriteCurrencyByPreferencesUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository
+    ): GetFavoriteCurrencyByPreferences {
+        return GetFavoriteCurrencyByPreferences(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateFavoriteCurrencyFromPreferences(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository,
+    ): UpdateFavoriteCurrencyFromPreferences {
+        return UpdateFavoriteCurrencyFromPreferences(
             dispatcher = dispatcher,
             preferencesRepository = preferencesRepository
         )

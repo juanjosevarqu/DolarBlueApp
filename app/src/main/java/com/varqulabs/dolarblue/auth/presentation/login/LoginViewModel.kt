@@ -11,6 +11,7 @@ import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.VerifiedAccountUseCase
 import com.varqulabs.dolarblue.auth.domain.UserValidator
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.GoBack
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.ui.UiText
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
@@ -31,6 +32,7 @@ class LoginViewModel @Inject constructor(
 
     override fun eventHandler(event: LoginEvent) {
         when (event) {
+            is LoginEvent.OnBack -> emitNavigationBack()
             is LoginEvent.OnEmailChange -> updateUi {
                 copy(
                     email = event.email,
@@ -49,6 +51,8 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
         }
     }
+
+    private fun emitNavigationBack() = viewModelScope.emitEffect(GoBack)
 
     /**
      * Funcion que valida el correo electronico
@@ -142,6 +146,7 @@ class LoginViewModel @Inject constructor(
                             password = ""
                         )
                     }
+                    emitEffect(LoginUiEffect.SuccessLogin("Logged In SuccesFully"))
                 }
             }
         }
