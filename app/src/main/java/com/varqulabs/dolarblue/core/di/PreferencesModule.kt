@@ -11,12 +11,14 @@ import com.varqulabs.dolarblue.core.data.local.preferences.repository.Preference
 import com.varqulabs.dolarblue.core.domain.preferences.repository.PreferencesRepository
 import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetBolivianNewsEnabledByPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.GetCurrentUser
 import com.varqulabs.dolarblue.core.domain.useCases.GetDefaultThemeEnabledByPreferencesUseCase
 import com.varqulabs.dolarblue.core.domain.useCases.GetDollarNewsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetFavoriteCurrencyByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateCurrentUser
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateFavoriteCurrencyFromPreferences
@@ -56,6 +58,30 @@ object PreferencesModule {
     @Singleton
     fun provideDataStorePreferences(preferences: DataStore<Preferences>): PreferencesRepository {
         return PreferencesRepositoryImpl(preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetCurrentUserUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository
+    ): GetCurrentUser {
+        return GetCurrentUser(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateCurrentUserUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        preferencesRepository: PreferencesRepository
+    ): UpdateCurrentUser {
+        return UpdateCurrentUser(
+            dispatcher = dispatcher,
+            preferencesRepository = preferencesRepository
+        )
     }
 
     @Provides

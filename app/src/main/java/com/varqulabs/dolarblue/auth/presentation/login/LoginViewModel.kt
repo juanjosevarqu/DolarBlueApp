@@ -1,6 +1,5 @@
 package com.varqulabs.dolarblue.auth.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
@@ -11,8 +10,15 @@ import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.VerifiedAccountUseCase
 import com.varqulabs.dolarblue.auth.domain.UserValidator
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnBack
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnClickLogin
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnClickLoginWithGoogle
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnEmailChange
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnPasswordChange
 import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.GoBack
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.ShowError
 import com.varqulabs.dolarblue.core.domain.DataState
+import com.varqulabs.dolarblue.core.domain.extensions.ifFalse
 import com.varqulabs.dolarblue.core.presentation.ui.UiText
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
@@ -32,109 +38,59 @@ class LoginViewModel @Inject constructor(
 
     override fun eventHandler(event: LoginEvent) {
         when (event) {
-            is LoginEvent.OnBack -> emitNavigationBack()
-            is LoginEvent.OnEmailChange -> updateUi {
+            is OnBack -> emitNavigationBack()
+            is OnEmailChange -> updateUi {
                 copy(
                     email = event.email,
                     emailError = validErrorEmail(event.email)
                 )
             }
-            is LoginEvent.OnPasswordChange -> {
-                updateUi {
-                    copy(
-                        password = event.password,
-                        passwordError = validPassword(event.password)
-                    )
-                }
+            is OnPasswordChange -> updateUi {
+                copy(
+                    password = event.password,
+                    passwordError = validPassword(event.password)
+                )
             }
-            LoginEvent.OnClickLogin -> onLogin()
-            is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
+            is OnClickLogin -> onLogin()
+            is OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
         }
     }
 
     private fun emitNavigationBack() = viewModelScope.emitEffect(GoBack)
 
-    /**
-     * Funcion que valida el correo electronico
-     *
-     * @param email Correo electronico que se va a validar
-     * @return Mensaje de error si no es valida la contraseña, si es valida devuelve nulo
-     */
-    private fun validErrorEmail(email: String): UiText? {
-        return when {
-            email.isEmpty() -> UiText.StringResource(R.string.error_field_empty)
-            !UserValidator.isEmailValid(email) -> UiText.StringResource(R.string.error_email_invalid)
-            else -> null
-        }
-    }
+    private fun emitError(message: String) = viewModelScope.emitEffect(ShowError(message))
 
-    /**
-     * Funcion que valida la contraseña
-     *
-     * @param password Contraseña que se va a validar
-     * @return Mensaje de error si no es valida la contraseña, si es valida devuelve nulo
-     */
-    private fun validPassword(password: String): UiText? {
-        return when {
-            password.isEmpty() -> UiText.StringResource(R.string.error_field_empty)
-            else -> null
-        }
-    }
-
-    //Funcion que verifica si puede inicar sesión
-    private fun validateAndSetErrors(currentState: LoginState): Boolean {
-        val emailError = validErrorEmail(currentState.email)
-        val passwordError = validPassword(currentState.password)
-
-        updateUi {
-            copy(
-                emailError = emailError,
-                passwordError = passwordError
-            )
-        }
-        return emailError != null || passwordError != null
-    }
-
-    //Funcion que realiza el inicio de sesión
     private fun onLogin() {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val canLogging = validateAndSetErrors(uiState.value)
-
-            if (!canLogging) {
+        val canLogging = validateAndSetErrors()
+        canLogging.ifFalse {
+            viewModelScope.launch(Dispatchers.IO) {
                 loginWithEmailAndPasswordUseCase.execute(
                     AuthRequest(
                         email = uiState.value.email,
-                        password =  uiState.value.password
+                        password = uiState.value.password
                     )
                 ).collectLatest { dataState ->
                     updateUiStateForDataState(dataState) {
-                        sendEmailVerified()
+                        sendVerificationEmail()
                     }
                 }
             }
-
         }
     }
 
     //Funcion que envia el email para verificar el correo electronico
-    private fun sendEmailVerified() {
+    private fun sendVerificationEmail() {
         viewModelScope.launch {
             sendEmailVerifiedUseCase.execute(Unit).collectLatest { dataState ->
                 updateUiStateForDataState(dataState) {
-                    updateUi {
-                        copy(
-                            isVisibleDialogConfirmEmail = true
-                        )
-                    }
-                    verifiedEmail()
+                    updateUi { copy(isVisibleDialogConfirmEmail = true) }
+                    checkEmailVerified()
                 }
             }
         }
     }
 
-    //Funcion que espera la confimacion de la cuenta de Email.
-    private fun verifiedEmail() {
+    private fun checkEmailVerified() {
         viewModelScope.launch {
             verifiedAccountUseCase.execute(Unit).collectLatest { dataState ->
                 updateUiStateForDataState(dataState){
@@ -166,8 +122,46 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    //Funcion que emite el error
-    private fun emitError(error: String) = viewModelScope.emitEffect(LoginUiEffect.ShowError(error))
+    //Funcion que verifica si puede inicar sesión
+    private fun validateAndSetErrors(): Boolean {
+        val emailError = validErrorEmail(uiState.value.email)
+        val passwordError = validPassword(uiState.value.password)
+
+        updateUi {
+            copy(
+                emailError = emailError,
+                passwordError = passwordError
+            )
+        }
+        return emailError != null || passwordError != null
+    }
+
+    /**
+     * Funcion que valida el correo electronico
+     *
+     * @param email Correo electronico que se va a validar
+     * @return Mensaje de error si no es valida la contraseña, si es valida devuelve nulo
+     */
+    private fun validErrorEmail(email: String): UiText? {
+        return when {
+            email.isEmpty() -> UiText.StringResource(R.string.error_field_empty)
+            !UserValidator.isEmailValid(email) -> UiText.StringResource(R.string.error_email_invalid)
+            else -> null
+        }
+    }
+
+    /**
+     * Funcion que valida la contraseña
+     *
+     * @param password Contraseña que se va a validar
+     * @return Mensaje de error si no es valida la contraseña, si es valida devuelve nulo
+     */
+    private fun validPassword(password: String): UiText? {
+        return when {
+            password.isEmpty() -> UiText.StringResource(R.string.error_field_empty)
+            else -> null
+        }
+    }
 
     /**
      * Funcion auxiliar para evitar usar codigo repetitivo
@@ -175,21 +169,21 @@ class LoginViewModel @Inject constructor(
      * @param dataState Estado de la respuesta
      * @param onSuccess Lamba que devuelve cuando la respuesta fue correcta
      */
-    private fun <T> updateUiStateForDataState(dataState: DataState<T>, onSuccess: (T) -> Unit) {
-        when (dataState) {
-            is DataState.Error, DataState.NetworkError -> {
-                updateUi {
+    private fun <T> updateUiStateForDataState(
+        dataState: DataState<T>,
+        onSuccess: (T) -> Unit
+    ) {
+        updateUi {
+            when (dataState) {
+                is DataState.Loading -> copy(isError = false, isLoading = true)
+                is DataState.Success -> {
+                    onSuccess(dataState.data)
+                    copy()
+                }
+                is DataState.Error, DataState.NetworkError -> {
                     emitError(dataState.getErrorMessage())
                     copy(isError = true, isLoading = false)
                 }
-            }
-            DataState.Loading -> {
-                updateUi {
-                    copy(isError = false, isLoading = true)
-                }
-            }
-            is DataState.Success -> {
-                onSuccess(dataState.data)
             }
         }
     }

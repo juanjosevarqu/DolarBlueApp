@@ -10,4 +10,6 @@ sealed class SettingsUiEffect {
 
     data object NavigateToChangePassword : SettingsUiEffect()
 
+    data object SuccessLogout : SettingsUiEffect()
+
 }
