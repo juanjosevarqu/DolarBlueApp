@@ -24,12 +24,14 @@ fun SimpleAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier.padding(top = 44.dp)
-            )
+            if (title.isNotBlank()) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier.padding(top = 44.dp)
+                )
+            }
         },
         navigationIcon = {
             IconButton(onClick = onBack) {

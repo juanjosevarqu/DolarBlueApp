@@ -3,15 +3,13 @@ package com.varqulabs.dolarblue.auth.presentation.login
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,8 +20,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.R
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnBack
 import com.varqulabs.dolarblue.auth.presentation.login.components.LoginForm
-import com.varqulabs.dolarblue.core.presentation.generics.top_bars.DrawerAppBar
+import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
 
 @Composable
 fun LoginScreen(
@@ -33,19 +32,16 @@ fun LoginScreen(
 ) {
     Scaffold(
         topBar = {
-            DrawerAppBar(
-                title = "",
-                onClickDrawer = {}
-            )
+            SimpleAppBar(title = "") { eventHandler(OnBack) }
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(it)
                 .padding(30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(80.dp)
         ) {
 
             Image(
@@ -54,17 +50,9 @@ fun LoginScreen(
                 contentDescription = stringResource(R.string.content_description_image_logo)
             )
 
-            Spacer(
-                modifier = Modifier.height(135.dp)
-            )
-
             Text(
                 text = stringResource(R.string.welcome_app),
                 style = MaterialTheme.typography.headlineLarge
-            )
-
-            Spacer(
-                modifier = Modifier.height(85.dp)
             )
 
             LoginForm(

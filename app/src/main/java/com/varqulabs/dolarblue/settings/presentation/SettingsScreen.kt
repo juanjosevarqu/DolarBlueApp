@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -54,11 +56,9 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(
-                    horizontal = 20.dp,
-                    vertical = 40.dp
-                )
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(40.dp)
         ) {
 

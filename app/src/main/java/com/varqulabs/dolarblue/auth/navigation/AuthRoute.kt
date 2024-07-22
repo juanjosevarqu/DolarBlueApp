@@ -16,7 +16,9 @@ import com.varqulabs.dolarblue.core.presentation.generics.loadings.CircularLoadi
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.CollectEffect
 import com.varqulabs.dolarblue.navigation.Routes
 
-fun NavGraphBuilder.authRoute() {
+fun NavGraphBuilder.authRoute(
+    navigateBack: () -> Unit
+) {
     navigation<Routes.Auth>(startDestination = Routes.Login) {
         composable<Routes.Login> {
 
@@ -45,6 +47,11 @@ fun NavGraphBuilder.authRoute() {
                     is LoginUiEffect.ShowError -> Toast.makeText(
                         context, it.message, Toast.LENGTH_SHORT
                     ).show()
+                    is LoginUiEffect.GoBack -> navigateBack()
+                    is LoginUiEffect.SuccessLogin -> Toast.makeText(
+                        context, it.message, Toast.LENGTH_SHORT
+                    ).show()
+                    else -> {}
                 }
             }
 

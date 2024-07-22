@@ -4,6 +4,8 @@ import com.google.firebase.auth.AuthCredential
 
 sealed interface LoginEvent {
 
+    data object OnBack : LoginEvent
+
     data class OnEmailChange(val email: String) : LoginEvent
 
     data class OnPasswordChange(val password: String) : LoginEvent

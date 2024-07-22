@@ -50,11 +50,11 @@ class AuthRepositoryImpl(
     }
 
     override val verifiedAccount: Flow<Boolean> = flow {
-        while (true) {
+        do {
             val verified = verifyEmailIsVerified()
             emit(verified)
             delay(1000)
-        }
+        } while (!verified)
     }
 
     override fun sendEmailVerified(): Flow<Unit> = flow {
