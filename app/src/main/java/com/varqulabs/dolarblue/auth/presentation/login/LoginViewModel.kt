@@ -169,21 +169,21 @@ class LoginViewModel @Inject constructor(
      * @param dataState Estado de la respuesta
      * @param onSuccess Lamba que devuelve cuando la respuesta fue correcta
      */
-    private fun <T> updateUiStateForDataState(
-        dataState: DataState<T>,
-        onSuccess: (T) -> Unit
-    ) {
-        updateUi {
-            when (dataState) {
-                is DataState.Loading -> copy(isError = false, isLoading = true)
-                is DataState.Success -> {
-                    onSuccess(dataState.data)
-                    copy()
-                }
-                is DataState.Error, DataState.NetworkError -> {
+    private fun <T> updateUiStateForDataState(dataState: DataState<T>, onSuccess: (T) -> Unit) {
+        when (dataState) {
+            is DataState.Error, DataState.NetworkError -> {
+                updateUi {
                     emitError(dataState.getErrorMessage())
                     copy(isError = true, isLoading = false)
                 }
+            }
+            DataState.Loading -> {
+                updateUi {
+                    copy(isError = false, isLoading = true)
+                }
+            }
+            is DataState.Success -> {
+                onSuccess(dataState.data)
             }
         }
     }
