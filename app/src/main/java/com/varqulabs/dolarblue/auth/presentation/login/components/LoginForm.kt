@@ -134,7 +134,7 @@ fun LoginForm(
                 )
             ) {
 
-                append(stringResource(id = R.string.already_have_an_account))
+                append(stringResource(id = R.string.dont_have_an_account))
 
                 append("\u00A0".repeat(45))
 
