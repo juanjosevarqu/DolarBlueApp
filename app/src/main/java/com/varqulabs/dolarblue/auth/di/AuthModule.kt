@@ -69,18 +69,6 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideResetPasswordUseCase(
-        @IoDispatcher dispatcher: CoroutineDispatcher,
-        authRepository: AuthRepository
-    ): ResetPasswordUseCase {
-        return ResetPasswordUseCase(
-            dispatcher = dispatcher,
-            authRepository = authRepository
-        )
-    }
-
-    @Provides
-    @Singleton
     fun provideSignUpWithEmailUseCase(
         @IoDispatcher dispatcher: CoroutineDispatcher,
         authRepository: AuthRepository

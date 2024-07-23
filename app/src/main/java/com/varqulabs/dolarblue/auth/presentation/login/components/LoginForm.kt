@@ -9,19 +9,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -29,9 +32,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent
 import com.varqulabs.dolarblue.auth.presentation.login.LoginState
+import com.varqulabs.dolarblue.core.presentation.desingsystem.Nunito
+import com.varqulabs.dolarblue.core.presentation.desingsystem.components.ClickableText
 import com.varqulabs.dolarblue.core.presentation.desingsystem.components.DolarBlueActionButton
 import com.varqulabs.dolarblue.core.presentation.desingsystem.components.DolarBluePasswordTextField
 import com.varqulabs.dolarblue.core.presentation.desingsystem.components.DolarBlueTextField
+
 
 @Composable
 fun LoginForm(
@@ -46,7 +52,10 @@ fun LoginForm(
     ) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
         val account = task.getResult(ApiException::class.java)
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        val credential = GoogleAuthProvider.getCredential(
+            account.idToken,
+            null
+        )
         eventHandler(LoginEvent.OnClickLoginWithGoogle(credential))
     }
 
@@ -82,7 +91,7 @@ fun LoginForm(
             state = state.password,
             startIcon = null,
             isClickableText = {
-
+                eventHandler(LoginEvent.OnToggleDialogForgotPasswordClick)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -113,6 +122,62 @@ fun LoginForm(
             }
         )
 
+        val annotatedString = buildAnnotatedString {
+
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = Nunito,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 10.sp,
+                    letterSpacing = 0.5.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            ) {
+
+                append(stringResource(id = R.string.already_have_an_account))
+
+                append("\u00A0".repeat(45))
+
+            }
+
+            pushStringAnnotation(
+                tag = "clickable_text",
+                annotation = stringResource(id = R.string.register)
+            )
+
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = Nunito,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 10.sp,
+                    letterSpacing = 0.5.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                append(stringResource(id = R.string.register))
+            }
+
+            pop()
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ClickableText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
+            text = annotatedString,
+            onClick = { offset ->
+                annotatedString.getStringAnnotations(
+                    tag = "clickable_text",
+                    start = offset,
+                    end = offset,
+                ).firstOrNull()?.let {
+                    eventHandler(LoginEvent.OnRegisterClick)
+                }
+            }
+        )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         DolarBlueActionButton(
@@ -127,10 +192,11 @@ fun LoginForm(
     }
 
 }
+
 private fun getSignupWithGoogleAccountIntent(context: Context): Intent {
     val options = GoogleSignInOptions.Builder(
         GoogleSignInOptions.DEFAULT_SIGN_IN
-        ).requestIdToken(context.getString(R.string.web_client_id))
+    ).requestIdToken(context.getString(R.string.web_client_id))
         .requestEmail().build()
     val client = GoogleSignIn.getClient(
         context,

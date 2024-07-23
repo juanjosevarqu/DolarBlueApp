@@ -1,17 +1,21 @@
 package com.varqulabs.dolarblue.auth.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.auth.data.useCases.LoginWithEmailAndPasswordUseCase
+import com.varqulabs.dolarblue.auth.data.useCases.ResetPasswordUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SendEmailVerifiedUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.VerifiedAccountUseCase
 import com.varqulabs.dolarblue.auth.domain.UserValidator
 import com.varqulabs.dolarblue.auth.domain.model.AuthRequest
 import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.GoBack
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.GoRegister
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.ShowError
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.SuccessLogin
+import com.varqulabs.dolarblue.auth.presentation.login.LoginUiEffect.SuccessSendRecoverAccount
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.presentation.ui.UiText
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
@@ -25,6 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val verifiedAccountUseCase: VerifiedAccountUseCase,
+    private val resetPasswordUseCase: ResetPasswordUseCase,
     private val sendEmailVerifiedUseCase: SendEmailVerifiedUseCase,
     private val loginWithEmailAndPasswordUseCase: LoginWithEmailAndPasswordUseCase,
     private val signInWithGoogleAccountUseCase: SignInWithGoogleAccountUseCase
@@ -49,8 +54,26 @@ class LoginViewModel @Inject constructor(
             }
             LoginEvent.OnClickLogin -> onLogin()
             is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
+            LoginEvent.OnRegisterClick -> emitNavigationRegister()
+            LoginEvent.OnToggleDialogForgotPasswordClick -> updateUi {
+                copy(
+                    emailRecover = "",
+                    showDialogForgotPassword = !uiState.value.showDialogForgotPassword
+                )
+            }
+            is LoginEvent.OnEmailRecoverChange -> updateUi {
+                copy(
+                    emailRecover = event.email,
+                    emailRecoverError = validErrorEmail(event.email)
+                )
+            }
+            LoginEvent.OnRecoverAccountClick -> onRecoverAccount()
         }
     }
+
+    private fun emitNavigationRegister() = viewModelScope.emitEffect(GoRegister)
+
+    private fun emitSuccessSendRecoverAccount() = viewModelScope.emitEffect(SuccessSendRecoverAccount(UiText.StringResource(R.string.success_send_recover_password)))
 
     private fun emitNavigationBack() = viewModelScope.emitEffect(GoBack)
 
@@ -105,7 +128,7 @@ class LoginViewModel @Inject constructor(
                 loginWithEmailAndPasswordUseCase.execute(
                     AuthRequest(
                         email = uiState.value.email,
-                        password =  uiState.value.password
+                        password = uiState.value.password
                     )
                 ).collectLatest { dataState ->
                     updateUiStateForDataState(dataState) {
@@ -114,6 +137,32 @@ class LoginViewModel @Inject constructor(
                 }
             }
 
+        }
+    }
+
+    //Funcion que envia un email para reperar la cuenta y cambiar la contraseña.
+    private fun onRecoverAccount() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (uiState.value.emailRecoverError == null) {
+
+                updateUi {
+                    copy(
+                        showDialogForgotPassword = !uiState.value.showDialogForgotPassword
+                    )
+                }
+
+                resetPasswordUseCase.execute(uiState.value.emailRecover).collectLatest { dataState ->
+                    updateUiStateForDataState(dataState) {
+                        updateUi {
+                            copy(
+                                isLoading = false,
+                                emailRecover = "",
+                            )
+                        }
+                        emitSuccessSendRecoverAccount()
+                    }
+                }
+            }
         }
     }
 
@@ -137,7 +186,7 @@ class LoginViewModel @Inject constructor(
     private fun verifiedEmail() {
         viewModelScope.launch {
             verifiedAccountUseCase.execute(Unit).collectLatest { dataState ->
-                updateUiStateForDataState(dataState){
+                updateUiStateForDataState(dataState) {
                     updateUi {
                         copy(
                             isVisibleDialogConfirmEmail = !it,
@@ -146,15 +195,15 @@ class LoginViewModel @Inject constructor(
                             password = ""
                         )
                     }
-                    emitEffect(LoginUiEffect.SuccessLogin("Logged In SuccesFully"))
+                    emitEffect(SuccessLogin(UiText.StringResource(R.string.success_login)))
                 }
             }
         }
     }
 
     private fun signInWithGoogleAccount(credential: AuthCredential) = viewModelScope.launch {
-        signInWithGoogleAccountUseCase.execute(credential).collectLatest {dataState ->
-            updateUiStateForDataState(dataState){
+        signInWithGoogleAccountUseCase.execute(credential).collectLatest { dataState ->
+            updateUiStateForDataState(dataState) {
                 updateUi {
                     copy(
                         isLoading = false,
@@ -167,7 +216,7 @@ class LoginViewModel @Inject constructor(
     }
 
     //Funcion que emite el error
-    private fun emitError(error: String) = viewModelScope.emitEffect(LoginUiEffect.ShowError(error))
+    private fun emitError(error: String) = viewModelScope.emitEffect(ShowError(UiText.DynamicString(error)))
 
     /**
      * Funcion auxiliar para evitar usar codigo repetitivo
@@ -175,17 +224,26 @@ class LoginViewModel @Inject constructor(
      * @param dataState Estado de la respuesta
      * @param onSuccess Lamba que devuelve cuando la respuesta fue correcta
      */
-    private fun <T> updateUiStateForDataState(dataState: DataState<T>, onSuccess: (T) -> Unit) {
+    private fun <T> updateUiStateForDataState(
+        dataState: DataState<T>,
+        onSuccess: (T) -> Unit
+    ) {
         when (dataState) {
             is DataState.Error, DataState.NetworkError -> {
                 updateUi {
                     emitError(dataState.getErrorMessage())
-                    copy(isError = true, isLoading = false)
+                    copy(
+                        isError = true,
+                        isLoading = false
+                    )
                 }
             }
             DataState.Loading -> {
                 updateUi {
-                    copy(isError = false, isLoading = true)
+                    copy(
+                        isError = false,
+                        isLoading = true
+                    )
                 }
             }
             is DataState.Success -> {

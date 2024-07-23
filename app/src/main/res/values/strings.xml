@@ -39,4 +39,10 @@
 
     <string name="update_dialog_cancel_button">Cancelar</string>
     <string name="update_dialog_accept_button">Confirmar</string>
+    <string name="already_have_an_account">¿Aún tienes una cuenta?</string>
+    <string name="register">Registrate</string>
+    <string name="success_send_recover_password">Por favor, revisa tu bandeja de entrada para continuar con el cambio de contraseña y la recuperación de tu cuenta.</string>
+    <string name="title_dialog_forgot_password">Recuperar cuenta</string>
+    <string name="body_dialog_forgot_password">Ingrese su correo electrónico para poder cambiar su contraseña y recuperar su cuenta.</string>
+    <string name="success_login">Has iniciado sessión existosamente.</string>
 </resources>
