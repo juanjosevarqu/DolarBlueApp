@@ -2,6 +2,7 @@ package com.varqulabs.dolarblue.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.varqulabs.dolarblue.auth.data.useCases.LogoutUserUseCase
 import com.varqulabs.dolarblue.core.domain.DataState
 import com.varqulabs.dolarblue.core.domain.enums.Currency
 import com.varqulabs.dolarblue.core.domain.useCases.GetArgentinianNewsEnabledByPreferences
@@ -11,12 +12,14 @@ import com.varqulabs.dolarblue.core.domain.useCases.GetFavoriteCurrencyByPrefere
 import com.varqulabs.dolarblue.core.domain.useCases.GetNotificationsEnabledByPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateArgentinianNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateBolivianNewsEnabledFromPreferences
+import com.varqulabs.dolarblue.core.domain.useCases.UpdateCurrentUser
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDefaultThemeEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateDollarNewsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateFavoriteCurrencyFromPreferences
 import com.varqulabs.dolarblue.core.domain.useCases.UpdateNotificationsEnabledFromPreferences
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.MVIContract
 import com.varqulabs.dolarblue.core.presentation.utils.mvi.mviDelegate
+import com.varqulabs.dolarblue.core.user.domain.model.User
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.Init
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnBack
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnChangeMyName
@@ -52,12 +55,14 @@ class SettingsViewModel @Inject constructor(
     private val updateDollarNewsEnabledFromPreferences: UpdateDollarNewsEnabledFromPreferences,
     private val getArgentinianNewsEnabledByPreferences: GetArgentinianNewsEnabledByPreferences,
     private val updateArgentinianNewsEnabledFromPreferences: UpdateArgentinianNewsEnabledFromPreferences,
-    private val updateDefaultThemeEnabledFromPreferences: UpdateDefaultThemeEnabledFromPreferences
+    private val updateDefaultThemeEnabledFromPreferences: UpdateDefaultThemeEnabledFromPreferences,
+    private val updateCurrentUser: UpdateCurrentUser,
+    private val logoutUserUseCase: LogoutUserUseCase,
 ) : ViewModel(), MVIContract<SettingsState, SettingsEvent, SettingsUiEffect> by mviDelegate(SettingsState()) {
 
     override fun eventHandler(event: SettingsEvent) {
         when (event) {
-            is OnLogout -> {}
+            is OnLogout -> logoutFirebaseUser()
             is OnChangePasssword -> emitNavigationToChangePassword()
             is OnChangeMyName -> emitNavigationToChangeName()
             is OnSignIn -> emitNavigationToLogin()
@@ -165,6 +170,20 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun logoutFirebaseUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            logoutUserUseCase.execute(Unit).collect()
+        }
+        setEmptyUser()
+    }
+
+    private fun setEmptyUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateCurrentUser.execute(User()).collect()
+            emitEffect(SettingsUiEffect.SuccessLogout)
         }
     }
 

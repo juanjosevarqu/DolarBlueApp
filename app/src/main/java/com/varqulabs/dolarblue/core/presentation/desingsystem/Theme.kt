@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.varqulabs.dolarblue.MainActivity
+import com.varqulabs.dolarblue.core.user.domain.model.User
 
 private val DarkColorScheme = darkColorScheme(
     primary = primaryDark,
@@ -92,9 +94,12 @@ data class DefaultTheme(val isDark: Boolean = false)
 
 val LocalTheme = compositionLocalOf { DefaultTheme() }
 
+val LocalUser = staticCompositionLocalOf<User?> { null }
+
 @Composable
 fun DolarBlueTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    user: User? = null,
     // Dynamic color is available on Android 12+
     activity: Activity = LocalContext.current as MainActivity,
     content: @Composable () -> Unit
@@ -106,7 +111,10 @@ fun DolarBlueTheme(
         WindowCompat.getInsetsController(windowColor, windowColor.decorView).isAppearanceLightStatusBars = false
     }
 
-    CompositionLocalProvider(LocalTheme provides DefaultTheme(darkTheme)) {
+    CompositionLocalProvider(
+        LocalTheme provides DefaultTheme(darkTheme),
+        LocalUser provides user
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,

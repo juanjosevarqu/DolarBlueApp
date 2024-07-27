@@ -30,7 +30,10 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(Unit) { splashViewModel.eventHandler(SplashEvent.Init) }
 
-            DolarBlueTheme(darkTheme = splashState.isDarkTheme) {
+            DolarBlueTheme(
+                darkTheme = splashState.isDarkTheme,
+                user = splashState.currentUser
+            ) {
                 val navController = rememberNavController()
                 AppNavGraph(
                     navController = navController,
