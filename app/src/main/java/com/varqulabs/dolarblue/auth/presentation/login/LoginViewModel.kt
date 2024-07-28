@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
             LoginEvent.OnClickLogin -> onLogin()
             is LoginEvent.OnClickLoginWithGoogle -> signInWithGoogleAccount(event.credential)
             LoginEvent.OnRegisterClick -> emitNavigationRegister()
-            LoginEvent.OnToggleDialogForgotPasswordClick -> updateUi {
+            LoginEvent.OnClickForgotPassword -> updateUi {
                 copy(
                     emailRecover = "",
                     showDialogForgotPassword = !uiState.value.showDialogForgotPassword
@@ -145,11 +145,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             if (uiState.value.emailRecoverError == null) {
 
-                updateUi {
-                    copy(
-                        showDialogForgotPassword = !uiState.value.showDialogForgotPassword
-                    )
-                }
+                updateUi { copy(showDialogForgotPassword = !uiState.value.showDialogForgotPassword) }
 
                 resetPasswordUseCase.execute(uiState.value.emailRecover).collectLatest { dataState ->
                     updateUiStateForDataState(dataState) {
@@ -172,9 +168,7 @@ class LoginViewModel @Inject constructor(
             sendEmailVerifiedUseCase.execute(Unit).collectLatest { dataState ->
                 updateUiStateForDataState(dataState) {
                     updateUi {
-                        copy(
-                            isVisibleDialogConfirmEmail = true
-                        )
+                        copy(isVisibleDialogConfirmEmail = true)
                     }
                     verifiedEmail()
                 }

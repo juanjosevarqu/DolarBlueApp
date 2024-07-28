@@ -55,7 +55,7 @@ fun NavGraphBuilder.authRoute(
                         eventHandler(LoginEvent.OnRecoverAccountClick)
                     },
                     onDismiss = {
-                        eventHandler(LoginEvent.OnToggleDialogForgotPasswordClick)
+                        eventHandler(LoginEvent.OnClickForgotPassword)
                     },
                     content = {
                         DolarBlueTextField(

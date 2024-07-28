@@ -8,7 +8,7 @@ sealed interface LoginEvent {
 
     data object OnRegisterClick: LoginEvent
 
-    data object OnToggleDialogForgotPasswordClick: LoginEvent
+    data object OnClickForgotPassword: LoginEvent
 
     data class OnEmailChange(val email: String) : LoginEvent
 

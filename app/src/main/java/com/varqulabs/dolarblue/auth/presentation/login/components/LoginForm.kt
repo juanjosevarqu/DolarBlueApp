@@ -90,8 +90,8 @@ fun LoginForm(
         DolarBluePasswordTextField(
             state = state.password,
             startIcon = null,
-            isClickableText = {
-                eventHandler(LoginEvent.OnToggleDialogForgotPasswordClick)
+            additionalInfoContentClick = {
+                eventHandler(LoginEvent.OnClickForgotPassword)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
