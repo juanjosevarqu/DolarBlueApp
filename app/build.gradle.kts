@@ -122,7 +122,7 @@ dependencies {
     implementation(libs.kotlinx.uuid.core)
 
     // Google Services
-    implementation(libs.google.services)
+    implementation(libs.google.services.auth)
 }
 
 room {

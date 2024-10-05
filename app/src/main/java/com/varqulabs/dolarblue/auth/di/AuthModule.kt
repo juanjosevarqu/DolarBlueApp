@@ -1,6 +1,7 @@
 package com.varqulabs.dolarblue.auth.di
 
 import com.varqulabs.dolarblue.auth.data.useCases.LoginWithEmailAndPasswordUseCase
+import com.varqulabs.dolarblue.auth.data.useCases.LogoutUserUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.ResetPasswordUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SendEmailVerifiedUseCase
 import com.varqulabs.dolarblue.auth.data.useCases.SignInWithGoogleAccountUseCase
@@ -62,6 +63,18 @@ object AuthModule {
         authRepository: AuthRepository
     ): LoginWithEmailAndPasswordUseCase{
         return LoginWithEmailAndPasswordUseCase(
+            dispatcher = dispatcher,
+            authRepository = authRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideLogoutUserUseCase(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        authRepository: AuthRepository
+    ): LogoutUserUseCase {
+        return LogoutUserUseCase(
             dispatcher = dispatcher,
             authRepository = authRepository
         )

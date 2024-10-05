@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.core.presentation.desingsystem.LocalTheme
+import com.varqulabs.dolarblue.core.presentation.desingsystem.LocalUser
 import com.varqulabs.dolarblue.core.presentation.generics.top_bars.SimpleAppBar
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnBack
 import com.varqulabs.dolarblue.settings.presentation.SettingsEvent.OnChangeMyName
@@ -87,7 +88,7 @@ fun SettingsScreen(
             )
 
             MyAccountActions(
-                isLoggedIn = state.currentUser != null, // TODO @JuanJo - Se puede usar Composition Local para obtener el usuario actual
+                isLoggedIn = LocalUser.current != null,
                 onClickChangeMyName = { eventHandler(OnChangeMyName) },
                 onClickChangeMyPassword = { eventHandler(OnChangePasssword) },
                 onClickExitMyAccount = { eventHandler(OnLogout) },
