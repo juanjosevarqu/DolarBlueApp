@@ -23,7 +23,7 @@ import com.varqulabs.dolarblue.core.presentation.utils.modifier.clickableSingleW
  * @param text Nombre del botón.
  * @param enabled Boleano para habilitar o deshabilitar el botón.
  * @param color Color del botón.
- * @param isDialogButton Booleando para indicar que el botón es usado en el diálogo y modificar su apariencia.
+ * @param inverseColor Booleando para indicar que el botón es usado en el diálogo y modificar su apariencia.
  * @param onClick Evento para encadenar una acción.
  *
  * @author David Huerta
@@ -35,18 +35,17 @@ fun Button5(
     text: String,
     enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.primary,
-    isDialogButton: Boolean = false,
+    inverseColor: Boolean = false,
     onClick: () -> Unit
 ) {
     val borderColor = if (enabled) Color.Transparent else MaterialTheme.colorScheme.outline
     val borderWidth = if (enabled) 0.dp else 1.dp
     val backgroundColor = if (enabled) color else Color.White
-    val dialogButtonTextColor =
-        if (enabled) MaterialTheme.colorScheme.onSurface
-        else MaterialTheme.colorScheme.outline
-    val textColor =
-        if (enabled) MaterialTheme.colorScheme.surfaceContainerLowest
-        else MaterialTheme.colorScheme.outline
+    val textColor = when {
+        enabled && !inverseColor -> MaterialTheme.colorScheme.surfaceContainerLowest
+        enabled && inverseColor -> MaterialTheme.colorScheme.onSurface
+        else -> MaterialTheme.colorScheme.outline
+    }
 
     Box(
         modifier = modifier
@@ -73,7 +72,7 @@ fun Button5(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
-            color = if (isDialogButton) dialogButtonTextColor else textColor
+            color = textColor,
         )
     }
 }

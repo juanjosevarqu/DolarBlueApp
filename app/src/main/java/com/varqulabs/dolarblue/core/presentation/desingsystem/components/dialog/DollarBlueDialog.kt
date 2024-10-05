@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.varqulabs.dolarblue.R
+import com.varqulabs.dolarblue.core.domain.extensions.ifTrue
 import com.varqulabs.dolarblue.core.presentation.desingsystem.LocalTheme
 import com.varqulabs.dolarblue.core.presentation.generics.buttons.Button5
 
@@ -32,16 +33,16 @@ import com.varqulabs.dolarblue.core.presentation.generics.buttons.Button5
  *
  * @param modifier Modificador para aplicar a este Composable.
  * @param title Título del diálogo.
- * @param instructionBody Cuerpo del mensaje/instrucción a mostrar.
+ * @param description Cuerpo del mensaje/instrucción a mostrar.
  * @param leftButtonText Nombre del botón izquierdo.
  * @param rightButtonText Nombre del botón derecho.
- * @param enabledLeftButton habilitar o deshabilitar el botón izquierdo (opcional).
- * @param enabledRightButton Habilitar o deshabilitar el botón derecho (opcional).
+ * @param leftButtonEnabled habilitar o deshabilitar el botón izquierdo (opcional).
+ * @param rightButtonEnabled Habilitar o deshabilitar el botón derecho (opcional).
  * @param isLoading Booleano para mostrar un progress indicator en el diálogo si se requiere (opcional).
- * @param isVisibleButtons Booleano para indicar si los botones deben mostrarse o no (opcional).
+ * @param showButtons Booleano para indicar si los botones deben mostrarse o no (opcional).
  * @param onDismiss Callback para cerrar el diálogo.
- * @param onAccept Callback para realizar una acción adicional.
- * @param content Composable para mostrar contenido adicional en el diálogo (opcional).
+ * @param onRightButton Callback para realizar una acción adicional.
+ * @param bodyContent Composable para mostrar contenido adicional en el diálogo (opcional).
  *
  * @author David Huerta
  */
@@ -50,16 +51,17 @@ import com.varqulabs.dolarblue.core.presentation.generics.buttons.Button5
 fun DollarBlueDialog(
     modifier: Modifier = Modifier,
     title: String,
-    instructionBody: String,
+    description: String,
+    showButtons: Boolean = false,
     leftButtonText: String = stringResource(id = R.string.update_dialog_accept_button),
     rightButtonText: String = stringResource(id = R.string.update_dialog_cancel_button),
-    enabledLeftButton: Boolean = true,
-    enabledRightButton: Boolean = true,
+    leftButtonEnabled: Boolean = true,
+    rightButtonEnabled: Boolean = true,
     isLoading: Boolean = false,
-    isVisibleButtons: Boolean = true,
+    onLeftButton: () -> Unit = {},
+    onRightButton: () -> Unit = {},
+    bodyContent: @Composable (() -> Unit)? = null,
     onDismiss: () -> Unit,
-    onAccept: () -> Unit = {},
-    content: @Composable () -> Unit = {}
 ) {
     val borderWidth = if(!LocalTheme.current.isDark) 2.dp else 0.dp
     val borderColor = if(!LocalTheme.current.isDark) MaterialTheme.colorScheme.primary else Color.Transparent
@@ -102,29 +104,32 @@ fun DollarBlueDialog(
                 }
                 
                 Text(
-                    text = instructionBody,
+                    text = description,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal),
                     color = MaterialTheme.colorScheme.inverseSurface,
                 )
 
-                content()
+                bodyContent?.invoke()
 
-                if (isVisibleButtons) {
+                showButtons.ifTrue {
                     Row(
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
+
                         Button5(
                             text = leftButtonText,
-                            enabled = enabledLeftButton
-                        ) { onAccept() }
+                            enabled = leftButtonEnabled,
+                            onClick = onLeftButton,
+                        )
 
                         Button5(
                             text = rightButtonText,
-                            enabled = enabledRightButton,
+                            enabled = rightButtonEnabled,
                             color = Color(0xFF226054),
-                            isDialogButton = true
-                        ) { onDismiss() }
+                            inverseColor = true,
+                            onClick = onRightButton,
+                        )
                     }
                 }
 

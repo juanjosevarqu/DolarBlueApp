@@ -7,12 +7,12 @@ import com.varqulabs.dolarblue.core.presentation.ui.UiText
 data class LoginState(
     val email: String = "",
     val emailError: UiText? = null,
-    val emailRecover: String = "",
-    val emailRecoverError: UiText? = null,
+    val recoveryEmail: String = "",
+    val recoveryEmailError: UiText? = null,
     val password: String = "",
-    val showDialogForgotPassword: Boolean = false,
     val passwordError: UiText? = null,
-    val isVisibleDialogConfirmEmail: Boolean = false,
+    val showDialogForgotPassword: Boolean = false,
+    val showDialogConfirmYourEmail: Boolean = false,
     val isError: Boolean = false,
     val isLoading: Boolean = false
 )

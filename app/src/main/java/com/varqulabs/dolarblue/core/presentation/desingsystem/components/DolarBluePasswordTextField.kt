@@ -52,7 +52,7 @@ fun DolarBluePasswordTextField(
 ) {
     DolarBlueTextField(
         modifier = modifier,
-        state = state,
+        value = state,
         startIcon = startIcon,
         endIcon = null,
         isPassword = true,

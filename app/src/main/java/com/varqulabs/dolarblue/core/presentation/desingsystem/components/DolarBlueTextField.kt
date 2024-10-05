@@ -47,7 +47,7 @@ import com.varqulabs.dolarblue.core.presentation.desingsystem.EyeOpenedIconPosit
  * Campo de texto reutilizable.
  *
  * @param modifier Modificador para aplicar a este Composable.
- * @param state Texto actual del campo de texto.
+ * @param value Texto actual del campo de texto.
  * @param startIcon Icono opcional para mostrar al inicio del campo de texto.
  * @param endIcon Icono opcional para mostrar al final del campo de texto.
  * @param onTextChange Callback que se llama cuando cambia el texto.
@@ -67,7 +67,7 @@ import com.varqulabs.dolarblue.core.presentation.desingsystem.EyeOpenedIconPosit
 @Composable
 fun DolarBlueTextField(
     modifier: Modifier = Modifier,
-    state: String,
+    value: String,
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     onTextChange: (String) -> Unit,
@@ -97,7 +97,7 @@ fun DolarBlueTextField(
             )
         }
         BasicTextField(
-            value = state,
+            value = value,
             textStyle = MaterialTheme.typography.titleMedium.copy(
                 color = MaterialTheme.colorScheme.onBackground,
             ),
@@ -132,7 +132,7 @@ fun DolarBlueTextField(
                         Spacer(modifier = Modifier.width(16.dp))
                     }
                     Box(modifier = Modifier.weight(1f)) {
-                        if (state.isEmpty() && !isFocused) {
+                        if (value.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
                                 style = MaterialTheme.typography.titleSmall,
@@ -216,22 +216,22 @@ private fun DolarBlueTextFieldPreview(
             var email by remember {
                 mutableStateOf("")
             }
-            DolarBlueTextField(state = email,
-                startIcon = Icons.Filled
+            DolarBlueTextField(value = email,
+                               startIcon = Icons.Filled
                     .Email,
-                error = null,
-                additionalInfo = null,
-                endIcon = null,
-                keyboardOptions = KeyboardOptions(
+                               error = null,
+                               additionalInfo = null,
+                               endIcon = null,
+                               keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
-                keyboardActions = KeyboardActions(
+                               keyboardActions = KeyboardActions(
                     onNext = {
 
                     }
                 ),
-                title = "Email",
-                onTextChange = {
+                               title = "Email",
+                               onTextChange = {
                     email = it
                 })
 

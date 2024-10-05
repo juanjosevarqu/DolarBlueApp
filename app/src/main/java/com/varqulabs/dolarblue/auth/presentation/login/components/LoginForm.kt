@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.varqulabs.dolarblue.R
 import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent
+import com.varqulabs.dolarblue.auth.presentation.login.LoginEvent.OnClickLogin
 import com.varqulabs.dolarblue.auth.presentation.login.LoginState
 import com.varqulabs.dolarblue.core.presentation.desingsystem.Nunito
 import com.varqulabs.dolarblue.core.presentation.desingsystem.components.ClickableText
@@ -66,7 +67,7 @@ fun LoginForm(
     ) {
 
         DolarBlueTextField(
-            state = state.email,
+            value = state.email,
             error = state.emailError?.asString(context),
             startIcon = null,
             endIcon = null,
@@ -91,7 +92,7 @@ fun LoginForm(
             state = state.password,
             startIcon = null,
             additionalInfoContentClick = {
-                eventHandler(LoginEvent.OnClickForgotPassword)
+                eventHandler(LoginEvent.OnForgotPasswordVisibility)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -116,10 +117,9 @@ fun LoginForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
-            text = stringResource(R.string.text_button_login),
-            onClick = {
-                eventHandler(LoginEvent.OnClickLogin)
-            }
+            text = stringResource(R.string.copy_login_action),
+            enabled = state.emailError == null && state.passwordError == null,
+            onClick = { eventHandler(OnClickLogin) }
         )
 
         val annotatedString = buildAnnotatedString {

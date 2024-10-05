@@ -10,7 +10,7 @@ sealed class LoginUiEffect {
 
     data class ShowError(val message: UiText) : LoginUiEffect()
 
-    data class SuccessSendRecoverAccount(val message: UiText): LoginUiEffect()
+    data class CheckYourEmail(val message: UiText): LoginUiEffect()
 
     data class SuccessLogin(val message: UiText) : LoginUiEffect()
 }
