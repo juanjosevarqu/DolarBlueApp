@@ -65,7 +65,7 @@ class AuthRepositoryImpl(
         do {
             val verified = verifyEmailIsVerified()
             emit(verified)
-            delay(1000)
+            delay(10000)
         } while (!verified)
     }
 
