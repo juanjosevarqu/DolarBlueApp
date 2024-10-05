@@ -184,7 +184,7 @@ fun LoginForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
-            text = "tu cola",
+            text = "Login with Google",
             onClick = {
                 launcher.launch(getSignupWithGoogleAccountIntent(context))
             }
